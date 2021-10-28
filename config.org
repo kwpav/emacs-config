@@ -1,0 +1,978 @@
+#+TITLE: Emacs Config
+
+* About
+This is my personal Emacs configuration using =basemacs= at its core. All code here is tangled, it creates: =early-init.el=, =init.el=, and various "modules" in the =lisp/= directory.
+* Startup
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  ;;; init.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Add the =lisp/= directory to the =load-path= so we can load =basemacs-core=, modules, and any other custom lisp code.
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+#+end_src
+
+Load the base config.
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (require 'basemacs-core)
+#+end_src
+
+Set up the leader keys
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (use-package emacs
+    :init
+    (defconst basemacs-leader "SPC")
+    (defconst basemacs-local-leader "SPC m"))
+#+end_src
+* Modules
+Here is where the magic happens. Let's load some modules!
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  ;; emacs
+  (require 'kpav-evil)
+  (require 'kpav-selectrum)
+  (require 'kpav-org)
+  (require 'kpav-ui)
+  (require 'kpav-windows-and-buffers)
+  ;; tools
+  (require 'kpav-project)
+  (require 'kpav-git)
+  (require 'kpav-vterm)
+  ;; code
+  (require 'kpav-lsp)
+  (require 'kpav-php)
+  (require 'kpav-elisp)
+  (require 'kpav-clojure)
+  (require 'kpav-common-lisp)
+  (require 'kpav-js)
+#+end_src
+This approach requires a bit more code than having this file just tangle to =init.el=, but I like the ability to easily turn on/off things for tinkering and debugging purposes.
+* Emacs
+Things that modify Emacs stuff.
+** Evil Mode
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-evil.el
+  ;;; kpav-evil.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Evil mode is vim in emacs! Using =undo-fu= here instead of =undo-tree= as I have found that =undo-fu= seems to be quicker and less buggy than =undo-tree=.
+#+begin_src emacs-lisp :tangle lisp/kpav-evil.el
+  (use-package evil
+    :straight t
+    :general
+    ;; make <tab> expand things in org mode for evil
+    (general-nmap org-mode-map
+      "<tab>" 'org-cycle)
+    :init
+    (use-package undo-fu :straight t)
+    (setq evil-want-keybinding nil ;; evil-collection assumes this
+          evil-undo-system 'undo-fu
+          evil-disable-insert-state-bindings t) ;; emacs keys in insert mode
+    :config
+    (evil-mode +1))
+#+end_src
+The bit about using Emacs keybinds in evil mode is from https://stackoverflow.com/questions/25542097/emacs-evil-mode-how-to-change-insert-state-to-emacs-state-automatically
+
+Use evil keys in various modes..
+#+begin_src emacs-lisp :tangle lisp/kpav-evil.el
+  (use-package evil-collection
+    :straight t
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+surround.vim emulation.
+#+begin_src emacs-lisp :tangle lisp/kpav-evil.el
+  (use-package evil-surround
+    :straight t
+    :after evil
+    :config
+    (global-evil-surround-mode +1))
+#+end_src
+
+vim-commentary emulation
+#+begin_src emacs-lisp :tangle lisp/kpav-evil.el
+  (use-package evil-commentary
+    :straight t
+    :config
+    (evil-commentary-mode +1))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-evil.el
+  (provide 'kpav-evil)
+  ;;; kpav-evil.el ends here
+#+end_src
+** UI
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  ;;; kpav-ui.el --- -*- lexical-binding: t -*-
+#+end_src
+*** Fonts
+Set up fonts, this is mainly for use in =variable-pitch-mode=.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package faces
+    :straight nil
+    :init
+    ;; Main typeface
+    (set-face-attribute 'default nil :family "Iosevka" :height 130)
+    ;; Proportionately spaced typeface
+    (set-face-attribute 'variable-pitch nil :family "EtBembo" :height 1.0)
+    ;; Monospaced typeface
+    (set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0))
+#+end_src
+*** Modus Theme
+#+begin_quote
+Accessible themes for GNU Emacs, conforming with the highest standard for colour contrast between background and foreground values (WCAG AAA)
+#+end_quote
+
+Modus themes are readable, clean looking, and super customizable. It also works very well with Org mode and Variable Pitch.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package modus-themes
+    :straight t
+    :init
+    (setq modus-themes-mixed-fonts t
+          modus-themes-bold-constructs t
+          modus-themes-italic-constructs t
+          modus-themes-intense-markup t
+          modus-themes-completions 'opinionated
+          modus-themes-subtle-line-numbers t
+          modus-themes-syntax '(faint alt-syntax)
+          modus-themes-paren-match '(bold intense underline)
+          modus-themes-region '(accented bg-only no-extend)
+          ;; org specific settings
+          modus-themes-org-blocks 'grayscale
+          modus-themes-headings '((t . rainbow))
+          modus-themes-scale-headings t)
+    (modus-themes-load-themes)
+    :config
+    (modus-themes-load-vivendi))
+#+end_src
+*** Variable Pitch
+=variable-pitch-mode= allows us to have multiple fonts in a single buffer. This is useful for =org-mode= which can have prose, code, and other things, in the same file.
+
+Turn =variable-pitch-mode= on for =org-mode=.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package face-remap
+    :straight nil
+    :ghook
+    ('org-mode-hook #'variable-pitch-mode))
+#+end_src
+*** Modeline
+Set up for =doom-modeline=. Nice looking modeline that plays well with evil and lots of other stuff.
+
+You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the modeline
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package all-the-icons
+    :straight t
+    :defer t)
+#+end_src
+
+=column-number-mode= displays the cursors current line on the modeline
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package doom-modeline
+    :straight t
+    :demand t
+    :preface
+    :init
+    (column-number-mode +1)
+    (doom-modeline-mode +1)
+    :custom
+    (doom-modeline-vcs-max-length 50)
+    (doom-modeline-buffer-file-name-style 'truncate-upto-project))
+#+end_src
+*** Rainbow Delimiters
+Add rainbow delimiters in all programming language modes
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package rainbow-delimiters
+    :straight t
+    :ghook
+    ('prog-mode-hook #'rainbow-delimiters-mode))
+#+END_SRC
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (provide 'kpav-ui)
+  ;;; kpav-ui.el ends here
+#+end_src
+** Windows and Buffers
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
+  ;;; kpav-windows-and-buffers.el --- -*- lexical-binding: t -*-
+#+end_src
+*** Keys
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
+  (use-package window
+    :straight nil
+    :general
+    (base-leader-def
+     :states 'normal
+     "b" '(:ignore t :wk "buffers")
+     "w" '(:ignore t :wk "windows")
+     ;; "bb" 'switch-to-buffer
+     "bb" 'consult-buffer
+     "bk" 'kill-buffer
+     "wo" 'split-window-horizontally
+     "wu" 'split-window-vertically
+     "wd" 'delete-window))
+#+end_src
+*** Windmove
+Windmove provides a way to move around emacs windows.
+
+Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
+  (use-package windmove
+    :straight nil
+    :general
+    (base-leader-def
+     :states 'normal
+     "wh" 'windmove-left
+     "wj" 'windmove-down
+     "wk" 'windmove-up
+     "wl" 'windmove-right)
+    :config
+    (windmove-default-keybindings))
+#+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
+  (provide 'kpav-windows-and-buffers)
+  ;;; kpav-windows-and-buffers.el ends here
+#+end_src
+** Org Mode
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  ;;; kpav-org.el --- -*- lexical-binding: t -*-
+#+end_src
+
+- Use evil way of closing and quitting (=:q= =:x=) when editing code in org mode
+- Define some keys
+- Disable the checkdock check because most of my elisp code is in snippets in this config
+  
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org
+    :straight t
+    :general
+    (org-src-mode-map
+     [remap evil-save-and-close] 'org-edit-src-exit
+     [remap evil-save-modified-and-close] 'org-edit-src-exit
+     [remap evil-quit] 'org-edit-src-abort)
+    (base-leader-def
+      :states 'normal
+      "a" 'org-agenda)
+    (base-local-leader-def
+      :keymaps 'org-mode-map
+      :states 'normal
+      "b" 'org-babel-tangle)
+    :preface
+    (defun my-disable-flycheck-for-elisp ()
+      (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+    :gfhook
+    ('org-src-mode-hook #'my-disable-flycheck-for-elisp)
+    #'visual-line-mode
+    :init
+    (setq org-startup-indented t)
+    :custom
+    (org-agenda-files (list "~/org/agenda/")))
+#+end_src
+
+Install =org-contrib=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org-contrib
+    :straight t)
+#+end_src
+
+Prettify headings and lists with =org-superstar-mode=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org-superstar
+    :straight t
+    :ghook
+    ('org-mode-hook (lambda () (org-superstar-mode +1))))
+#+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (provide 'kpav-org)
+  ;;; kpav-org.el ends here
+#+end_src
+** Selectrum & Co.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  ;;; kpav-selectrum.el --- -*- lexical-binding: t -*-
+#+end_src
+Set up Selectrum and various packages that play well with it.
+*** Selectrum
+Selectrum is a narrowing/completion system similiar to Ivy.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package selectrum
+    :straight t
+    :demand t
+    :ghook
+    'after-init-hook)
+#+end_src
+
+#+begin_quote
+Filter and sort results ... by frecency (a combination of frequency and recency).
+#+end_quote
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package prescient
+    :straight t
+    :after selectrum
+    :config
+    (prescient-persist-mode +1))
+
+  (use-package selectrum-prescient
+    :straight t
+    :after (selectrum prescient)
+    :init
+    (selectrum-prescient-mode +1))
+#+end_src
+*** ctrlf
+#+begin_quote
+a from scratch redesigned buffer-search interface
+#+end_quote
+
+A replacement for the built in I-Search. This replaces the evil search and the built in search. The bit in =general= handles evil and =ctrlf-mode= automatically redefines =C-s=.
+- ~C-s~ - forward search
+- ~C-r~ - backward search
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package ctrlf
+    :straight t
+    :general
+    (evil-normal-state-map "/" 'ctrlf-forward-fuzzy-regexp)
+    :init
+    (ctrlf-mode +1))
+#+end_src
+*** Marginalia
+Marginalia adds information to the completions provided by Selectrum (keybinds, info about command, etc.)
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package marginalia
+    :straight t
+    :general
+    ("M-A" 'marginalia-cycle)
+    (:keymaps
+     'minibuffer-local-map
+     "M-A" 'marginalia-cycle)
+    :init
+    (marginalia-mode +1))
+#+end_src
+*** Consult
+#+begin_quote
+Consult provides practical commands based on the Emacs completion function completing-read.
+#+end_quote
+Keys copied from projects README.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package consult
+    :straight t
+    :general
+    ;; C-c bindings (mode-specific-map)
+    ("C-c h" 'consult-history)
+    ("C-c m" 'consult-mode-command)
+    ("C-c b" 'consult-bookmark)
+    ("C-c k" 'consult-kmacro)
+    ;; C-x bindings (ctl-x-map)
+    ("C-x M-:" 'consult-complex-command)     ;; orig. repeat-complex-command
+    ("C-x b" 'consult-buffer)                ;; orig. switch-to-buffer
+    ("C-x 4 b" 'consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+    ("C-x 5 b" 'consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+    ;; Custom M-# bindings for fast register access
+    ("M-#" 'consult-register-load)
+    ("M-'" 'consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+    ("C-M-#" 'consult-register)
+    ;; Other custom bindings
+    ("M-y" 'consult-yank-pop)                ;; orig. yank-pop
+    ("<help> a" 'consult-apropos)            ;; orig. apropos-command
+    ;; M-g bindings (goto-map)
+    ("M-g e" 'consult-compile-error)
+    ("M-g f" 'consult-flycheck)              ;; Alternative: consult-flycheck
+    ("M-g g" 'consult-goto-line)             ;; orig. goto-line
+    ("M-g M-g" 'consult-goto-line)           ;; orig. goto-line
+    ("M-g o" 'consult-outline)               ;; Alternative: consult-org-heading
+    ("M-g m" 'consult-mark)
+    ("M-g k" 'consult-global-mark)
+    ("M-g i" 'consult-imenu)
+    ("M-g I" 'consult-imenu-multi)
+    ;; M-s bindings (search-map)
+    ("M-s f" 'consult-find)
+    ("M-s F" 'consult-locate)
+    ("M-s g" 'consult-grep)
+    ("M-s G" 'consult-git-grep)
+    ("M-s r" 'consult-ripgrep)
+    ("M-s l" 'consult-line)
+    ("M-s L" 'consult-line-multi)
+    ("M-s m" 'consult-multi-occur)
+    ("M-s k" 'consult-keep-lines)
+    ("M-s u" 'consult-focus-lines)
+    ;; Isearch integration
+    ("M-s e" 'consult-isearch)
+    (:keymaps
+     'isearch-mode-map
+     "M-e" 'consult-isearch                 ;; orig. isearch-edit-string
+     "M-s e" 'consult-isearch               ;; orig. isearch-edit-string
+     "M-s l" 'consult-line                  ;; needed by consult-line to detect isearch
+     "M-s L" 'consult-line-multi)           ;; needed by consult-line to detect isearch
+    :init
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    (setq register-preview-delay 0
+          register-preview-function #'consult-register-format)
+
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    ;; (advice-add #'register-preview :override #'consult-register-window)
+
+    ;; Optionally replace `completing-read-multiple' with an enhanced version.
+    ;; (advice-add #'completing-read-multiple :override #'consult-completing;; -read-multiple)
+
+    ;; Use Consult to select xref locations with preview
+    ;; (setq xref-show-xrefs-function #'consult-xref
+    ;;       xref-show-definitions-function #'consult-xref)
+    :config
+    ;; projectile
+    ;; (setq consult-project-root-function #'projectile-project-root)
+    ;; project.el
+    (setq consult-project-root-function
+          (lambda ()
+            (when-let (project (project-current))
+              (car (project-roots project))))))
+#+end_src
+*** Embark
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package embark
+    :straight t
+    :general
+    ;; ("C-'" 'embark-act)
+    ;; ("C-;" 'embark-dwim)
+    ("C-h B" 'embark-bindings)
+    ("C-;" 'embark-act)
+    :init
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
+    :config
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                   nil
+                   (window-parameters (mode-line-format . none)))))
+
+  ;; Consult users will also want the embark-consult package.
+  (use-package embark-consult
+    :straight t
+    :after (embark consult)
+    :demand t ; only necessary if you have the hook below
+    ;; if you want to have consult previews as you move around an
+    ;; auto-updating embark collect buffer
+    :hook
+    (embark-collect-mode . consult-preview-at-point-mode))
+#+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (provide 'kpav-selectrum)
+  ;;; kpav-selectrum.el ends here
+#+end_src
+** Random
+Make ~ESC~ close any prompts
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (use-package emacs
+    :straight nil
+    :general
+    ("<escape>" 'keyboard-escape-quit))
+#+end_src
+
+Stop warnings buffer from automatically coming up. (Emacs 28)
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (use-package emacs
+    :straight nil
+    :init
+    (setq native-comp-async-report-warnings-errors nil))
+#+end_src
+* Tools
+Add and configure some additional tools.
+** Git
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  ;;; kpav-git.el --- -*- lexical-binding: t -*-
+#+end_src
+*** magit
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  (use-package magit
+    :straight t
+    :defer t
+    :general
+    ("C-x g" 'magit-status)
+    (base-leader-def
+      :states 'normal
+      "g" '(:ignore t :wk "git")
+      "gs" 'magit-status
+      "gc" 'magit-checkout
+      "gC" 'magit-commit
+      "gb" 'magit-blame
+      "gS" 'magit-stage-file
+      "gU" 'magit-unstage-file
+      "gg" 'hydra-my-git-menu/body
+      "gy" 'my/magit-yank-branch-name)
+    :config
+    (defun my/magit-yank-branch-name ()
+      "Show the current branch in the echo-area and add it to the `kill-ring'."
+      (interactive)
+      (let ((branch (magit-get-current-branch)))
+        (if branch
+            (progn (kill-new branch)
+                   (message "%s" branch))
+          (user-error "There is not current branch")))))
+#+end_src
+*** git-gutter-fringe
+Add git change icons in the fringe, e.g. when somethings been added, changed, or removed. Modus themes makes this look decent.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  (use-package git-gutter-fringe
+    :straight t
+    :config
+    (global-git-gutter-mode +1)
+    (setq-default fringes-outside-margins t))
+#+end_src
+*** git-timemachine
+Go through commit history on a file.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  (use-package git-timemachine
+    :straight t
+    :defer t)
+#+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  (provide 'kpav-git)
+  ;;; kpav-git.el ends here
+#+end_src
+** Projects
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  ;;; kpav-project.el --- -*- lexical-binding: t -*-
+#+end_src
+*** project.el
+Built in project interaction.
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (use-package project
+    :straight nil
+    :general
+    (base-leader-def
+     :states 'normal
+     "p" '(:ignore t :wk "projects")
+     "pf" 'project-find-file
+     "pg" 'consult-ripgrep
+     "pG" 'consult-git-grep))
+#+end_src
+*** COMMENT Projectile
+Projectile provides some nice ways of interacting with projects.
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (use-package projectile
+    :straight t
+    :init
+    (use-package ripgrep :straight t)
+    :general
+    (base-leader-def
+     :states 'normal
+     "p" '(:ignore t :wk "projects")
+     "pf" 'projectile-find-file
+     "pd" 'projectile-find-dir
+     "pb" 'projectile-switch-to-buffer
+     "pp" 'projectile-switch-project
+     "pg" 'projectile-ripgrep)
+    :config
+    (projectile-mode +1))
+#+end_src
+*** Treemacs
+Treemacs provides a nice file explorer for projects.
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (use-package treemacs
+    :straight t
+    :defer t
+    :general ([f8] 'treemacs))
+
+  (use-package treemacs-evil
+    :straight t
+    :after (evil treemacs))
+
+  (use-package treemacs-magit
+    :straight t
+    :after (treemacs))
+#+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (provide 'kpav-project)
+  ;;; kpav-project.el ends here
+#+end_src
+** Terminal
+*** vterm
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-vterm.el
+  ;;; kpav-vterm.el --- -*- lexical-binding: t -*-
+#+end_src
+
+This provides a terminal emulator powered by libvterm. It is essentially a full terminal emulator.
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-vterm.el
+  (use-package vterm
+    :straight t)
+#+end_src
+
+Open multiple vterms. Evil configuration from it's README.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-vterm.el
+  (use-package multi-vterm
+    :straight t
+    :general
+    (base-leader-def
+     :states 'normal
+     "t" '(:ignore t :wk "term")
+     "tt" 'multi-vterm
+     "tn" 'multi-vterm-next
+     "tp" 'multi-vterm-prev)
+    :gfhook #'evil-insert-state
+    :config
+    (define-key vterm-mode-map [return]                      #'vterm-send-return)
+    (setq vterm-keymap-exceptions nil)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+    (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+    (evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+    (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+    (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+    (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+    (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+    (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+    (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-vterm.el
+  (provide 'kpav-vterm)
+  ;;; kpav-vterm.el ends here
+#+end_src
+* Code
+Things that modify coding stuff (mostly programming langs and LSP).
+** LSP
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lsp.el
+  ;;; kpav-lsp.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses this calls =lsp= in the language mode's =:hook= / =:ghook=
+
+#+BEGIN_QUOTE
+The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc.
+#+END_QUOTE
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lsp.el
+  (use-package lsp-mode
+    :straight t
+    :gfhook
+    #'lsp-enable-which-key-integration
+    :commands lsp
+    :init
+    (setq lsp-completion-provider :capf
+          lsp-keymap-prefix "C-l"))
+
+  (use-package lsp-ui
+    :straight t
+    :commands lsp-ui-mode)
+
+  (use-package lsp-treemacs
+    :straight t
+    :commands lsp-treemacs-errors-list)
+
+  (use-package dap-mode
+    :straight t
+    :defer t)
+#+end_src
+
+Some handy links
+- https://emacs-lsp.github.io/lsp-mode/page/performance/
+  
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lsp.el
+  (provide 'kpav-lsp)
+  ;;; kpav-lsp.el ends here
+#+end_src
+** Lisps
+*** Shared
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  ;;; kpav-lisp-core.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Lisps can share a lot of the same config code due to the nature of the syntax.
+
+List of all lisp mode hooks. This is used to enable modes for all of them.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  (defconst my-lisp-mode-hooks
+    '(lisp-mode-hook
+      sly-mrepl-mode-hook
+      emacs-lisp-mode-hook
+      clojure-mode-hook
+      cider-repl-mode-hook))
+#+end_src
+
+Lispy provides vim-like commands to navigate and edit Lisp code.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  (use-package lispy
+    :straight t
+    :ghook my-lisp-mode-hooks)
+#+end_src
+
+Automatically indent code.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  (use-package aggressive-indent
+    :straight t
+    :ghook my-lisp-mode-hooks)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  (provide 'kpav-lisp-core)
+  ;;; kpav-lisp-core.el ends here
+#+end_src
+*** Clojure
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  ;;; kpav-clojure.el --- -*- lexical-binding: t -*-
+  (require 'kpav-lisp-core)
+#+end_src
+
+Use LSP with all clojure-related modes.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  (use-package clojure-mode
+    :straight t
+    :defer t
+    :ghook
+    ('clojure-mode-hook #'lsp)
+    ('clojurec-mode-hook #'lsp)
+    ('clojurescript-mode #'lsp)
+    :custom
+    (lsp-enable-indentation nil))
+  ;; is this needed?
+  ;; :config
+  ;; (dolist (m '(clojure-mode
+  ;;              clojurec-mode
+  ;;              clojurescript-mode
+  ;;              clojurex-mode))
+  ;;   (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+#+end_src
+
+Cider provides a Clojure REPL for Emacs.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  (use-package cider
+    :straight t
+    :after clojure-mode
+    :ghook
+    ('cider-repl-mode-hook #'rainbow-delimiters-mode)
+    :general
+    (base-local-leader-def
+     :states 'normal
+     :keymaps
+     'clojure-mode-map
+     "r" 'cider
+     "n" 'cider-repl-set-ns
+     "er" 'cider-eval-region
+     "eb" 'cider-eval-buffer
+     "ef" 'cider-eval-sexp-at-point
+     "el" 'cider-eval-last-sexp))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  (provide 'kpav-clojure)
+  ;;; kpav-clojure.el ends here
+#+end_src
+*** Common Lisp
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-common-lisp.el
+  ;;; kpav-common-lisp.el --- -*- lexical-binding: t -*-
+  (require 'kpav-lisp-core)
+#+end_src
+
+Sly provides a Common Lisp REPL for Emacs.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-common-lisp.el
+  (use-package sly
+    :straight t
+    :defer t
+    :ghook
+    ('sly-mrepl-mode-hook #'rainbow-delimiters-mode)
+    :general
+    (base-local-leader-def
+     :states 'normal
+     :keymaps 'lisp-mode-map
+     "eb" 'sly-eval-buffer
+     "el" 'sly-eval-last-expression
+     "ed" 'sly-eval-defun
+     "er" 'sly-eval-region)
+    :custom
+    (inferior-lisp-program "/usr/bin/sbcl"))
+
+  (use-package sly-quicklisp
+    :straight t
+    :after sly)
+
+  (use-package sly-asdf
+    :straight t
+    :after sly)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-common-lisp.el
+  (provide 'kpav-common-lisp)
+  ;;; kpav-common-lisp.el ends here
+#+end_src
+*** Emacs Lisp
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-elisp.el
+  ;;; kpav-elisp.el --- -*- lexical-binding: t -*-
+  (require 'kpav-lisp-core)
+#+end_src
+
+Set up keys for evaling elisp.
+#+BEGIN_src emacs-lisp :lexical t :tangle lisp/kpav-elisp.el
+  (use-package emacs
+    :straight nil
+    :general
+    (base-local-leader-def
+     :states 'normal
+     :keymaps 'emacs-lisp-mode-map
+     "e" '(:ignore t :wk "eval")
+     "eb" 'eval-buffer
+     "el" 'eval-last-sexp
+     "ed" 'eval-defun
+     "er" 'eval-region)
+    (base-local-leader-def
+     :states 'normal
+     :keymaps 'lisp-interaction-mode-map
+     "e" '(:ignore t :wk "eval")
+     "eb" 'eval-buffer
+     "el" 'eval-last-sexp
+     "ed" 'eval-defun
+     "er" 'eval-region))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-elisp.el
+  (provide 'kpav-elisp)
+  ;;; kpav-elisp.el ends here
+#+end_src
+** PHP
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+  ;;; kpav-php.el --- -*- lexical-binding: t -*-
+#+end_src
+
+I use PHP for my job, so I need to use the =WellspringCodingStandard=.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+  (use-package php-mode
+    :straight t
+    :mode "\\.php\\'"
+    :gfhook #'my-php-setup
+    :general
+    (:keymaps 'php-mode-map
+      "C-c a" 'my/align-php-dbl-arrow)
+    :custom
+    ;; align -> on successive lines
+    (php-lineup-cascaded-calls t)
+    (flycheck-phpcs-standard "WellspringCodingStandard"))
+#+end_src
+
+Setup the default coding style and LSP for php. Need to set =lsp-enable-file-watchers= to nil because the project has a large amount of files and it causes performance issues.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+  (defun my-php-setup ()
+    (php-enable-default-coding-style)
+    (setq lsp-enable-file-watchers nil)
+    (lsp))
+#+end_src
+
+Align the ==>= in arrays
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+  (defun my/align-php-dbl-arrow ()
+    "Align the => in arrays."
+    (interactive)
+    (align-regexp
+     (region-beginning) (region-end)
+     "\\(\\s-*\\) => " 1 0 nil))
+#+end_src
+
+Use =PHP_CodeSniffer= to format files
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+  (use-package phpcbf
+    :straight t
+    :after (php-mode)
+    :custom
+    (phpcbf-executable "/usr/local/bin/phpcbf")
+    (phpcbf-standard "WellspringCodingStandard"))
+#+end_src
+
+=psysh= is a php repl
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+  (use-package psysh
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
+    (provide 'kpav-php)
+    ;;; kpav-php.el ends here
+#+end_src
+** JavaScript / TypeScript
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  ;;; kpav-js.el --- -*- lexical-binding: t -*-
+#+end_src
+*** JavasScript
+Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  (use-package js-mode
+    :straight nil
+    :mode "\\.js\\'"
+    :interpreter "node"
+    :gfhook
+    #'lsp)
+#+end_src
+*** TypeScript
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  (use-package typescript-mode
+    :straight t
+    :mode "\\.ts\\'"
+    :commands (typescript-mode)
+    :gfhook
+    #'lsp)
+#+end_src
+*** JSON
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  (use-package json-mode
+    :straight t
+    :mode "\\.json\\'")
+#+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  (provide 'kpav-js)
+  ;;; kpav-js.el ends here
+#+end_src
+* EOF
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (provide 'init)
+  ;;; init.el ends here
+#+end_src
+* TODO To Do List
+** DONE Emacs bindings in evil mode
+** TODO Fix ~tab~ not expanding headlines in normal mode
+** TODO Test JS / TS stuff more
+** TODO Add JS REPL (skewer?)
+** TODO Add keys for LSP
+jumping and stuff
+** TODO Add Hydra
+Should probably be in =basemacs-core=
+** TODO Add keys for files, M-x, C-x?
+e.g. ~SPC f~
+** TODO Add Embark?
+Looks like its useful with selectrum and co.?
+** TODO Look into Selectrum and co. config more
+See what other settings there are
+** TODO Replace this with current config! [1/2]
+*** DONE Use it locally
+*** TODO Create github repo
+make note in dotfiles/ repo about it
+** TODO Bookmark keys
+** TODO Git keys
+** TODO Look into TabNine / company-tabnine
+AI completion engine?
+** TODO Remove org from =basemacs-core= OR set :straight t
+conflicts with other org customization
+** TODO Remove magit from =basemacs-core=?
