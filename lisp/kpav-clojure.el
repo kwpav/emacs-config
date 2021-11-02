@@ -25,7 +25,7 @@
   ('cider-repl-mode-hook #'rainbow-delimiters-mode)
   :general
   (base-local-leader-def
-    :states '(normal visual emacs)
+    :states '(normal visual)
     :keymaps 'clojure-mode-map
     "r" 'cider
     "n" 'cider-repl-set-ns
