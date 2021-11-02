@@ -27,6 +27,12 @@
 (require 'kpav-common-lisp)
 (require 'kpav-js)
 
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
+  :straight t
+  :config
+  (exec-path-from-shell-initialize))
+
 (use-package emacs
   :straight nil
   :general

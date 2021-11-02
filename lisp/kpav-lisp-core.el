@@ -11,6 +11,11 @@
   :straight t
   :ghook my-lisp-mode-hooks)
 
+(use-package lispyville
+  :straight t
+  :ghook
+  ('lispy-mode-hook #'lispyville-mode))
+
 (use-package aggressive-indent
   :straight t
   :ghook my-lisp-mode-hooks)

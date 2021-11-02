@@ -463,6 +463,15 @@ Keys copied from projects README.
   (provide 'kpav-selectrum)
   ;;; kpav-selectrum.el ends here
 #+end_src
+** System Specific
+Ensure that Emacs uses the correct environment. This is especially useful for OSX, as Emacs may inherit a default set of environment variables, not the ones that you see in a terminal.
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (use-package exec-path-from-shell
+    :if (memq window-system '(mac ns x))
+    :straight t
+    :config
+    (exec-path-from-shell-initialize))
+#+end_src
 ** Random
 Make ~ESC~ close any prompts
 #+begin_src emacs-lisp :lexical t :tangle init.el
@@ -719,6 +728,11 @@ Lispy provides vim-like commands to navigate and edit Lisp code.
   (use-package lispy
     :straight t
     :ghook my-lisp-mode-hooks)
+
+  (use-package lispyville
+    :straight t
+    :ghook
+    ('lispy-mode-hook #'lispyville-mode))
 #+end_src
 
 Automatically indent code.
