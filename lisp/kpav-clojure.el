@@ -25,15 +25,14 @@
   ('cider-repl-mode-hook #'rainbow-delimiters-mode)
   :general
   (base-local-leader-def
-   :states 'normal
-   :keymaps
-   'clojure-mode-map
-   "r" 'cider
-   "n" 'cider-repl-set-ns
-   "er" 'cider-eval-region
-   "eb" 'cider-eval-buffer
-   "ef" 'cider-eval-sexp-at-point
-   "el" 'cider-eval-last-sexp))
+    :states '(normal visual emacs)
+    :keymaps 'clojure-mode-map
+    "r" 'cider
+    "n" 'cider-repl-set-ns
+    "er" 'cider-eval-region
+    "eb" 'cider-eval-buffer
+    "ef" 'cider-eval-sexp-at-point
+    "el" 'cider-eval-last-sexp))
 
 (provide 'kpav-clojure)
 ;;; kpav-clojure.el ends here
