@@ -1036,7 +1036,7 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
 #+end_src
 * TODO To Do List
 ** DONE Emacs bindings in evil mode
-** TODO Fix ~tab~ not expanding headlines in normal mode
+** DONE Fix ~tab~ not expanding headlines in normal mode
 ** TODO Test JS / TS stuff more
 ** TODO Add JS REPL (skewer?)
 ** TODO Add keys for LSP
@@ -1045,16 +1045,16 @@ jumping and stuff
 Should probably be in =basemacs-core=
 ** TODO Add keys for files, M-x, C-x?
 e.g. ~SPC f~
-** TODO Add Embark?
+** DONE Add Embark?
 Looks like its useful with selectrum and co.?
 ** TODO Look into Selectrum and co. config more
 See what other settings there are
-** TODO Replace this with current config! [1/2]
+** DONE Replace this with current config! [2/2]
 *** DONE Use it locally
-*** TODO Create github repo
+*** DONE Create github repo
 make note in dotfiles/ repo about it
 ** TODO Bookmark keys
-** TODO Git keys
+** DONE Git keys
 ** TODO Look into TabNine / company-tabnine
 AI completion engine?
 ** TODO Remove org from =basemacs-core= OR set :straight t
