@@ -23,5 +23,10 @@
   :straight t
   :after (treemacs))
 
+(use-package envrc
+  :straight t
+  :config
+  (envrc-global-mode))
+
 (provide 'kpav-project)
 ;;; kpav-project.el ends here

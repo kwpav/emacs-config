@@ -45,6 +45,16 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-common-lisp)
   (require 'kpav-js)
 #+end_src
+
+All system specific configuration is done in =lisp/local.el=. This loads that file if it exists.
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (defvar local-file (expand-file-name "lisp/local.el" user-emacs-directory))
+
+  (when (file-exists-p local-file)
+    (load local-file))
+#+end_src
+
+
 This approach requires a bit more code than having this file just tangle to =init.el=, but I like the ability to easily turn on/off things for tinkering and debugging purposes.
 * Emacs
 Things that modify Emacs stuff.
@@ -497,6 +507,17 @@ Ensure that Emacs uses the correct environment. This is especially useful for OS
     :config
     (exec-path-from-shell-initialize))
 #+end_src
+
+The =railwaycat/emacs-mac= port maps the command key to meta, I like it bound to super because it matches my external keyboard better.
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (use-package emacs
+    :straight nil
+    :if (eq system-type 'darwin)
+    :custom
+    (mac-option-modifier 'meta)
+    (mac-command-modifier 'super))
+#+end_src
+
 ** Random
 Make ~ESC~ close any prompts
 #+begin_src emacs-lisp :lexical t :tangle init.el
@@ -623,6 +644,16 @@ Treemacs provides a nice file explorer for projects.
     :straight t
     :after (treemacs))
 #+end_src
+*** Direnv
+Provide =direnv= support for projects with =.envrc= files.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (use-package envrc
+    :straight t
+    :config
+    (envrc-global-mode))
+#+end_src
+
+Use =envrc-allow= to explicitly run =direnv allow=.
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   (provide 'kpav-project)

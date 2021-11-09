@@ -27,11 +27,23 @@
 (require 'kpav-common-lisp)
 (require 'kpav-js)
 
+(defvar local-file (expand-file-name "lisp/local.el" user-emacs-directory))
+
+(when (file-exists-p local-file)
+  (load local-file))
+
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))
   :straight t
   :config
   (exec-path-from-shell-initialize))
+
+(use-package emacs
+  :straight nil
+  :if (eq system-type 'darwin)
+  :custom
+  (mac-option-modifier 'meta)
+  (mac-command-modifier 'super))
 
 (use-package emacs
   :straight nil
