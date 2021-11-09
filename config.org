@@ -773,23 +773,38 @@ List of all lisp mode hooks. This is used to enable modes for all of them.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
   (defconst my-lisp-mode-hooks
     '(lisp-mode-hook
-      sly-mrepl-mode-hook
+      ;; sly-mrepl-mode-hook
       emacs-lisp-mode-hook
       clojure-mode-hook
-      cider-repl-mode-hook))
+      ;; cider-repl-mode-hook
+      ))
 #+end_src
 
 Lispy provides vim-like commands to navigate and edit Lisp code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
-  (use-package lispy
-    :straight t
-    :ghook my-lisp-mode-hooks)
+  ;; (use-package lispy
+  ;;   :straight t
+  ;;   :ghook my-lisp-mode-hooks)
 
-  (use-package lispyville
-    :straight t
-    :ghook
-    ('lispy-mode-hook #'lispyville-mode))
+  ;; (use-package lispyville
+  ;;   :straight t
+  ;;   :ghook
+  ;;   ('lispy-mode-hook #'lispyville-mode))
 #+end_src
+
+Symex provides even more vim-like commands (compared t0 lispy) to navigate and edit lisp code. Press ~C-'~ to start.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  (use-package symex
+    :straight t
+    :custom
+    (symex-modal-backend 'evil)
+    :general
+    ("C-'" 'symex-mode-interface)
+    :config
+    (symex-initialize))
+#+end_src
+This is a nice guide:
+https://countvajhula.com/2021/09/25/the-animated-guide-to-symex/
 
 Automatically indent code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el

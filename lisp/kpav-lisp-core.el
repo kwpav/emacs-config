@@ -2,19 +2,29 @@
 
 (defconst my-lisp-mode-hooks
   '(lisp-mode-hook
-    sly-mrepl-mode-hook
+    ;; sly-mrepl-mode-hook
     emacs-lisp-mode-hook
     clojure-mode-hook
-    cider-repl-mode-hook))
+    ;; cider-repl-mode-hook
+    ))
 
-(use-package lispy
-  :straight t
-  :ghook my-lisp-mode-hooks)
+;; (use-package lispy
+;;   :straight t
+;;   :ghook my-lisp-mode-hooks)
 
-(use-package lispyville
+;; (use-package lispyville
+;;   :straight t
+;;   :ghook
+;;   ('lispy-mode-hook #'lispyville-mode))
+
+(use-package symex
   :straight t
-  :ghook
-  ('lispy-mode-hook #'lispyville-mode))
+  :custom
+  (symex-modal-backend 'evil)
+  :general
+  ("C-'" 'symex-mode-interface)
+  :config
+  (symex-initialize))
 
 (use-package aggressive-indent
   :straight t
