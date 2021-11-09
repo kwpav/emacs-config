@@ -27,10 +27,10 @@
 (require 'kpav-common-lisp)
 (require 'kpav-js)
 
-(defvar local-file (expand-file-name "lisp/local.el" user-emacs-directory))
+(defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 
-(when (file-exists-p local-file)
-  (load local-file))
+(when (file-exists-p kpav-local-file)
+  (load kpav-local-file))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns x))

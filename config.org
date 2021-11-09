@@ -46,12 +46,12 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-js)
 #+end_src
 
-All system specific configuration is done in =lisp/local.el=. This loads that file if it exists.
+All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
 #+begin_src emacs-lisp :lexical t :tangle init.el
-  (defvar local-file (expand-file-name "lisp/local.el" user-emacs-directory))
+  (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 
-  (when (file-exists-p local-file)
-    (load local-file))
+  (when (file-exists-p kpav-local-file)
+    (load kpav-local-file))
 #+end_src
 
 
