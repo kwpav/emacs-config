@@ -11,7 +11,9 @@
 
 (use-package lsp-ui
   :straight t
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-sideline-show-code-actions nil))
 
 (use-package lsp-treemacs
   :straight t
