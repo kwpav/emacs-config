@@ -39,19 +39,19 @@
   (exec-path-from-shell-initialize))
 
 (use-package emacs
-  :straight nil
+  :straight (:type built-in)
   :if (eq system-type 'darwin)
   :custom
   (mac-option-modifier 'meta)
   (mac-command-modifier 'super))
 
 (use-package emacs
-  :straight nil
+  :straight (:type built-in)
   :general
   ("<escape>" 'keyboard-escape-quit))
 
 (use-package emacs
-  :straight nil
+  :straight (:type built-in)
   :init
   (setq native-comp-async-report-warnings-errors nil))
 

@@ -119,7 +119,7 @@ vim-commentary emulation
 Set up fonts, this is mainly for use in =variable-pitch-mode=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package faces
-    :straight nil
+    :straight (:type built-in)
     :init
     ;; Main typeface
     (set-face-attribute 'default nil :family "Iosevka" :height 130)
@@ -161,7 +161,7 @@ Modus themes are readable, clean looking, and super customizable. It also works 
 Turn =variable-pitch-mode= on for =org-mode=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package face-remap
-    :straight nil
+    :straight (:type built-in)
     :ghook
     ('org-mode-hook #'variable-pitch-mode))
 #+end_src
@@ -209,7 +209,7 @@ Add rainbow delimiters in all programming language modes
 *** Keys
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (use-package window
-    :straight nil
+    :straight (:type built-in)
     :general
     (base-leader-def
      :states 'normal
@@ -228,7 +228,7 @@ Windmove provides a way to move around emacs windows.
 Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (use-package windmove
-    :straight nil
+    :straight (:type built-in)
     :general
     (base-leader-def
      :states 'normal
@@ -511,7 +511,7 @@ Ensure that Emacs uses the correct environment. This is especially useful for OS
 The =railwaycat/emacs-mac= port maps the command key to meta, I like it bound to super because it matches my external keyboard better.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package emacs
-    :straight nil
+    :straight (:type built-in)
     :if (eq system-type 'darwin)
     :custom
     (mac-option-modifier 'meta)
@@ -522,7 +522,7 @@ The =railwaycat/emacs-mac= port maps the command key to meta, I like it bound to
 Make ~ESC~ close any prompts
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package emacs
-    :straight nil
+    :straight (:type built-in)
     :general
     ("<escape>" 'keyboard-escape-quit))
 #+end_src
@@ -530,7 +530,7 @@ Make ~ESC~ close any prompts
 Stop warnings buffer from automatically coming up. (Emacs 28)
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package emacs
-    :straight nil
+    :straight (:type built-in)
     :init
     (setq native-comp-async-report-warnings-errors nil))
 #+end_src
@@ -598,7 +598,7 @@ Built in project interaction.
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   (use-package project
-    :straight nil
+    :straight (:type built-in)
     :general
     (base-leader-def
      :states 'normal
@@ -914,7 +914,7 @@ Sly provides a Common Lisp REPL for Emacs.
 Set up keys for evaling elisp.
 #+BEGIN_src emacs-lisp :lexical t :tangle lisp/kpav-elisp.el
   (use-package emacs
-    :straight nil
+    :straight (:type built-in)
     :general
     (base-local-leader-def
      :states 'normal
@@ -1005,7 +1005,7 @@ Use =PHP_CodeSniffer= to format files
 Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
   (use-package js-mode
-    :straight nil
+    :straight (:type built-in)
     :mode "\\.js\\'"
     :interpreter "node"
     :gfhook

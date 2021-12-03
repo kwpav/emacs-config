@@ -1,7 +1,7 @@
 ;;; kpav-ui.el --- -*- lexical-binding: t -*-
 
 (use-package faces
-  :straight nil
+  :straight (:type built-in)
   :init
   ;; Main typeface
   (set-face-attribute 'default nil :family "Iosevka" :height 130)
@@ -31,7 +31,7 @@
   (modus-themes-load-vivendi))
 
 (use-package face-remap
-  :straight nil
+  :straight (:type built-in)
   :ghook
   ('org-mode-hook #'variable-pitch-mode))
 

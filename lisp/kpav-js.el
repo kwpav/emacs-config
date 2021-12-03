@@ -1,7 +1,7 @@
 ;;; kpav-js.el --- -*- lexical-binding: t -*-
 
 (use-package js-mode
-  :straight nil
+  :straight (:type built-in)
   :mode "\\.js\\'"
   :interpreter "node"
   :gfhook

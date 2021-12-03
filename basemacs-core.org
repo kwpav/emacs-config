@@ -105,12 +105,12 @@ This example installs a package =foo= with =straight.el=, sets =bar-setting= to 
 Gather statistics, get report with =use-package-report=.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package use-package
-    :straight nil
+    :straight (:type built-in)
     :custom
     (use-package-compute-statistics t))
 #+end_src
 
-Note here that we use =:straight nil=. This is because =use-package= has already been installed. It is not necessarily needed, but it can be handy to explicitly differentiate between built-in and other packages, or if =straight-use-package-by-default= is set to =t=.
+Note here that we use =:straight (:type built-in)=. This is because =use-package= has already been installed. It is not necessarily needed, but it can be handy to explicitly differentiate between built-in and other packages, or if =straight-use-package-by-default= is set to =t=.
 
 This config uses =:straight= in all =use-package= declarations.
 
@@ -162,7 +162,7 @@ Set some sane defaults.
 Settings for things that are defined in the C source code, so we use =emacs= as the package.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package emacs
-    :straight nil
+    :straight (:type built-in)
     :init
     ;; answer with y/n instead of typing out yes/no
     (defalias 'yes-or-no-p 'y-or-n-p)
@@ -176,7 +176,7 @@ Settings for things that are defined in the C source code, so we use =emacs= as 
 Refresh (revert in Emacs' terms) buffers when files change on disk. Makes sure to update any version control info that changes also.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package autorevert
-    :straight nil
+    :straight (:type built-in)
     :custom
     (global-revert-check-vc-info t)
     :config
@@ -186,7 +186,7 @@ Refresh (revert in Emacs' terms) buffers when files change on disk. Makes sure t
 Use utf-8 for everything.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package mule
-    :straight nil
+    :straight (:type built-in)
     :config
     (prefer-coding-system 'utf-8)
     (set-default-coding-systems 'utf-8)
@@ -196,7 +196,7 @@ Use utf-8 for everything.
 Emacs likes to create lots of extra files for things, these settings prevent that. Also, create a newline at the end of the file on save.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package files
-    :straight nil
+    :straight (:type built-in)
     :custom
     (make-backup-files nil)    ;; stop creating backup~ files
     (auto-save-default nil)    ;; stop creating #autosave# files
@@ -207,7 +207,7 @@ Emacs likes to create lots of extra files for things, these settings prevent tha
 Use the system clipboard for killing/yanking (copying/pasting) and display column information in the modeline.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package simple
-    :straight nil
+    :straight (:type built-in)
     :custom
     ;; killing and yanking uses the system clipboard
     (save-interprogram-paste-before-kill t)
@@ -219,7 +219,7 @@ Use the system clipboard for killing/yanking (copying/pasting) and display colum
 When the lines in a file are so long that performance could suffer to an unacceptable degree, we say "so long" to the slow modes and options enabled  in that buffer, and invoke something much more basic in their place.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package so-long
-    :straight nil
+    :straight (:type built-in)
     :config
     (global-so-long-mode +1))
 #+end_src
@@ -227,7 +227,7 @@ When the lines in a file are so long that performance could suffer to an unaccep
 When you visit a file, point goes to the last place where it was when you previously visited the same file.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package saveplace
-    :straight nil
+    :straight (:type built-in)
     :config
     (save-place-mode +1))
 #+end_src
@@ -236,7 +236,7 @@ When you visit a file, point goes to the last place where it was when you previo
 Put customizations in =custom.el= instead of this file. This will also create =custom.el= if it does not exist yet.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package cus-edit
-    :straight nil
+    :straight (:type built-in)
     :custom
     (custom-file (expand-file-name "custom.el" user-emacs-directory))
     :config
@@ -248,7 +248,7 @@ Put customizations in =custom.el= instead of this file. This will also create =c
 Display the =*scratch*= buffer at startup instead of the dashboard.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package emacs
-    :straight nil
+    :straight (:type built-in)
     :custom
     (inhibit-startup-screen t))
 #+end_src
@@ -257,7 +257,7 @@ Display the =*scratch*= buffer at startup instead of the dashboard.
 Don't blink the cursor.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package frame
-    :straight nil
+    :straight (:type built-in)
     :config
     (blink-cursor-mode -1))
 #+end_src
@@ -265,7 +265,7 @@ Don't blink the cursor.
 Highlight the line the cursor is on.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package hl-line
-    :straight nil
+    :straight (:type built-in)
     :config
     (global-hl-line-mode +1))
 #+end_src
@@ -276,7 +276,7 @@ Settings and plugins that help with programming.
 Display line numbers in all programming modes.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package display-line-numbers
-    :straight nil
+    :straight (:type built-in)
     :ghook
     ('prog-mode-hook #'display-line-numbers-mode))
 #+end_src
@@ -285,7 +285,7 @@ Display line numbers in all programming modes.
 Insert matching pairs for things like parens, brackets, quotes, etc. Use it in programming and org modes.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package elec-pair
-    :straight nil
+    :straight (:type built-in)
     :ghook
     ('prog-mode-hook #'electric-pair-mode)
     ('org-mode-hook #'electric-pair-mode))
@@ -294,7 +294,7 @@ Insert matching pairs for things like parens, brackets, quotes, etc. Use it in p
 Highlight paren when the cursor is over its matching pair. Also reduce the delay of it to =0= so it will be instant.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
   (use-package paren
-    :straight nil
+    :straight (:type built-in)
     :custom
     (show-paren-delay 0)
     :config

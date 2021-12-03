@@ -2,7 +2,7 @@
 (require 'kpav-lisp-core)
 
 (use-package emacs
-  :straight nil
+  :straight (:type built-in)
   :general
   (base-local-leader-def
    :states 'normal

@@ -1,7 +1,7 @@
 ;;; kpav-windows-and-buffers.el --- -*- lexical-binding: t -*-
 
 (use-package window
-  :straight nil
+  :straight (:type built-in)
   :general
   (base-leader-def
    :states 'normal
@@ -15,7 +15,7 @@
    "wd" 'delete-window))
 
 (use-package windmove
-  :straight nil
+  :straight (:type built-in)
   :general
   (base-leader-def
    :states 'normal
