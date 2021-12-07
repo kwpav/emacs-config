@@ -23,6 +23,8 @@
   :after clojure-mode
   :ghook
   ('cider-repl-mode-hook #'rainbow-delimiters-mode)
+  :custom
+  (cider-inject-dependencies-at-jack-in t)
   :general
   (base-local-leader-def
     :states '(normal visual)
