@@ -23,6 +23,7 @@
   :after clojure-mode
   :ghook
   ('cider-repl-mode-hook #'rainbow-delimiters-mode)
+  ('cider-connected-hook #'cider-upgrade-nrepl-connection)
   :custom
   (cider-inject-dependencies-at-jack-in t)
   :general
@@ -35,6 +36,19 @@
     "eb" 'cider-eval-buffer
     "ef" 'cider-eval-sexp-at-point
     "el" 'cider-eval-last-sexp))
+
+(use-package clj-refactor
+  :straight t
+  :after cider
+  :ghook
+  ('clojure-mode-hook (lambda ()
+                        (clj-refactor-mode 1)
+                        (yas-minor-mode 1) ; for adding require/use/imoprt statements
+                        ;; Leaves cider-macroexpand-1 unbound
+                        (cljr-add-keybindings-with-prefix "C-c C-m"))))
+
+(use-package cider-eval-sexp-fu
+  :straight t)
 
 (provide 'kpav-clojure)
 ;;; kpav-clojure.el ends here

@@ -277,7 +277,7 @@ Eyebrowse provides a way to manage workspaces like tiling window managers.
 - Use evil way of closing and quitting (=:q= =:x=) when editing code in org mode
 - Define some keys
 - Disable the checkdock check because most of my elisp code is in snippets in this config
-  
+
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (use-package org
     :straight t
@@ -758,7 +758,7 @@ The Language Server Protocol (LSP) defines the protocol used between an editor o
 
 Some handy links
 - https://emacs-lsp.github.io/lsp-mode/page/performance/
-  
+
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lsp.el
   (provide 'kpav-lsp)
   ;;; kpav-lsp.el ends here
@@ -773,7 +773,7 @@ Lisps can share a lot of the same config code due to the nature of the syntax.
 
 List of all lisp mode hooks. This is used to enable modes for all of them.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
-  (defconst my-lisp-mode-hooks
+  (defconst kpav-lisp-mode-hooks
     '(lisp-mode-hook
       ;; sly-mrepl-mode-hook
       emacs-lisp-mode-hook
@@ -786,7 +786,7 @@ Lispy provides vim-like commands to navigate and edit Lisp code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
   ;; (use-package lispy
   ;;   :straight t
-  ;;   :ghook my-lisp-mode-hooks)
+  ;;   :ghook kpav-lisp-mode-hooks)
 
   ;; (use-package lispyville
   ;;   :straight t
@@ -812,7 +812,15 @@ Automatically indent code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
   (use-package aggressive-indent
     :straight t
-    :ghook my-lisp-mode-hooks)
+    :ghook kpav-lisp-mode-hooks)
+#+end_src
+
+Highlight whats being eval'ed
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  (use-package eval-sexp-fu
+    :straight t
+    :ghook
+    (kpav-lisp-mode-hooks #'eval-sexp-fu-flash-mode))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
@@ -852,6 +860,7 @@ Cider provides a Clojure REPL for Emacs.
     :after clojure-mode
     :ghook
     ('cider-repl-mode-hook #'rainbow-delimiters-mode)
+    ('cider-connected-hook #'cider-upgrade-nrepl-connection)
     :custom
     (cider-inject-dependencies-at-jack-in t)
     :general
@@ -864,6 +873,25 @@ Cider provides a Clojure REPL for Emacs.
       "eb" 'cider-eval-buffer
       "ef" 'cider-eval-sexp-at-point
       "el" 'cider-eval-last-sexp))
+#+end_src
+
+Refactoring functionality for Clojure.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  (use-package clj-refactor
+    :straight t
+    :after cider
+    :ghook
+    ('clojure-mode-hook (lambda ()
+                          (clj-refactor-mode 1)
+                          (yas-minor-mode 1) ; for adding require/use/imoprt statements
+                          ;; Leaves cider-macroexpand-1 unbound
+                          (cljr-add-keybindings-with-prefix "C-c C-m"))))
+#+end_src
+
+Highlight what's being eval'ed
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  (use-package cider-eval-sexp-fu
+    :straight t)
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el

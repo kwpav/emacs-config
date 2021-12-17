@@ -1,6 +1,6 @@
 ;;; kpav-lisp-core.el --- -*- lexical-binding: t -*-
 
-(defconst my-lisp-mode-hooks
+(defconst kpav-lisp-mode-hooks
   '(lisp-mode-hook
     ;; sly-mrepl-mode-hook
     emacs-lisp-mode-hook
@@ -10,7 +10,7 @@
 
 ;; (use-package lispy
 ;;   :straight t
-;;   :ghook my-lisp-mode-hooks)
+;;   :ghook kpav-lisp-mode-hooks)
 
 ;; (use-package lispyville
 ;;   :straight t
@@ -28,7 +28,12 @@
 
 (use-package aggressive-indent
   :straight t
-  :ghook my-lisp-mode-hooks)
+  :ghook kpav-lisp-mode-hooks)
+
+(use-package eval-sexp-fu
+  :straight t
+  :ghook
+  (kpav-lisp-mode-hooks #'eval-sexp-fu-flash-mode))
 
 (provide 'kpav-lisp-core)
 ;;; kpav-lisp-core.el ends here
