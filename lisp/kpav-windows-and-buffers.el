@@ -26,6 +26,17 @@
   :config
   (windmove-default-keybindings))
 
+(use-package ace-window
+  :straight t
+  :general
+  ("M-o" 'ace-window)
+  (base-leader-def
+    :states 'normal
+    "ww" 'ace-window)
+  :custom
+  ;; use home row instead of numbers
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 (use-package eyebrowse
   :straight t
   :general

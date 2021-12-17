@@ -222,7 +222,7 @@ Add rainbow delimiters in all programming language modes
      "wu" 'split-window-vertically
      "wd" 'delete-window))
 #+end_src
-*** Windmove
+*** Navigation
 Windmove provides a way to move around emacs windows.
 
 Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
@@ -238,6 +238,20 @@ Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
      "wl" 'windmove-right)
     :config
     (windmove-default-keybindings))
+#+end_src
+
+ace-window lets you jump around windows with a single key
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
+  (use-package ace-window
+    :straight t
+    :general
+    ("M-o" 'ace-window)
+    (base-leader-def
+      :states 'normal
+      "ww" 'ace-window)
+    :custom
+    ;; use home row instead of numbers
+    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+end_src
 *** eyebrowse
 Eyebrowse provides a way to manage workspaces like tiling window managers.
