@@ -29,6 +29,7 @@ Here is where the magic happens. Let's load some modules!
 #+begin_src emacs-lisp :lexical t :tangle init.el
   ;; emacs
   (require 'kpav-evil)
+  (require 'kpav-keys)
   (require 'kpav-selectrum)
   (require 'kpav-org)
   (require 'kpav-ui)
@@ -110,6 +111,23 @@ vim-commentary emulation
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-evil.el
   (provide 'kpav-evil)
   ;;; kpav-evil.el ends here
+#+end_src
+** Keys
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-keys.el
+  ;;; kpav-keys.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Press any two keys for keybinds.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-keys.el
+  (use-package key-chord
+    :straight t
+    :config
+    (key-chord-mode +1))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-keys.el
+  (provide 'kpav-keys)
+  ;;; kpav-keys.el ends here
 #+end_src
 ** UI
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
@@ -816,6 +834,8 @@ Symex provides even more vim-like commands (compared t0 lispy) to navigate and e
     (symex-modal-backend 'evil)
     :general
     ("C-'" 'symex-mode-interface)
+    (:keymaps 'normal
+              (general-chord "jk") 'symex-mode-interface)
     :config
     (symex-initialize))
 #+end_src
@@ -847,6 +867,12 @@ Highlight whats being eval'ed
   (require 'kpav-lisp-core)
 #+end_src
 
+Use =clj-condo= and =flycheck=. This needs to be loaded before =clojure-mode=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
+  (use-package flycheck-clj-kondo
+    :straight t)
+#+end_src
+
 Use LSP with all clojure-related modes.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
   (use-package clojure-mode
@@ -857,7 +883,9 @@ Use LSP with all clojure-related modes.
     ('clojurec-mode-hook #'lsp)
     ('clojurescript-mode #'lsp)
     :custom
-    (lsp-enable-indentation nil))
+    (lsp-enable-indentation nil)
+    :config
+    (require 'flycheck-clj-kondo))
   ;; is this needed?
   ;; :config
   ;; (dolist (m '(clojure-mode
@@ -881,6 +909,11 @@ Cider provides a Clojure REPL for Emacs.
     (base-local-leader-def
       :states '(normal visual)
       :keymaps 'clojure-mode-map
+      "h" '(:ignore t :wk "help")
+      "ha" 'cider-apropos
+      "hh" 'cider-doc
+      "hj" 'cider-javadoc
+      "hn" 'cider-browse-ns
       "r" 'cider
       "n" 'cider-repl-set-ns
       "er" 'cider-eval-region
@@ -896,8 +929,8 @@ Refactoring functionality for Clojure.
     :after cider
     :ghook
     ('clojure-mode-hook (lambda ()
-                          (clj-refactor-mode 1)
-                          (yas-minor-mode 1) ; for adding require/use/imoprt statements
+                          (clj-refactor-mode +1)
+                          (yas-minor-mode +1) ; for adding require/use/import statements
                           ;; Leaves cider-macroexpand-1 unbound
                           (cljr-add-keybindings-with-prefix "C-c C-m"))))
 #+end_src

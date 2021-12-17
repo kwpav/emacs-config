@@ -11,6 +11,7 @@
 
 ;; emacs
 (require 'kpav-evil)
+(require 'kpav-keys)
 (require 'kpav-selectrum)
 (require 'kpav-org)
 (require 'kpav-ui)

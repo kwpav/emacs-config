@@ -1,6 +1,9 @@
 ;;; kpav-clojure.el --- -*- lexical-binding: t -*-
 (require 'kpav-lisp-core)
 
+(use-package flycheck-clj-kondo
+  :straight t)
+
 (use-package clojure-mode
   :straight t
   :defer t
@@ -9,7 +12,9 @@
   ('clojurec-mode-hook #'lsp)
   ('clojurescript-mode #'lsp)
   :custom
-  (lsp-enable-indentation nil))
+  (lsp-enable-indentation nil)
+  :config
+  (require 'flycheck-clj-kondo))
 ;; is this needed?
 ;; :config
 ;; (dolist (m '(clojure-mode
@@ -30,6 +35,11 @@
   (base-local-leader-def
     :states '(normal visual)
     :keymaps 'clojure-mode-map
+    "h" '(:ignore t :wk "help")
+    "ha" 'cider-apropos
+    "hh" 'cider-doc
+    "hj" 'cider-javadoc
+    "hn" 'cider-browse-ns
     "r" 'cider
     "n" 'cider-repl-set-ns
     "er" 'cider-eval-region
@@ -42,8 +52,8 @@
   :after cider
   :ghook
   ('clojure-mode-hook (lambda ()
-                        (clj-refactor-mode 1)
-                        (yas-minor-mode 1) ; for adding require/use/imoprt statements
+                        (clj-refactor-mode +1)
+                        (yas-minor-mode +1) ; for adding require/use/import statements
                         ;; Leaves cider-macroexpand-1 unbound
                         (cljr-add-keybindings-with-prefix "C-c C-m"))))
 

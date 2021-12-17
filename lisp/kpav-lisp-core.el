@@ -23,6 +23,8 @@
   (symex-modal-backend 'evil)
   :general
   ("C-'" 'symex-mode-interface)
+  (:keymaps 'normal
+            (general-chord "jk") 'symex-mode-interface)
   :config
   (symex-initialize))
 
