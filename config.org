@@ -28,6 +28,7 @@ Set up the leader keys
 Here is where the magic happens. Let's load some modules!
 #+begin_src emacs-lisp :lexical t :tangle init.el
   ;; emacs
+  (require 'kpav-system)
   (require 'kpav-evil)
   (require 'kpav-keys)
   (require 'kpav-selectrum)
@@ -531,8 +532,12 @@ Keys copied from projects README.
   ;;; kpav-selectrum.el ends here
 #+end_src
 ** System Specific
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-system.el
+  ;;; kpav-system.el --- -*- lexical-binding: t -*-
+#+end_src
+
 Ensure that Emacs uses the correct environment. This is especially useful for OSX, as Emacs may inherit a default set of environment variables, not the ones that you see in a terminal.
-#+begin_src emacs-lisp :lexical t :tangle init.el
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-system.el
   (use-package exec-path-from-shell
     :if (memq window-system '(mac ns x))
     :straight t
@@ -541,7 +546,7 @@ Ensure that Emacs uses the correct environment. This is especially useful for OS
 #+end_src
 
 The =railwaycat/emacs-mac= port maps the command key to meta, I like it bound to super because it matches my external keyboard better.
-#+begin_src emacs-lisp :lexical t :tangle init.el
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-system.el
   (use-package emacs
     :straight (:type built-in)
     :if (eq system-type 'darwin)
@@ -550,6 +555,10 @@ The =railwaycat/emacs-mac= port maps the command key to meta, I like it bound to
     (mac-command-modifier 'super))
 #+end_src
 
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-system.el
+  (provide 'kpav-system)
+  ;;; kpav-system.el ends here
+#+end_src
 ** Random
 Make ~ESC~ close any prompts
 #+begin_src emacs-lisp :lexical t :tangle init.el
