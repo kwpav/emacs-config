@@ -50,13 +50,22 @@
     "el" 'cider-eval-last-sexp
     "em" 'cider-macroexpand-1
     "eM" 'cider-macroexpand-all
+    ;; format
+    "f" '(:ignore t :wk "format")
+    "fr" 'cider-format-region
+    "fb" 'cider-format-buffer
+    "ff" 'cider-format-defun
     ;; goto
     "g" '(:ignore t :wk "goto")
     "gg" 'cider-find-dwim
     "gn" 'cider-browse-ns
     "gN" 'cider-browse-ns-all
     "gs" 'cider-browse-spec
-    "gS" 'cider-browse-spec-all))
+    "gS" 'cider-browse-spec-all
+    "d" '(:ignore t :wk "debug")
+    "dr" 'cider-ns-reload
+    "dR" 'cider-ns-reload-all
+    "di" 'cider-inspect-defun-at-point))
 
 (use-package clj-refactor
   :straight t
