@@ -373,7 +373,21 @@ Selectrum is a narrowing/completion system similiar to Ivy.
     :ghook
     'after-init-hook)
 #+end_src
-
+*** Orderless
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package orderless
+    :straight t
+    :custom
+    (completion-styles '(orderless))
+    ;; Optional performance optimization
+    ;; by highlighting only the visible candidates.
+    ;; (orderless-skip-highlighting (lambda () selectrum-is-active))
+    ;; (selectrum-highlight-candidates-function #'orderless-highlight-matches)
+    :config
+    ;; Persist history over Emacs restarts
+    (savehist-mode +1))
+#+end_src
+*** COMMENT Prescient
 #+begin_quote
 Filter and sort results ... by frecency (a combination of frequency and recency).
 #+end_quote
@@ -856,10 +870,11 @@ https://countvajhula.com/2021/09/25/the-animated-guide-to-symex/
 
 Automatically indent code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
-  (use-package aggressive-indent
-    :straight t
-    :ghook kpav-lisp-mode-hooks)
+  ;; (use-package aggressive-indent
+  ;;   :straight t
+  ;;   :ghook kpav-lisp-mode-hooks)
 #+end_src
+NOTE: commenting this out for now, useful for me, but not for work projects...too many whitespace changes.
 
 Highlight whats being eval'ed
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el

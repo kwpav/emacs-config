@@ -28,9 +28,9 @@
   :config
   (symex-initialize))
 
-(use-package aggressive-indent
-  :straight t
-  :ghook kpav-lisp-mode-hooks)
+;; (use-package aggressive-indent
+;;   :straight t
+;;   :ghook kpav-lisp-mode-hooks)
 
 (use-package eval-sexp-fu
   :straight t

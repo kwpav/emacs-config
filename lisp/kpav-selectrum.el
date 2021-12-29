@@ -6,17 +6,17 @@
   :ghook
   'after-init-hook)
 
-(use-package prescient
+(use-package orderless
   :straight t
-  :after selectrum
+  :custom
+  (completion-styles '(orderless))
+  ;; Optional performance optimization
+  ;; by highlighting only the visible candidates.
+  ;; (orderless-skip-highlighting (lambda () selectrum-is-active))
+  ;; (selectrum-highlight-candidates-function #'orderless-highlight-matches)
   :config
-  (prescient-persist-mode +1))
-
-(use-package selectrum-prescient
-  :straight t
-  :after (selectrum prescient)
-  :init
-  (selectrum-prescient-mode +1))
+  ;; Persist history over Emacs restarts
+  (savehist-mode +1))
 
 (use-package ctrlf
   :straight t
