@@ -1,8 +1,11 @@
 #+TITLE: Emacs Config
 
 * About
-This is my personal Emacs configuration using =basemacs= at its core. All code here is tangled, it creates: =early-init.el=, =init.el=, and various "modules" in the =lisp/= directory.
+This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now. As with =basemacs=, (almost) all configuration is done with =use-package=.  All code here is tangled, it creates: =early-init.el=, =init.el=, and various "modules" in the =lisp/= directory.
+
+I try to go for an "Emacs first" approach (as opposed to the terminal), so this is meant to be used for Emacs GUI, though it is probably mostly fine in the terminal.
 * Startup
+Let's get everything setup!
 #+begin_src emacs-lisp :lexical t :tangle init.el
   ;;; init.el --- -*- lexical-binding: t -*-
 #+end_src
@@ -12,12 +15,12 @@ Add the =lisp/= directory to the =load-path= so we can load =basemacs-core=, mod
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 #+end_src
 
-Load the base config.
+Load the base config. This gives us =use-package= (along with some other handy packages) and some sane defaults to start with.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (require 'basemacs-core)
 #+end_src
 
-Set up the leader keys
+Set up the leader keys.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package emacs
     :init
@@ -876,7 +879,7 @@ Highlight whats being eval'ed
   (require 'kpav-lisp-core)
 #+end_src
 
-Use =clj-condo= and =flycheck=. This needs to be loaded before =clojure-mode=
+Use =clj-condo= and =flycheck=. This needs to be loaded before =clojure-mode= (note that =clj-kondo= needs to be installed on the local machine!)
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
   (use-package flycheck-clj-kondo
     :straight t)
@@ -904,7 +907,9 @@ Use LSP with all clojure-related modes.
   ;;   (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
 #+end_src
 
-Cider provides a Clojure REPL for Emacs.
+#+begin_quote
+CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
+#+end_quote
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
   (use-package cider
     :straight t
@@ -918,17 +923,28 @@ Cider provides a Clojure REPL for Emacs.
     (base-local-leader-def
       :states '(normal visual)
       :keymaps 'clojure-mode-map
+      "r" 'cider
+      "n" 'cider-repl-set-ns
+      ;; help
       "h" '(:ignore t :wk "help")
       "ha" 'cider-apropos
       "hh" 'cider-doc
       "hj" 'cider-javadoc
       "hn" 'cider-browse-ns
-      "r" 'cider
-      "n" 'cider-repl-set-ns
+      ;; eval
       "er" 'cider-eval-region
       "eb" 'cider-eval-buffer
       "ef" 'cider-eval-sexp-at-point
-      "el" 'cider-eval-last-sexp))
+      "el" 'cider-eval-last-sexp
+      "em" 'cider-macroexpand-1
+      "eM" 'cider-macroexpand-all
+      ;; goto
+      "g" '(:ignore t :wk "goto")
+      "gg" 'cider-find-dwim
+      "gn" 'cider-browse-ns
+      "gN" 'cider-browse-ns-all
+      "gs" 'cider-browse-spec
+      "gS" 'cider-browse-spec-all))
 #+end_src
 
 Refactoring functionality for Clojure.

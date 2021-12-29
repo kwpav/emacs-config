@@ -35,17 +35,28 @@
   (base-local-leader-def
     :states '(normal visual)
     :keymaps 'clojure-mode-map
+    "r" 'cider
+    "n" 'cider-repl-set-ns
+    ;; help
     "h" '(:ignore t :wk "help")
     "ha" 'cider-apropos
     "hh" 'cider-doc
     "hj" 'cider-javadoc
     "hn" 'cider-browse-ns
-    "r" 'cider
-    "n" 'cider-repl-set-ns
+    ;; eval
     "er" 'cider-eval-region
     "eb" 'cider-eval-buffer
     "ef" 'cider-eval-sexp-at-point
-    "el" 'cider-eval-last-sexp))
+    "el" 'cider-eval-last-sexp
+    "em" 'cider-macroexpand-1
+    "eM" 'cider-macroexpand-all
+    ;; goto
+    "g" '(:ignore t :wk "goto")
+    "gg" 'cider-find-dwim
+    "gn" 'cider-browse-ns
+    "gN" 'cider-browse-ns-all
+    "gs" 'cider-browse-spec
+    "gS" 'cider-browse-spec-all))
 
 (use-package clj-refactor
   :straight t
