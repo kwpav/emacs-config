@@ -1,19 +1,20 @@
 ;;; kpav-selectrum.el --- -*- lexical-binding: t -*-
 
-(use-package selectrum
+(use-package vertico
   :straight t
-  :demand t
-  :ghook
-  'after-init-hook)
+  :init
+  (vertico-mode +1))
 
 (use-package orderless
   :straight t
-  :custom
-  (completion-styles '(orderless))
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion))))
   ;; Optional performance optimization
   ;; by highlighting only the visible candidates.
-  (orderless-skip-highlighting (lambda () selectrum-is-active))
-  (selectrum-highlight-candidates-function #'orderless-highlight-matches)
+  ;; (setq orderless-skip-highlighting (lambda () selectrum-is-active))
+  ;; (setq selectrum-highlight-candidates-function #'orderless-highlight-matches)
   :config
   ;; Persist history over Emacs restarts
   (savehist-mode +1))

@@ -28,7 +28,7 @@
   :after clojure-mode
   :ghook
   ('cider-repl-mode-hook #'rainbow-delimiters-mode)
-  ('cider-connected-hook #'cider-upgrade-nrepl-connection)
+  ;; ('cider-connected-hook #'cider-upgrade-nrepl-connection)
   :custom
   (cider-inject-dependencies-at-jack-in t)
   :general

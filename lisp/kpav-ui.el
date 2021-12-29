@@ -48,7 +48,10 @@
   (doom-modeline-mode +1)
   :custom
   (doom-modeline-vcs-max-length 50)
-  (doom-modeline-buffer-file-name-style 'truncate-upto-project))
+  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-modal-icon t)
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-indent-info nil))
 
 (use-package rainbow-delimiters
   :straight t

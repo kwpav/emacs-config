@@ -3,13 +3,13 @@
 * About
 This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
 
-I try to go for an "Emacs first" approach (as opposed to the terminal), so this is meant to be used for Emacs GUI, though it is probably mostly fine in the terminal.
+I try to go for an "Emacs first" approach (as opposed to the terminal), so this is meant to be used for Emacs GUI, though it is probably mostly fine in the terminal. I have also only tested this on GNU/Linux and OSX.
 ** How it Works
-As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  All code here is tangled, it creates: =early-init.el=, =init.el=, and various "modules" in the =lisp/= directory.
+As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
 * Startup
 Let's get everything setup!
 #+begin_src emacs-lisp :lexical t :tangle init.el
-  ;;; init.el --- -*- lexical-binding: t -*-
+  ;;; init.el --- -*- lexical-binding: t no-byte-compile: t -*-
 #+end_src
 
 Add the =lisp/= directory to the =load-path= so we can load =basemacs-core=, modules, and any other custom lisp code.
@@ -210,7 +210,10 @@ You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the 
     (doom-modeline-mode +1)
     :custom
     (doom-modeline-vcs-max-length 50)
-    (doom-modeline-buffer-file-name-style 'truncate-upto-project))
+    (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+    (doom-modeline-modal-icon t)
+    (doom-modeline-buffer-encoding nil)
+    (doom-modeline-indent-info nil))
 #+end_src
 *** Rainbow Delimiters
 Add rainbow delimiters in all programming language modes
@@ -365,7 +368,14 @@ Prettify headings and lists with =org-superstar-mode=
   ;;; kpav-selectrum.el --- -*- lexical-binding: t -*-
 #+end_src
 Set up Selectrum and various packages that play well with it.
-*** Selectrum
+*** Vertico
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
+  (use-package vertico
+    :straight t
+    :init
+    (vertico-mode +1))
+#+end_src
+*** COMMENT Selectrum
 Selectrum is a narrowing/completion system similiar to Ivy.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
   (use-package selectrum
@@ -378,12 +388,14 @@ Selectrum is a narrowing/completion system similiar to Ivy.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-selectrum.el
   (use-package orderless
     :straight t
-    :custom
-    (completion-styles '(orderless))
+    :init
+    (setq completion-styles '(orderless)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion))))
     ;; Optional performance optimization
     ;; by highlighting only the visible candidates.
-    (orderless-skip-highlighting (lambda () selectrum-is-active))
-    (selectrum-highlight-candidates-function #'orderless-highlight-matches)
+    ;; (setq orderless-skip-highlighting (lambda () selectrum-is-active))
+    ;; (setq selectrum-highlight-candidates-function #'orderless-highlight-matches)
     :config
     ;; Persist history over Emacs restarts
     (savehist-mode +1))
@@ -932,7 +944,7 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
     :after clojure-mode
     :ghook
     ('cider-repl-mode-hook #'rainbow-delimiters-mode)
-    ('cider-connected-hook #'cider-upgrade-nrepl-connection)
+    ;; ('cider-connected-hook #'cider-upgrade-nrepl-connection)
     :custom
     (cider-inject-dependencies-at-jack-in t)
     :general

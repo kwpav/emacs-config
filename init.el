@@ -1,4 +1,4 @@
-;;; init.el --- -*- lexical-binding: t -*-
+;;; init.el --- -*- lexical-binding: t no-byte-compile: t -*-
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
