@@ -12,8 +12,8 @@
   (completion-styles '(orderless))
   ;; Optional performance optimization
   ;; by highlighting only the visible candidates.
-  ;; (orderless-skip-highlighting (lambda () selectrum-is-active))
-  ;; (selectrum-highlight-candidates-function #'orderless-highlight-matches)
+  (orderless-skip-highlighting (lambda () selectrum-is-active))
+  (selectrum-highlight-candidates-function #'orderless-highlight-matches)
   :config
   ;; Persist history over Emacs restarts
   (savehist-mode +1))

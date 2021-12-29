@@ -1,9 +1,11 @@
 #+TITLE: Emacs Config
 
 * About
-This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now. As with =basemacs=, (almost) all configuration is done with =use-package=.  All code here is tangled, it creates: =early-init.el=, =init.el=, and various "modules" in the =lisp/= directory.
+This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
 
 I try to go for an "Emacs first" approach (as opposed to the terminal), so this is meant to be used for Emacs GUI, though it is probably mostly fine in the terminal.
+** How it Works
+As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  All code here is tangled, it creates: =early-init.el=, =init.el=, and various "modules" in the =lisp/= directory.
 * Startup
 Let's get everything setup!
 #+begin_src emacs-lisp :lexical t :tangle init.el
@@ -59,10 +61,9 @@ All system specific configuration is done in =lisp/kpav-local.el=. This loads th
     (load kpav-local-file))
 #+end_src
 
-
 This approach requires a bit more code than having this file just tangle to =init.el=, but I like the ability to easily turn on/off things for tinkering and debugging purposes.
 * Emacs
-Things that modify Emacs stuff.
+Things that modify Emacs itself.
 ** Evil Mode
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-evil.el
   ;;; kpav-evil.el --- -*- lexical-binding: t -*-
@@ -381,8 +382,8 @@ Selectrum is a narrowing/completion system similiar to Ivy.
     (completion-styles '(orderless))
     ;; Optional performance optimization
     ;; by highlighting only the visible candidates.
-    ;; (orderless-skip-highlighting (lambda () selectrum-is-active))
-    ;; (selectrum-highlight-candidates-function #'orderless-highlight-matches)
+    (orderless-skip-highlighting (lambda () selectrum-is-active))
+    (selectrum-highlight-candidates-function #'orderless-highlight-matches)
     :config
     ;; Persist history over Emacs restarts
     (savehist-mode +1))
