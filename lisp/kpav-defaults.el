@@ -26,5 +26,10 @@
   (create-lockfiles nil)     ;; stop creating .# files
   (require-final-newline t)) ;; auto add newline at the end of file
 
+(use-package saveplace
+  :straight (:type built-in)
+  :config
+  (save-place-mode +1))
+
 (provide 'kpav-defaults)
 ;;; kpav-defaults.el ends here
