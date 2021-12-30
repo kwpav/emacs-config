@@ -5,11 +5,12 @@
 (require 'basemacs-core)
 
 (use-package emacs
-  :init
-  (defconst basemacs-leader "SPC")
-  (defconst basemacs-local-leader "SPC m"))
+  :custom
+  (basemacs-leader "SPC")
+  (basemacs-local-leader "SPC m"))
 
 ;; emacs
+(require 'kpav-defaults)
 (require 'kpav-system)
 (require 'kpav-evil)
 (require 'kpav-keys)
@@ -22,7 +23,7 @@
 (require 'kpav-git)
 (require 'kpav-vterm)
 ;; code
-(require 'kpav-lsp)
+(require 'kpav-code)
 (require 'kpav-php)
 (require 'kpav-elisp)
 (require 'kpav-clojure)

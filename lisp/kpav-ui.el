@@ -58,5 +58,15 @@
   :ghook
   ('prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package frame
+  :straight (:type built-in)
+  :config
+  (blink-cursor-mode -1))
+
+(use-package hl-line
+  :straight (:type built-in)
+  :config
+  (global-hl-line-mode +1))
+
 (provide 'kpav-ui)
 ;;; kpav-ui.el ends here

@@ -25,8 +25,15 @@
 (use-package general
   :straight t
   :demand t
-  ;; :init
-  ;; (defconst basemacs-leader "C-c")
+  :init
+  (defcustom basemacs-leader "C-c"
+    "Basemacs leader key"
+    :type 'key-sequence
+    :group 'basemacs)
+  (defcustom basemacs-local-leader "C-c C-m"
+    "Basemacs local leader key"
+    :type 'key-sequence
+    :group 'basemacs)
   :config
   ;; (general-create-definer base-leader-def
   ;;   :prefix basemacs-leader)
@@ -68,14 +75,6 @@
   (set-default-coding-systems 'utf-8)
   (set-language-environment "UTF-8"))
 
-(use-package files
-  :straight (:type built-in)
-  :custom
-  (make-backup-files nil)    ;; stop creating backup~ files
-  (auto-save-default nil)    ;; stop creating #autosave# files
-  (create-lockfiles nil)     ;; stop creating .# files
-  (require-final-newline t)) ;; auto add newline at the end of file
-
 (use-package simple
   :straight (:type built-in)
   :custom
@@ -90,11 +89,6 @@
   :config
   (global-so-long-mode +1))
 
-(use-package saveplace
-  :straight (:type built-in)
-  :config
-  (save-place-mode +1))
-
 (use-package cus-edit
   :straight (:type built-in)
   :custom
@@ -103,48 +97,10 @@
   (if (file-exists-p custom-file)
       (load-file custom-file)))
 
-(use-package emacs
-  :straight (:type built-in)
-  :custom
-  (inhibit-startup-screen t))
-
-(use-package frame
-  :straight (:type built-in)
-  :config
-  (blink-cursor-mode -1))
-
-(use-package hl-line
-  :straight (:type built-in)
-  :config
-  (global-hl-line-mode +1))
-
 (use-package display-line-numbers
   :straight (:type built-in)
   :ghook
   ('prog-mode-hook #'display-line-numbers-mode))
-
-(use-package elec-pair
-  :straight (:type built-in)
-  :ghook
-  ('prog-mode-hook #'electric-pair-mode)
-  ('org-mode-hook #'electric-pair-mode))
-
-(use-package paren
-  :straight (:type built-in)
-  :custom
-  (show-paren-delay 0)
-  :config
-  (show-paren-mode +1))
-
-(use-package company
-  :straight t
-  :config
-  (global-company-mode +1))
-
-(use-package flycheck
-  :straight t
-  :config
-  (global-flycheck-mode +1))
 
 (use-package yasnippet
   :straight t
