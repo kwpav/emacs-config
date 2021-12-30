@@ -102,19 +102,5 @@
   :ghook
   ('prog-mode-hook #'display-line-numbers-mode))
 
-(use-package yasnippet
-  :straight t
-  :preface
-  (defconst basemacs-snippets-dir (expand-file-name "snippets/" user-emacs-directory))
-  (make-directory basemacs-snippets-dir :parents)
-  :custom
-  (yas-snippet-dirs (list basemacs-snippets-dir))
-  :config
-  (yas-global-mode +1))
-
-(use-package yasnippet-snippets
-  :straight t
-  :after yasnippet)
-
 (provide 'basemacs-core)
 ;;; basemacs-core.el ends here

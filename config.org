@@ -25,6 +25,7 @@ Load the base config. This gives us =use-package= (along with some other handy p
 Set up the leader keys.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package emacs
+    :straight (:type built-in)
     :custom
     (basemacs-leader "SPC")
     (basemacs-local-leader "SPC m"))
@@ -867,12 +868,12 @@ Open multiple vterms. Evil configuration from it's README.
   ;;; kpav-vterm.el ends here
 #+end_src
 * Code
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
-  ;;; kpav-code.el --- -*- lexical-binding: t -*-
-#+end_src
 Things that modify coding stuff (mostly programming langs and LSP).
 ** General
 Things that can be used across all languages.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
+  ;;; kpav-code.el --- -*- lexical-binding: t -*-
+#+end_src
 
 *** Code Completion
 #+begin_quote
@@ -900,11 +901,31 @@ Flycheck works out of the box for just about everything and is integrated with l
     :config
     (global-flycheck-mode +1))
 #+end_src
-*** LSP
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
-  ;;; kpav-code.el --- -*- lexical-binding: t -*-
-#+end_src
+*** Snippets
+#+begin_quote
+YA Snippet is a template system for Emacs.
+#+end_quote
 
+Set the snippets directory to be in this folder, automatically create it if it does not exist.
+#+BEGIN_SRC emacs-lisp :tangle lisp/kpav-code.el
+  (use-package yasnippet
+    :straight t
+    :preface
+    (defconst basemacs-snippets-dir (expand-file-name "snippets/" user-emacs-directory))
+    (make-directory basemacs-snippets-dir :parents)
+    :custom
+    (yas-snippet-dirs (list basemacs-snippets-dir))
+    :config
+    (yas-global-mode +1))
+#+END_SRC
+
+Install the official snippet collection, this contains snippets for several programming languages.
+#+BEGIN_SRC emacs-lisp :tangle lisp/kpav-code.el
+  (use-package yasnippet-snippets
+    :straight t
+    :after yasnippet)
+#+END_SRC
+*** LSP
 Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses this calls =lsp= in the language mode's =:hook= / =:ghook=
 
 #+BEGIN_QUOTE

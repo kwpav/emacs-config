@@ -10,7 +10,19 @@
   :config
   (global-flycheck-mode +1))
 
-;;; kpav-code.el --- -*- lexical-binding: t -*-
+(use-package yasnippet
+  :straight t
+  :preface
+  (defconst basemacs-snippets-dir (expand-file-name "snippets/" user-emacs-directory))
+  (make-directory basemacs-snippets-dir :parents)
+  :custom
+  (yas-snippet-dirs (list basemacs-snippets-dir))
+  :config
+  (yas-global-mode +1))
+
+(use-package yasnippet-snippets
+  :straight t
+  :after yasnippet)
 
 (use-package lsp-mode
   :straight t
