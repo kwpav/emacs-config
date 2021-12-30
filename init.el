@@ -15,7 +15,7 @@
 (require 'kpav-system)
 (require 'kpav-evil)
 (require 'kpav-keys)
-(require 'kpav-selectrum)
+(require 'kpav-narrowing)
 (require 'kpav-org)
 (require 'kpav-ui)
 (require 'kpav-windows-and-buffers)

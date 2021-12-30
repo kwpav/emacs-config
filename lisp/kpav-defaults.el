@@ -38,7 +38,7 @@
                 indicate-empty-lines t
                 indicate-buffer-boundaries 'left))
 
-(use-package paragraphs
+(use-package emacs
   :straight (:type built-in)
   :config
   (setq sentence-end-double-space nil))
