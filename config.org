@@ -121,6 +121,34 @@ When you visit a file, point goes to the last place where it was when you previo
     (save-place-mode +1))
 #+end_src
 
+*** Whitespace
+Settings that show whitespace and newlines.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
+  (use-package emacs
+    :straight (:type built-in)
+    :config
+    (setq-default show-trailing-whitespace t
+                  indicate-empty-lines t
+                  indicate-buffer-boundaries 'left))
+#+end_src
+
+Periods should be followed by a single space, not double spaces
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
+  (use-package paragraphs
+    :straight (:type built-in)
+    :config
+    (setq sentence-end-double-space nil))
+#+end_src
+
+Use spaces for indentation, not tabs. Set the width to 4 instead of the default of 8.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
+  (use-package emacs
+    :straight (:type built-in)
+    :config
+    (setq-default indent-tabs-mode nil
+                  tab-width 4))
+#+end_src
+
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
   (provide 'kpav-defaults)

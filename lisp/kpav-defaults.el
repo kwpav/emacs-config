@@ -31,5 +31,23 @@
   :config
   (save-place-mode +1))
 
+(use-package emacs
+  :straight (:type built-in)
+  :config
+  (setq-default show-trailing-whitespace t
+                indicate-empty-lines t
+                indicate-buffer-boundaries 'left))
+
+(use-package paragraphs
+  :straight (:type built-in)
+  :config
+  (setq sentence-end-double-space nil))
+
+(use-package emacs
+  :straight (:type built-in)
+  :config
+  (setq-default indent-tabs-mode nil
+                tab-width 4))
+
 (provide 'kpav-defaults)
 ;;; kpav-defaults.el ends here
