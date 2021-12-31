@@ -21,12 +21,12 @@
 
 (use-package treemacs-magit
   :straight t
-  :after (treemacs))
+  :after (treemacs magit))
 
 (use-package envrc
   :straight t
   :config
-  (envrc-global-mode))
+  (envrc-global-mode +1))
 
 (provide 'kpav-project)
 ;;; kpav-project.el ends here

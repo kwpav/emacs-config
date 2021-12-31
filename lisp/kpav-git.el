@@ -15,9 +15,9 @@
     "gS" 'magit-stage-file
     "gU" 'magit-unstage-file
     "gg" 'hydra-my-git-menu/body
-    "gy" 'my/magit-yank-branch-name)
+    "gy" 'kpav/magit-yank-branch-name)
   :config
-  (defun my/magit-yank-branch-name ()
+  (defun kpav/magit-yank-branch-name ()
     "Show the current branch in the echo-area and add it to the `kill-ring'."
     (interactive)
     (let ((branch (magit-get-current-branch)))

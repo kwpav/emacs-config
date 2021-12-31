@@ -22,8 +22,9 @@
         modus-themes-syntax '(faint alt-syntax)
         modus-themes-paren-match '(bold intense underline)
         modus-themes-region '(accented bg-only no-extend)
+        modus-themes-mode-line '(4 borderless)
         ;; org specific settings
-        modus-themes-org-blocks 'grayscale
+        modus-themes-org-blocks 'gray-background
         modus-themes-headings '((t . rainbow))
         modus-themes-scale-headings t)
   (modus-themes-load-themes)
