@@ -35,21 +35,44 @@
   (base-local-leader-def
     :states '(normal visual)
     :keymaps 'clojure-mode-map
-    "r" 'cider
-    "n" 'cider-repl-set-ns
+    "r" '(:ignore t :wk "repl")
+    "rr" 'cider
+    "rR" 'cider-restart
+    "rn" 'cider-repl-set-ns
+    "rb" 'cider-switch-to-repl-buffer
+    "rc" 'cider-find-and-clear-repl-output
+    "rl" 'cider-load-buffer
+    "rq" 'cider-quit
+    ;; eval
+    "eD" 'cider-insert-defun-in-repl
+    "eE" 'cider-insert-last-sexp-in-repl
+    "eR" 'cider-insert-region-in-repl
+    "eb" 'cider-eval-buffer
+    "ed" 'cider-eval-dfun-at-point
+    "ee" 'cider-eval-last-sexp
+    "er" 'cider-eval-region
+    "eu" 'cider-undef
+    "em" 'cider-macroexpand-1
+    "eM" 'cider-macroexpand-all
     ;; help
     "h" '(:ignore t :wk "help")
     "ha" 'cider-apropos
     "hh" 'cider-doc
     "hj" 'cider-javadoc
     "hn" 'cider-browse-ns
-    ;; eval
-    "er" 'cider-eval-region
-    "eb" 'cider-eval-buffer
-    "ef" 'cider-eval-sexp-at-point
-    "el" 'cider-eval-last-sexp
-    "em" 'cider-macroexpand-1
-    "eM" 'cider-macroexpand-all
+    "hN" 'cider-browse-ns-all
+    "hs" 'cider-browse-spec
+    "hS" 'cider-browse-spec-all
+    ;; inspect
+    "i" '(:ignore t :wk "inspect")
+    "ii" 'cider-inspect
+    "ie" 'cider-enlighten-mode
+    "ir" 'cider-inspect-last-result
+    ;; pprint
+    "p" '(:ignore t :wk "pprint")
+    "pd" 'cider-pprint-eval-defun-at-point
+    "pD" 'cider-pprint-eval-defun-to-comment
+    "pD" 'cider-pprint-eval-last-sexp-to-repl
     ;; format
     "f" '(:ignore t :wk "format")
     "fr" 'cider-format-region
@@ -57,11 +80,9 @@
     "ff" 'cider-format-defun
     ;; goto
     "g" '(:ignore t :wk "goto")
-    "gg" 'cider-find-dwim
-    "gn" 'cider-browse-ns
+    "gg" 'cider-find-var
+    "gn" 'cider-find-ns
     "gN" 'cider-browse-ns-all
-    "gs" 'cider-browse-spec
-    "gS" 'cider-browse-spec-all
     "d" '(:ignore t :wk "debug")
     "dr" 'cider-ns-reload
     "dR" 'cider-ns-reload-all
@@ -75,7 +96,12 @@
                         (clj-refactor-mode +1)
                         (yas-minor-mode +1) ; for adding require/use/import statements
                         ;; Leaves cider-macroexpand-1 unbound
-                        (cljr-add-keybindings-with-prefix "C-c C-m"))))
+                        (cljr-add-keybindings-with-prefix "C-c C-m")))
+  :general
+  (base-local-leader-def
+    :states '(normal visual)
+    :keymaps 'clojure-mode-map
+    "R" 'hydra-cljr-help-menu/body))
 
 (use-package cider-eval-sexp-fu
   :straight t)

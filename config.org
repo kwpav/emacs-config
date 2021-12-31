@@ -53,6 +53,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-clojure)
   (require 'kpav-common-lisp)
   (require 'kpav-js)
+  (require 'kpav-c)
 #+end_src
 
 All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
@@ -85,9 +86,8 @@ Insert matching pairs for things like parens, brackets, quotes, etc. Use it in p
 #+begin_src emacs-lisp :tangle lisp/kpav-defaults.el
   (use-package elec-pair
     :straight (:type built-in)
-    :ghook
-    ('prog-mode-hook #'electric-pair-mode)
-    ('org-mode-hook #'electric-pair-mode))
+    :gfhook
+    ('(prog-mode-hook org-mode-hook) #'electric-pair-mode))
 #+end_src
 
 Highlight paren when the cursor is over its matching pair. Also reduce the delay of it to =0= so it will be instant.
@@ -125,10 +125,11 @@ Show whitespace and newlines.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
   (use-package emacs
     :straight (:type built-in)
-    :config
-    (setq-default show-trailing-whitespace t
-                  indicate-empty-lines t
-                  indicate-buffer-boundaries 'left))
+    :gfhook
+    ('(prog-mode-hook org-mode-hook)
+     (lambda ()
+       (setq show-trailing-whitespace t
+             indicate-buffer-boundaries 'left))))
 #+end_src
 
 Periods should be followed by a single space, not double spaces
@@ -146,6 +147,20 @@ Use spaces for indentation, not tabs. Set the width to 4 instead of the default 
     :config
     (setq-default indent-tabs-mode nil
                   tab-width 4))
+#+end_src
+
+*** Auto Saving
+#+begin_quote
+super-save auto-saves your buffers, when certain events happen - e.g. you switch between buffers, an Emacs frame loses focus, etc.
+#+end_quote
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
+  (use-package super-save
+    :straight t
+    :init
+    :config
+    (add-to-list 'super-save-triggers 'ace-window)
+    (super-save-mode +1))
 #+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
@@ -227,7 +242,7 @@ Press any two keys for keybinds.
   ;;; kpav-ui.el --- -*- lexical-binding: t -*-
 #+end_src
 *** Fonts
-Set up fonts, this is mainly for use in =variable-pitch-mode=.
+Set up fonts, This sets up the =default= typeface, and the ones to be used in [[*Variable Pitch][variable-pitch-mode,]] =variable-pitch= and =fixed-pitch=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package faces
     :straight (:type built-in)
@@ -273,7 +288,7 @@ Turn =variable-pitch-mode= on for =org-mode=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package face-remap
     :straight (:type built-in)
-    :ghook
+    :gfhook
     ('org-mode-hook #'variable-pitch-mode))
 #+end_src
 *** Modeline
@@ -509,6 +524,17 @@ Set up Vertico and various packages that play well with it.
 
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t))
+#+end_src
+*** Vertico Posframe
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
+  (use-package vertico-posframe
+    :straight t
+    :init
+    (vertico-posframe-mode +1)
+    :config
+    (setq vertico-posframe-parameters
+          '((left-fringe . 16)
+            (right-fringe . 16))))
 #+end_src
 *** Orderless
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
@@ -757,9 +783,9 @@ Add and configure some additional tools.
       "gS" 'magit-stage-file
       "gU" 'magit-unstage-file
       "gg" 'hydra-my-git-menu/body
-      "gy" 'my/magit-yank-branch-name)
+      "gy" 'kpav/magit-yank-branch-name)
     :config
-    (defun my/magit-yank-branch-name ()
+    (defun kpav/magit-yank-branch-name ()
       "Show the current branch in the echo-area and add it to the `kill-ring'."
       (interactive)
       (let ((branch (magit-get-current-branch)))
@@ -1133,21 +1159,44 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
     (base-local-leader-def
       :states '(normal visual)
       :keymaps 'clojure-mode-map
-      "r" 'cider
-      "n" 'cider-repl-set-ns
+      "r" '(:ignore t :wk "repl")
+      "rr" 'cider
+      "rR" 'cider-restart
+      "rn" 'cider-repl-set-ns
+      "rb" 'cider-switch-to-repl-buffer
+      "rc" 'cider-find-and-clear-repl-output
+      "rl" 'cider-load-buffer
+      "rq" 'cider-quit
+      ;; eval
+      "eD" 'cider-insert-defun-in-repl
+      "eE" 'cider-insert-last-sexp-in-repl
+      "eR" 'cider-insert-region-in-repl
+      "eb" 'cider-eval-buffer
+      "ed" 'cider-eval-dfun-at-point
+      "ee" 'cider-eval-last-sexp
+      "er" 'cider-eval-region
+      "eu" 'cider-undef
+      "em" 'cider-macroexpand-1
+      "eM" 'cider-macroexpand-all
       ;; help
       "h" '(:ignore t :wk "help")
       "ha" 'cider-apropos
       "hh" 'cider-doc
       "hj" 'cider-javadoc
       "hn" 'cider-browse-ns
-      ;; eval
-      "er" 'cider-eval-region
-      "eb" 'cider-eval-buffer
-      "ef" 'cider-eval-sexp-at-point
-      "el" 'cider-eval-last-sexp
-      "em" 'cider-macroexpand-1
-      "eM" 'cider-macroexpand-all
+      "hN" 'cider-browse-ns-all
+      "hs" 'cider-browse-spec
+      "hS" 'cider-browse-spec-all
+      ;; inspect
+      "i" '(:ignore t :wk "inspect")
+      "ii" 'cider-inspect
+      "ie" 'cider-enlighten-mode
+      "ir" 'cider-inspect-last-result
+      ;; pprint
+      "p" '(:ignore t :wk "pprint")
+      "pd" 'cider-pprint-eval-defun-at-point
+      "pD" 'cider-pprint-eval-defun-to-comment
+      "pD" 'cider-pprint-eval-last-sexp-to-repl
       ;; format
       "f" '(:ignore t :wk "format")
       "fr" 'cider-format-region
@@ -1155,11 +1204,9 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
       "ff" 'cider-format-defun
       ;; goto
       "g" '(:ignore t :wk "goto")
-      "gg" 'cider-find-dwim
-      "gn" 'cider-browse-ns
+      "gg" 'cider-find-var
+      "gn" 'cider-find-ns
       "gN" 'cider-browse-ns-all
-      "gs" 'cider-browse-spec
-      "gS" 'cider-browse-spec-all
       "d" '(:ignore t :wk "debug")
       "dr" 'cider-ns-reload
       "dR" 'cider-ns-reload-all
@@ -1176,7 +1223,12 @@ Refactoring functionality for Clojure.
                           (clj-refactor-mode +1)
                           (yas-minor-mode +1) ; for adding require/use/import statements
                           ;; Leaves cider-macroexpand-1 unbound
-                          (cljr-add-keybindings-with-prefix "C-c C-m"))))
+                          (cljr-add-keybindings-with-prefix "C-c C-m")))
+    :general
+    (base-local-leader-def
+      :states '(normal visual)
+      :keymaps 'clojure-mode-map
+      "R" 'hydra-cljr-help-menu/body))
 #+end_src
 
 Highlight what's being eval'ed
@@ -1352,6 +1404,28 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
   (provide 'kpav-js)
   ;;; kpav-js.el ends here
 #+end_src
+*** C / C++
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-c.el
+  ;;; kpav-c.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Set up the =ccls= language server
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-c.el
+  (use-package ccls
+    :straight t
+    :hook ((c-mode c++-mode objc-mode cuda-mode) .
+           (lambda () (require 'ccls) (lsp)))
+    :config
+    (setq ccls-executable "/usr/bin/ccls")
+    ;; use flycheck instead of flymake
+    (setq lsp-prefer-flymake nil)
+    (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc)))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-c.el
+  (provide 'kpav-c)
+  ;;; kpav-c.el ends here
+#+end_src
 * EOF
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (provide 'init)
@@ -1380,6 +1454,6 @@ make note in dotfiles/ repo about it
 ** DONE Git keys
 ** TODO Look into TabNine / company-tabnine
 AI completion engine?
-** TODO Remove org from =basemacs-core= OR set :straight t
+** DONE Remove org from =basemacs-core= OR set :straight t
 conflicts with other org customization
-** TODO Remove magit from =basemacs-core=?
+** DONE Remove magit from =basemacs-core=?

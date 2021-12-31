@@ -34,6 +34,15 @@
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
 
+(use-package vertico-posframe
+  :straight t
+  :init
+  (vertico-posframe-mode +1)
+  :config
+  (setq vertico-posframe-parameters
+        '((left-fringe . 16)
+          (right-fringe . 16))))
+
 (use-package orderless
   :straight t
   :init

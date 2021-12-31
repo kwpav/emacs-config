@@ -26,17 +26,11 @@
   :straight t
   :demand t
   :init
-  (defcustom basemacs-leader "C-c"
-    "Basemacs leader key"
-    :type 'key-sequence
-    :group 'basemacs)
-  (defcustom basemacs-local-leader "C-c C-m"
-    "Basemacs local leader key"
-    :type 'key-sequence
-    :group 'basemacs)
+  (defvar basemacs-leader "C-c"
+    "Basemacs leader key")
+  (defvar basemacs-local-leader "C-c C-m"
+    "Basemacs local leader key")
   :config
-  ;; (general-create-definer base-leader-def
-  ;;   :prefix basemacs-leader)
   (general-evil-setup)
   (general-create-definer base-leader-def
     :prefix basemacs-leader)

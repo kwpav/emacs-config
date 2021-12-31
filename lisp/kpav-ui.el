@@ -32,7 +32,7 @@
 
 (use-package face-remap
   :straight (:type built-in)
-  :ghook
+  :gfhook
   ('org-mode-hook #'variable-pitch-mode))
 
 (use-package all-the-icons

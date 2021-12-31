@@ -30,6 +30,7 @@
 (require 'kpav-clojure)
 (require 'kpav-common-lisp)
 (require 'kpav-js)
+(require 'kpav-c)
 
 (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 

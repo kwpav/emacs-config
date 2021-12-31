@@ -7,9 +7,8 @@
 
 (use-package elec-pair
   :straight (:type built-in)
-  :ghook
-  ('prog-mode-hook #'electric-pair-mode)
-  ('org-mode-hook #'electric-pair-mode))
+  :gfhook
+  ('(prog-mode-hook org-mode-hook) #'electric-pair-mode))
 
 (use-package paren
   :straight (:type built-in)
@@ -33,10 +32,11 @@
 
 (use-package emacs
   :straight (:type built-in)
-  :config
-  (setq-default show-trailing-whitespace t
-                indicate-empty-lines t
-                indicate-buffer-boundaries 'left))
+  :gfhook
+  ('(prog-mode-hook org-mode-hook)
+   (lambda ()
+     (setq show-trailing-whitespace t
+           indicate-buffer-boundaries 'left))))
 
 (use-package emacs
   :straight (:type built-in)
@@ -48,6 +48,13 @@
   :config
   (setq-default indent-tabs-mode nil
                 tab-width 4))
+
+(use-package super-save
+  :straight t
+  :init
+  :config
+  (add-to-list 'super-save-triggers 'ace-window)
+  (super-save-mode +1))
 
 (provide 'kpav-defaults)
 ;;; kpav-defaults.el ends here
