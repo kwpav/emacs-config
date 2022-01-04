@@ -7,6 +7,7 @@
    :states 'normal
    "p" '(:ignore t :wk "projects")
    "pf" 'project-find-file
+   "pb" 'project-switch-to-buffer
    "pg" 'consult-ripgrep
    "pG" 'consult-git-grep))
 

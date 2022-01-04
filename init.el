@@ -11,26 +11,26 @@
   (basemacs-local-leader "SPC m"))
 
 ;; emacs
-(require 'kpav-defaults)
-(require 'kpav-system)
-(require 'kpav-evil)
-(require 'kpav-keys)
-(require 'kpav-narrowing)
-(require 'kpav-org)
-(require 'kpav-ui)
-(require 'kpav-windows-and-buffers)
+(use-package kpav-defaults)
+(use-package kpav-system)
+(use-package kpav-evil)
+(use-package kpav-keys)
+(use-package kpav-narrowing)
+(use-package kpav-org)
+(use-package kpav-ui)
+(use-package kpav-windows-and-buffers)
 ;; tools
-(require 'kpav-project)
-(require 'kpav-git)
-(require 'kpav-vterm)
+(use-package kpav-project)
+(use-package kpav-git)
+(use-package kpav-vterm)
 ;; code
-(require 'kpav-code)
-(require 'kpav-php)
-(require 'kpav-elisp)
-(require 'kpav-clojure)
-(require 'kpav-common-lisp)
-(require 'kpav-js)
-(require 'kpav-c)
+(use-package kpav-code)
+(use-package kpav-php)
+(use-package kpav-elisp)
+(use-package kpav-clojure)
+(use-package kpav-common-lisp)
+(use-package kpav-js)
+(use-package kpav-c)
 
 (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 
@@ -46,6 +46,13 @@
   :straight (:type built-in)
   :init
   (setq native-comp-async-report-warnings-errors nil))
+
+(defun kpav/minor-modes ()
+  (interactive)
+  (completing-read
+   "Minor modes: "
+   local-minor-modes
+   nil t))
 
 (provide 'init)
 ;;; init.el ends here

@@ -34,26 +34,26 @@ Set up the leader keys.
 Here is where the magic happens. Let's load some modules!
 #+begin_src emacs-lisp :lexical t :tangle init.el
   ;; emacs
-  (require 'kpav-defaults)
-  (require 'kpav-system)
-  (require 'kpav-evil)
-  (require 'kpav-keys)
-  (require 'kpav-narrowing)
-  (require 'kpav-org)
-  (require 'kpav-ui)
-  (require 'kpav-windows-and-buffers)
+  (use-package kpav-defaults)
+  (use-package kpav-system)
+  (use-package kpav-evil)
+  (use-package kpav-keys)
+  (use-package kpav-narrowing)
+  (use-package kpav-org)
+  (use-package kpav-ui)
+  (use-package kpav-windows-and-buffers)
   ;; tools
-  (require 'kpav-project)
-  (require 'kpav-git)
-  (require 'kpav-vterm)
+  (use-package kpav-project)
+  (use-package kpav-git)
+  (use-package kpav-vterm)
   ;; code
-  (require 'kpav-code)
-  (require 'kpav-php)
-  (require 'kpav-elisp)
-  (require 'kpav-clojure)
-  (require 'kpav-common-lisp)
-  (require 'kpav-js)
-  (require 'kpav-c)
+  (use-package kpav-code)
+  (use-package kpav-php)
+  (use-package kpav-elisp)
+  (use-package kpav-clojure)
+  (use-package kpav-common-lisp)
+  (use-package kpav-js)
+  (use-package kpav-c)
 #+end_src
 
 All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
@@ -272,7 +272,7 @@ Modus themes are readable, clean looking, and super customizable. It also works 
           modus-themes-subtle-line-numbers t
           modus-themes-syntax '(faint alt-syntax)
           modus-themes-paren-match '(bold intense underline)
-          modus-themes-region '(accented bg-only no-extend)
+          modus-themes-region '(accented no-extend)
           modus-themes-mode-line '(4 borderless)
           ;; org specific settings
           modus-themes-org-blocks 'gray-background
@@ -489,11 +489,32 @@ Prettify headings and lists with =org-superstar-mode=
 #+end_src
 Set up Vertico and various packages that play well with it.
 *** Vertico
+Vertico comes with several extensions in an =extensions/= folder. These don't get automatically loaded with =:straight t=, so it needs a custom recipe.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package vertico
-    :straight t
+    :straight (vertico :files (:defaults "extensions/*")
+                       :includes (vertico-buffer
+                                  vertico-directory
+                                  vertico-flat
+                                  vertico-indexed
+                                  vertico-mouse
+                                  vertico-quick
+                                  vertico-repeat
+                                  vertico-reverse))
     :init
     (vertico-mode +1))
+#+end_src
+
+Display vertico as a separate frame on the bottom, instead of the minibuffer.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
+  (use-package vertico-buffer
+    :straight nil
+    :after vertico
+    :custom
+    (vertico-buffer-display-action '(display-buffer-at-bottom
+                                     (window-height . ,(+ 3 vertico-count))))
+    :init
+    (vertico-buffer-mode +1))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
@@ -525,17 +546,6 @@ Set up Vertico and various packages that play well with it.
 
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t))
-#+end_src
-*** Vertico Posframe
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
-  (use-package vertico-posframe
-    :straight t
-    :init
-    (vertico-posframe-mode +1)
-    :config
-    (setq vertico-posframe-parameters
-          '((left-fringe . 16)
-            (right-fringe . 16))))
 #+end_src
 *** Orderless
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
@@ -761,6 +771,16 @@ Stop warnings buffer from automatically coming up. (Emacs 28)
     :init
     (setq native-comp-async-report-warnings-errors nil))
 #+end_src
+
+Get list of minor modes in current buffer
+#+begin_src emacs-lisp :lexical t :tangle init.el
+  (defun kpav/minor-modes ()
+    (interactive)
+    (completing-read
+     "Minor modes: "
+     local-minor-modes
+     nil t))
+#+end_src
 * Tools
 Add and configure some additional tools.
 ** Git
@@ -831,6 +851,7 @@ Built in project interaction.
      :states 'normal
      "p" '(:ignore t :wk "projects")
      "pf" 'project-find-file
+     "pb" 'project-switch-to-buffer
      "pg" 'consult-ripgrep
      "pG" 'consult-git-grep))
 #+end_src

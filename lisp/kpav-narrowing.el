@@ -1,9 +1,26 @@
 ;;; kpav-narrowing.el --- -*- lexical-binding: t -*-
 
 (use-package vertico
-  :straight t
+  :straight (vertico :files (:defaults "extensions/*")
+                     :includes (vertico-buffer
+                                vertico-directory
+                                vertico-flat
+                                vertico-indexed
+                                vertico-mouse
+                                vertico-quick
+                                vertico-repeat
+                                vertico-reverse))
   :init
   (vertico-mode +1))
+
+(use-package vertico-buffer
+  :straight nil
+  :after vertico
+  :custom
+  (vertico-buffer-display-action '(display-buffer-at-bottom
+                                   (window-height . ,(+ 3 vertico-count))))
+  :init
+  (vertico-buffer-mode +1))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -33,15 +50,6 @@
 
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
-
-(use-package vertico-posframe
-  :straight t
-  :init
-  (vertico-posframe-mode +1)
-  :config
-  (setq vertico-posframe-parameters
-        '((left-fringe . 16)
-          (right-fringe . 16))))
 
 (use-package orderless
   :straight t

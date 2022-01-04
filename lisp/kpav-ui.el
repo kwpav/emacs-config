@@ -21,7 +21,7 @@
         modus-themes-subtle-line-numbers t
         modus-themes-syntax '(faint alt-syntax)
         modus-themes-paren-match '(bold intense underline)
-        modus-themes-region '(accented bg-only no-extend)
+        modus-themes-region '(accented no-extend)
         modus-themes-mode-line '(4 borderless)
         ;; org specific settings
         modus-themes-org-blocks 'gray-background
