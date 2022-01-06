@@ -143,12 +143,13 @@
         xref-show-definitions-function #'consult-xref)
   :config
   ;; projectile
-  ;; (setq consult-project-root-function #'projectile-project-root)
+  (setq consult-project-root-function #'projectile-project-root)
   ;; project.el
-  (setq consult-project-root-function
-        (lambda ()
-          (when-let (project (project-current))
-            (car (project-roots project))))))
+  ;; (setq consult-project-root-function
+  ;;       (lambda ()
+  ;;         (when-let (project (project-current))
+  ;;           (car (project-roots project)))))
+  )
 
 (use-package embark
   :straight t

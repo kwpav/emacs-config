@@ -659,12 +659,13 @@ Keys copied from projects README.
           xref-show-definitions-function #'consult-xref)
     :config
     ;; projectile
-    ;; (setq consult-project-root-function #'projectile-project-root)
+    (setq consult-project-root-function #'projectile-project-root)
     ;; project.el
-    (setq consult-project-root-function
-          (lambda ()
-            (when-let (project (project-current))
-              (car (project-roots project))))))
+    ;; (setq consult-project-root-function
+    ;;       (lambda ()
+    ;;         (when-let (project (project-current))
+    ;;           (car (project-roots project)))))
+    )
 #+end_src
 *** Embark
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
@@ -840,7 +841,7 @@ Go through commit history on a file.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   ;;; kpav-project.el --- -*- lexical-binding: t -*-
 #+end_src
-*** project.el
+*** COMMENT project.el
 Built in project interaction.
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
@@ -855,7 +856,7 @@ Built in project interaction.
      "pg" 'consult-ripgrep
      "pG" 'consult-git-grep))
 #+end_src
-*** COMMENT Projectile
+*** Projectile
 Projectile provides some nice ways of interacting with projects.
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el

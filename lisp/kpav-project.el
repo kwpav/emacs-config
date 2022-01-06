@@ -1,15 +1,20 @@
 ;;; kpav-project.el --- -*- lexical-binding: t -*-
 
-(use-package project
-  :straight (:type built-in)
+(use-package projectile
+  :straight t
+  :init
+  (use-package ripgrep :straight t)
   :general
   (base-leader-def
    :states 'normal
    "p" '(:ignore t :wk "projects")
-   "pf" 'project-find-file
-   "pb" 'project-switch-to-buffer
-   "pg" 'consult-ripgrep
-   "pG" 'consult-git-grep))
+   "pf" 'projectile-find-file
+   "pd" 'projectile-find-dir
+   "pb" 'projectile-switch-to-buffer
+   "pp" 'projectile-switch-project
+   "pg" 'projectile-ripgrep)
+  :config
+  (projectile-mode +1))
 
 (use-package treemacs
   :straight t
