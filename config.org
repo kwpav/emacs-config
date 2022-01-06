@@ -1,4 +1,5 @@
 #+TITLE: Emacs Config
+#+DESCRIPTION: My personal Emacs configuration.
 
 * About
 This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
@@ -494,12 +495,12 @@ Capture Templates
     (base-leader-def
       :states 'normal
       "C" 'org-capture)
-    :config
-    (setq org-capture-templates
-          '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
-             "* TODO %?\n %i\n %a")
-            ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
-             "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
+    :custom
+    (org-capture-templates
+     '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
+        "* TODO %?\n %i\n %^{LINK}p")
+       ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
+        "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
 #+end_src
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (provide 'kpav-org)
@@ -852,7 +853,11 @@ Go through commit history on a file.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   (use-package git-timemachine
     :straight t
-    :defer t)
+    :defer t
+    :general
+    (base-leader-def
+      :states 'normal
+      "gt" 'git-timemachine))
 #+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el

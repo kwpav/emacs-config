@@ -43,12 +43,12 @@
   (base-leader-def
     :states 'normal
     "C" 'org-capture)
-  :config
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
-           "* TODO %?\n %i\n %a")
-          ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
-           "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
+  :custom
+  (org-capture-templates
+   '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
+      "* TODO %?\n %i\n %^{LINK}p")
+     ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
+      "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
 
 (provide 'kpav-org)
 ;;; kpav-org.el ends here

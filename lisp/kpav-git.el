@@ -34,7 +34,11 @@
 
 (use-package git-timemachine
   :straight t
-  :defer t)
+  :defer t
+  :general
+  (base-leader-def
+    :states 'normal
+    "gt" 'git-timemachine))
 
 (provide 'kpav-git)
 ;;; kpav-git.el ends here
