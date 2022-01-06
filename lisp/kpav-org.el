@@ -23,7 +23,11 @@
   :init
   (setq org-startup-indented t)
   :custom
-  (org-agenda-files (list "~/org/agenda/")))
+  (org-agenda-files (list "~/org/agenda/"))
+  (org-use-fast-todo-selection t)
+  (org-todo-keywords
+   '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
+     (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)"))))
 
 (use-package org-contrib
   :straight t)
@@ -32,6 +36,19 @@
   :straight t
   :ghook
   ('org-mode-hook (lambda () (org-superstar-mode +1))))
+
+(use-package org-capture
+  :straight nil
+  :general
+  (base-leader-def
+    :states 'normal
+    "C" 'org-capture)
+  :config
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
+           "* TODO %?\n %i\n %a")
+          ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
+           "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
 
 (provide 'kpav-org)
 ;;; kpav-org.el ends here

@@ -437,6 +437,9 @@ Eyebrowse provides a way to manage workspaces like tiling window managers.
 - Use evil way of closing and quitting (=:q= =:x=) when editing code in org mode
 - Define some keys
 - Disable the checkdock check because most of my elisp code is in snippets in this config
+- =org-use-fast-todo-selection=
+  - Change the status of the todo state by pressing ~C-c C-c t <KEY>~
+  - the =<KEY>= is the the letter in the parens after the state (e.g. =TODO(t)=)
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (use-package org
@@ -462,7 +465,11 @@ Eyebrowse provides a way to manage workspaces like tiling window managers.
     :init
     (setq org-startup-indented t)
     :custom
-    (org-agenda-files (list "~/org/agenda/")))
+    (org-agenda-files (list "~/org/agenda/"))
+    (org-use-fast-todo-selection t)
+    (org-todo-keywords
+     '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
+       (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)"))))
 #+end_src
 
 Install =org-contrib=
@@ -478,7 +485,22 @@ Prettify headings and lists with =org-superstar-mode=
     :ghook
     ('org-mode-hook (lambda () (org-superstar-mode +1))))
 #+end_src
-*** EOF
+
+Capture Templates
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org-capture
+    :straight nil
+    :general
+    (base-leader-def
+      :states 'normal
+      "C" 'org-capture)
+    :config
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
+             "* TODO %?\n %i\n %a")
+            ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
+             "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
+#+end_src
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (provide 'kpav-org)
   ;;; kpav-org.el ends here
