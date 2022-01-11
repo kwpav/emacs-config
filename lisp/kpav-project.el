@@ -1,5 +1,14 @@
 ;;; kpav-project.el --- -*- lexical-binding: t -*-
 
+(use-package project
+  :straight (:type built-in)
+  :general
+  (base-leader-def
+   :states 'normal
+   "p" '(:ignore t :wk "projects")
+   "pf" 'project-find-file
+   "pb" 'project-switch-to-buffer))
+
 (use-package projectile
   :straight t
   :init
@@ -8,18 +17,21 @@
   (base-leader-def
    :states 'normal
    "p" '(:ignore t :wk "projects")
-   "pf" 'projectile-find-file
    "pd" 'projectile-find-dir
-   "pb" 'projectile-switch-to-buffer
    "pp" 'projectile-switch-project
-   "pg" 'projectile-ripgrep)
+   "pg" 'consult-ripgrep
+   "pG" 'consult-git-grep)
   :config
   (projectile-mode +1))
 
 (use-package treemacs
   :straight t
   :defer t
-  :general ([f8] 'treemacs))
+  :general
+  ([f8] 'treemacs)
+  (base-leader-def
+    :states '(normal)
+    "po" 'treemacs))
 
 (use-package treemacs-evil
   :straight t

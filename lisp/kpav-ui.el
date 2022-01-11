@@ -19,10 +19,11 @@
         modus-themes-intense-markup t
         modus-themes-completions 'opinionated
         modus-themes-subtle-line-numbers t
-        modus-themes-syntax '(faint alt-syntax)
+        modus-themes-syntax '(faint ;; alt-syntax
+                                    )
         modus-themes-paren-match '(bold intense underline)
         modus-themes-region '(accented no-extend)
-        modus-themes-mode-line '(4 borderless)
+        modus-themes-mode-line '(borderless)
         ;; org specific settings
         modus-themes-org-blocks 'gray-background
         modus-themes-headings '((t . rainbow))

@@ -4,8 +4,7 @@
 
 (require 'basemacs-core)
 
-(use-package emacs
-  :straight (:type built-in)
+(use-package basemacs-core
   :custom
   (basemacs-leader "SPC")
   (basemacs-local-leader "SPC m"))
