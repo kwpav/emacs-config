@@ -428,7 +428,6 @@ Eyebrowse provides a way to manage workspaces like tiling window managers.
 Default key is ~C-x x~. Change it with =perp-mode-prefix-key=
 Each frame gets its own perspective.
 Switch buffer command only looks at current perspective
-=persp-next= and =persp-prev= to switch
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (use-package perspective
     :straight t
@@ -436,7 +435,10 @@ Switch buffer command only looks at current perspective
     (base-leader-def
       :states 'normal
       "bb" 'persp-switch-to-buffer*
-      "bk" 'persp-kill-buffer*)
+      "bk" 'persp-kill-buffer*
+      "bn" 'persp-next
+      "bp" 'persp-prev
+      "bs" 'persp-switch)
     :config
     (persp-mode +1))
 #+end_src

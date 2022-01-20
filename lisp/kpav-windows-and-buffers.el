@@ -43,7 +43,10 @@
   (base-leader-def
     :states 'normal
     "bb" 'persp-switch-to-buffer*
-    "bk" 'persp-kill-buffer*)
+    "bk" 'persp-kill-buffer*
+    "bn" 'persp-next
+    "bp" 'persp-prev
+    "bs" 'persp-switch)
   :config
   (persp-mode +1))
 
