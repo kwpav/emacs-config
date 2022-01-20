@@ -363,8 +363,8 @@ Highlight the line the cursor is on.
      "b" '(:ignore t :wk "buffers")
      "w" '(:ignore t :wk "windows")
      ;; "bb" 'switch-to-buffer
-     "bb" 'consult-buffer
-     "bk" 'kill-buffer
+     ;; "bb" 'consult-buffer
+     ;; "bk" 'kill-buffer
      "wo" 'split-window-horizontally
      "wu" 'split-window-vertically
      "wd" 'delete-window))
@@ -400,7 +400,7 @@ ace-window lets you jump around windows with a single key
     ;; use home row instead of numbers
     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+end_src
-*** eyebrowse
+*** COMMENT eyebrowse
 Eyebrowse provides a way to manage workspaces like tiling window managers.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (use-package eyebrowse
@@ -424,7 +424,22 @@ Eyebrowse provides a way to manage workspaces like tiling window managers.
     :config
     (eyebrowse-mode t))
 #+end_src
-
+*** perspective
+Default key is ~C-x x~. Change it with =perp-mode-prefix-key=
+Each frame gets its own perspective.
+Switch buffer command only looks at current perspective
+=persp-next= and =persp-prev= to switch
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
+  (use-package perspective
+    :straight t
+    :general
+    (base-leader-def
+      :states 'normal
+      "bb" 'persp-switch-to-buffer*
+      "bk" 'persp-kill-buffer*)
+    :config
+    (persp-mode +1))
+#+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (provide 'kpav-windows-and-buffers)
