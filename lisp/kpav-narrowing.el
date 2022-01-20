@@ -15,8 +15,12 @@
 
 (use-package vertico-multiform
   :custom
+  ;; (vertico-buffer-display-action
+  ;;  (const :tag "Bottom of frame"
+  ;;         (display-buffer-at-bottom
+  ;;          (window-height . ,(+ 3 vertico-count)))))
   (vertico-multiform-commands
-   '((consult-ripgrep buffer)
+   '(;; (consult-ripgrep buffer)
      (t reverse)))
   :init
   (vertico-multiform-mode +1))
@@ -67,6 +71,7 @@
   (marginalia-mode +1))
 
 (use-package consult
+  :after projectile ;; needed to set `consult-project-root-function'
   :straight t
   :general
   ;; C-c bindings (mode-specific-map)
@@ -134,6 +139,8 @@
         xref-show-definitions-function #'consult-xref)
   :config
   ;; projectile
+  ;; for this ti work, either need to autoload it, or use :after projectile
+  ;; (autoload 'projectile-project-root "projectile")
   (setq consult-project-root-function #'projectile-project-root)
   ;; project.el
   ;; (setq consult-project-root-function

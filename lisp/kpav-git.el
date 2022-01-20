@@ -14,7 +14,6 @@
     "gb" 'magit-blame
     "gS" 'magit-stage-file
     "gU" 'magit-unstage-file
-    "gg" 'hydra-my-git-menu/body
     "gy" 'kpav/magit-yank-branch-name)
   :config
   (defun kpav/magit-yank-branch-name ()

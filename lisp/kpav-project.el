@@ -19,6 +19,7 @@
    "p" '(:ignore t :wk "projects")
    "pd" 'projectile-find-dir
    "pp" 'projectile-switch-project
+   "pP" 'projectile-switch-open-project
    "pg" 'consult-ripgrep
    "pG" 'consult-git-grep)
   :config

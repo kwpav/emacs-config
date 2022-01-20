@@ -532,8 +532,12 @@ The multiform extension allows configuration per command. Using reverse by defau
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package vertico-multiform
     :custom
+    ;; (vertico-buffer-display-action
+    ;;  (const :tag "Bottom of frame"
+    ;;         (display-buffer-at-bottom
+    ;;          (window-height . ,(+ 3 vertico-count)))))
     (vertico-multiform-commands
-     '((consult-ripgrep buffer)
+     '(;; (consult-ripgrep buffer)
        (t reverse)))
     :init
     (vertico-multiform-mode +1))
@@ -606,6 +610,7 @@ Consult provides practical commands based on the Emacs completion function compl
 Keys copied from projects README.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package consult
+    :after projectile ;; needed to set `consult-project-root-function'
     :straight t
     :general
     ;; C-c bindings (mode-specific-map)
@@ -673,6 +678,8 @@ Keys copied from projects README.
           xref-show-definitions-function #'consult-xref)
     :config
     ;; projectile
+    ;; for this ti work, either need to autoload it, or use :after projectile
+    ;; (autoload 'projectile-project-root "projectile")
     (setq consult-project-root-function #'projectile-project-root)
     ;; project.el
     ;; (setq consult-project-root-function
@@ -818,7 +825,6 @@ Add and configure some additional tools.
       "gb" 'magit-blame
       "gS" 'magit-stage-file
       "gU" 'magit-unstage-file
-      "gg" 'hydra-my-git-menu/body
       "gy" 'kpav/magit-yank-branch-name)
     :config
     (defun kpav/magit-yank-branch-name ()
@@ -850,7 +856,7 @@ Go through commit history on a file.
       :states 'normal
       "gt" 'git-timemachine))
 #+end_src
-*** EOF
+**** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   (provide 'kpav-git)
   ;;; kpav-git.el ends here
@@ -882,6 +888,7 @@ Using a combination of the built-in =project.el= along with projectile. =project
      "p" '(:ignore t :wk "projects")
      "pd" 'projectile-find-dir
      "pp" 'projectile-switch-project
+     "pP" 'projectile-switch-open-project
      "pg" 'consult-ripgrep
      "pG" 'consult-git-grep)
     :config
