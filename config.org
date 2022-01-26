@@ -3,8 +3,6 @@
 
 * About
 This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
-
-I try to go for an "Emacs first" approach (as opposed to the terminal), so this is meant to be used for Emacs GUI, though it is probably mostly fine in the terminal. I have also only tested this on GNU/Linux and OSX.
 ** How it Works
 As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
 * Startup
@@ -1234,7 +1232,7 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
       "eE" 'cider-insert-last-sexp-in-repl
       "eR" 'cider-insert-region-in-repl
       "eb" 'cider-eval-buffer
-      "ed" 'cider-eval-dfun-at-point
+      "ed" 'cider-eval-defun-at-point
       "ee" 'cider-eval-last-sexp
       "er" 'cider-eval-region
       "eu" 'cider-undef

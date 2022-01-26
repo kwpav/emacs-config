@@ -48,7 +48,7 @@
     "eE" 'cider-insert-last-sexp-in-repl
     "eR" 'cider-insert-region-in-repl
     "eb" 'cider-eval-buffer
-    "ed" 'cider-eval-dfun-at-point
+    "ed" 'cider-eval-defun-at-point
     "ee" 'cider-eval-last-sexp
     "er" 'cider-eval-region
     "eu" 'cider-undef
