@@ -275,7 +275,7 @@ Modus themes are readable, clean looking, and super customizable. It also works 
           modus-themes-mode-line '(borderless)
           ;; org specific settings
           modus-themes-org-blocks 'gray-background
-          modus-themes-headings '((t . rainbow))
+          ;; modus-themes-headings '((t . rainbow))
           modus-themes-scale-headings t)
     (modus-themes-load-themes)
     :config
@@ -875,6 +875,18 @@ Go through commit history on a file.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   (provide 'kpav-git)
   ;;; kpav-git.el ends here
+#+end_src
+*** git-link
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  (use-package git-link
+    :straight t
+    :general
+    (base-leader-def
+      :states 'normal
+      "gl" '(:ignore t :wk "git link")
+      "gll" 'git-link
+      "glc" 'git-link-commit
+      "glh" 'git-link-homepage))
 #+end_src
 ** Projects
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el

@@ -41,3 +41,13 @@
 
 (provide 'kpav-git)
 ;;; kpav-git.el ends here
+
+(use-package git-link
+  :straight t
+  :general
+  (base-leader-def
+    :states 'normal
+    "gl" '(:ignore t :wk "git link")
+    "gll" 'git-link
+    "glc" 'git-link-commit
+    "glh" 'git-link-homepage))

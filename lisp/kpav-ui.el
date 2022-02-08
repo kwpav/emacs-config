@@ -26,7 +26,7 @@
         modus-themes-mode-line '(borderless)
         ;; org specific settings
         modus-themes-org-blocks 'gray-background
-        modus-themes-headings '((t . rainbow))
+        ;; modus-themes-headings '((t . rainbow))
         modus-themes-scale-headings t)
   (modus-themes-load-themes)
   :config
