@@ -3,6 +3,8 @@
 
 * About
 This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
+
+It is a "Literate" config, where prose and code live together in harmony. What this basically means that configuration code contained in this Org file.
 ** How it Works
 As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
 * Startup
@@ -826,7 +828,11 @@ Add and configure some additional tools.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   ;;; kpav-git.el --- -*- lexical-binding: t -*-
 #+end_src
+I only use =git= for version control, and I assume most  others do as well. This is probably why there are so many great =git= packages for Emacs!
 *** magit
+Magit may be one of the best front ends for =git= ever. It makes using git, both the simple and complex parts of it, easy and intuitive to use, right within Emacs! It also provides some neat stuff like =spinoff=, which will create a branch of any unpushed commits. This is handy if you accidentally starting commiting work to the wrong branch, e.g. =master= or =develop=.
+
+I have a function here which copies the current branch name. This is handy if you need the branch name for something like a CI/CD system.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   (use-package magit
     :straight t
@@ -873,11 +879,6 @@ Go through commit history on a file.
       :states 'normal
       "gt" 'git-timemachine))
 #+end_src
-**** EOF
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
-  (provide 'kpav-git)
-  ;;; kpav-git.el ends here
-#+end_src
 *** git-link
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   (use-package git-link
@@ -890,10 +891,16 @@ Go through commit history on a file.
       "glc" 'git-link-commit
       "glh" 'git-link-homepage))
 #+end_src
+*** EOF
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
+  (provide 'kpav-git)
+  ;;; kpav-git.el ends here
+#+end_src
 ** Projects
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   ;;; kpav-project.el --- -*- lexical-binding: t -*-
 #+end_src
+A large part of my workflow is working in projects, which may or may not interact together, so I like to only open and interact with files and buffers on a per project basis. I use =perspective= to create perspectives for each project, then use the following packages to further interact with them, e.g. opening files or searching for some specific text.
 *** project.el + projectile
 Using a combination of the built-in =project.el= along with projectile. =project.el= works with marginalia to give extra info about files and buffers that projectile does not.
 

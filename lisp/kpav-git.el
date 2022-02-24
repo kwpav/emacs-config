@@ -39,9 +39,6 @@
     :states 'normal
     "gt" 'git-timemachine))
 
-(provide 'kpav-git)
-;;; kpav-git.el ends here
-
 (use-package git-link
   :straight t
   :general
@@ -51,3 +48,6 @@
     "gll" 'git-link
     "glc" 'git-link-commit
     "glh" 'git-link-homepage))
+
+(provide 'kpav-git)
+;;; kpav-git.el ends here

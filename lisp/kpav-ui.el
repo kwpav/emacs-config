@@ -17,7 +17,9 @@
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
         modus-themes-intense-markup t
-        modus-themes-completions 'opinionated
+        ;; TODO this changed in recent release
+        ;; look at docs for new  options
+        ;; modus-themes-completions 'opinionated
         modus-themes-subtle-line-numbers t
         modus-themes-syntax '(faint ;; alt-syntax
                                     )
