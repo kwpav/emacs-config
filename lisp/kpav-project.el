@@ -47,5 +47,10 @@
   :config
   (envrc-global-mode +1))
 
+(use-package editorconfig
+  :straight t
+  :config
+  (editorconfig-mode +1))
+
 (provide 'kpav-project)
 ;;; kpav-project.el ends here

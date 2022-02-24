@@ -17,6 +17,7 @@
  ("docker.el" . "78881bea51c74ef171788fa989908cd51f5b3f8d")
  ("dockerfile-mode" . "11c43de04b128b7638cd98a1e80be2b661c18fbb")
  ("doom-modeline" . "d9b64bc56283c7816f8124dcb3a5c7ea22732643")
+ ("editorconfig-emacs" . "3c03cef3110024016c688553733cdc3694a8a799")
  ("el-get" . "9353309744e4f8a7c9b1adf22ec99536fb2146b0")
  ("emacs-aio" . "da93523e235529fa97d6f251319d9e1d6fc24a41")
  ("emacs-ccls" . "675a5704c14a27931e835a431beea3631d92e8e6")

@@ -963,6 +963,13 @@ Provide =direnv= support for projects with =.envrc= files.
 #+end_src
 
 Use =envrc-allow= to explicitly run =direnv allow=.
+*** Editorconfig
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (use-package editorconfig
+    :straight t
+    :config
+    (editorconfig-mode +1))
+#+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   (provide 'kpav-project)
