@@ -46,6 +46,7 @@ Here is where the magic happens. Let's load some modules!
   (use-package kpav-project)
   (use-package kpav-git)
   (use-package kpav-vterm)
+  (use-package kpav-docker)
   ;; code
   (use-package kpav-code)
   (use-package kpav-php)
@@ -54,6 +55,7 @@ Here is where the magic happens. Let's load some modules!
   (use-package kpav-common-lisp)
   (use-package kpav-js)
   (use-package kpav-c)
+  (use-package kpav-yaml)
 #+end_src
 
 All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
@@ -1025,6 +1027,29 @@ Open multiple vterms. Evil configuration from it's README.
   (provide 'kpav-vterm)
   ;;; kpav-vterm.el ends here
 #+end_src
+** Docker
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-docker.el
+  ;;; kpav-docker.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Get syntax highlighting for =Dockerfile= files
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-docker.el
+  (use-package dockerfile-mode
+    :straight t
+    :defer t)
+#+end_src
+
+Use =docker= commands in Emacs
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-docker.el
+  (use-package docker
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-docker.el
+  (provide 'kpav-docker)
+  ;;; kpav-docker.el ends here
+#+end_src
 * Code
 Things that modify coding stuff (mostly programming langs and LSP).
 ** General
@@ -1506,6 +1531,21 @@ Set up the =ccls= language server
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-c.el
   (provide 'kpav-c)
   ;;; kpav-c.el ends here
+#+end_src
+*** YAML
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-yaml.el
+  ;;; kpav-yaml.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-yaml.el
+  (use-package yaml-mode
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-yaml.el
+  (provide 'kpav-yaml)
+  ;;; kpav-yaml.el ends here
 #+end_src
 * EOF
 #+begin_src emacs-lisp :lexical t :tangle init.el

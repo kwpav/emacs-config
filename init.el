@@ -22,6 +22,7 @@
 (use-package kpav-project)
 (use-package kpav-git)
 (use-package kpav-vterm)
+(use-package kpav-docker)
 ;; code
 (use-package kpav-code)
 (use-package kpav-php)
@@ -30,6 +31,7 @@
 (use-package kpav-common-lisp)
 (use-package kpav-js)
 (use-package kpav-c)
+(use-package kpav-yaml)
 
 (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 
