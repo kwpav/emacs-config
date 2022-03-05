@@ -56,6 +56,8 @@ Here is where the magic happens. Let's load some modules!
   (use-package kpav-js)
   (use-package kpav-c)
   (use-package kpav-yaml)
+  (use-package kpav-grpc)
+  (use-package kpav-graphql)
 #+end_src
 
 All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
@@ -1154,7 +1156,7 @@ Some handy links
   (provide 'kpav-code)
   ;;; kpav-code.el ends here
 #+end_src
-** Languages
+** Languages (and more)
 *** Lisps
 **** Shared
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
@@ -1554,6 +1556,37 @@ Set up the =ccls= language server
   (provide 'kpav-yaml)
   ;;; kpav-yaml.el ends here
 #+end_src
+*** gRPC
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-grpc.el
+  ;;; kpav-grpc.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-grpc.el
+  (use-package protobuf-mode
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-grpc.el
+  (provide 'kpav-grpc)
+  ;;; kpav-grpc.el ends here
+#+end_src
+*** GraphQL
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-graphql.el
+  ;;; kpav-graphql.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-graphql.el
+  (use-package graphql-mode
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-graphql.el
+  (provide 'kpav-graphql)
+  ;;; kpav-graphql.el ends here
+#+end_src
+
 * EOF
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (provide 'init)

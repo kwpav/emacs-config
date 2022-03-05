@@ -32,6 +32,8 @@
 (use-package kpav-js)
 (use-package kpav-c)
 (use-package kpav-yaml)
+(use-package kpav-grpc)
+(use-package kpav-graphql)
 
 (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 
