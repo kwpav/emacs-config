@@ -27,7 +27,13 @@
   (org-use-fast-todo-selection t)
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
-     (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)"))))
+     (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)")))
+  ;; Styling
+  (org-auto-align-tags nil)
+  (org-tags-column 0)
+  (org-hide-emphasis-markers t)
+  (org-pretty-entities t)
+  (org-ellipsis "…"))
 
 (use-package org-contrib
   :straight t)

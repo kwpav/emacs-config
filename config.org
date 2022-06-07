@@ -493,7 +493,13 @@ Switch buffer command only looks at current perspective
     (org-use-fast-todo-selection t)
     (org-todo-keywords
      '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
-       (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)"))))
+       (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)")))
+    ;; Styling
+    (org-auto-align-tags nil)
+    (org-tags-column 0)
+    (org-hide-emphasis-markers t)
+    (org-pretty-entities t)
+    (org-ellipsis "…"))
 #+end_src
 
 Install =org-contrib=
@@ -1118,11 +1124,11 @@ Install the official snippet collection, this contains snippets for several prog
     :after yasnippet)
 #+end_src
 *** LSP
-Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses this calls =lsp= in the language mode's =:hook= / =:ghook=(
-
 #+BEGIN_QUOTE
 The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc.
 #+END_QUOTE
+
+Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses this calls =lsp= in the language mode's =:hook= / =:ghook=.
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package lsp-mode
@@ -1615,3 +1621,4 @@ AI completion engine?
 conflicts with other org customization
 ** DONE Remove magit from =basemacs-core=?
 ** TODO Look into Corfu to replace company
+** TODO Use org-modern and make it look good

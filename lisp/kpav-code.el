@@ -33,7 +33,7 @@
   (setq lsp-completion-provider :capf
         lsp-keymap-prefix "C-l")
   :custom
-  ;; I don't find this this very helpful,
+  ;; I don't find the headerline very helpful,
   ;; the modeline shows most of it anyway
   (lsp-headerline-breadcrumb-enable nil))
 
