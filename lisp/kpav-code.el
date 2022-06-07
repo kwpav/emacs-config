@@ -31,7 +31,11 @@
   :commands lsp
   :init
   (setq lsp-completion-provider :capf
-        lsp-keymap-prefix "C-l"))
+        lsp-keymap-prefix "C-l")
+  :custom
+  ;; I don't find this this very helpful,
+  ;; the modeline shows most of it anyway
+  (lsp-headerline-breadcrumb-enable nil))
 
 (use-package lsp-ui
   :straight t

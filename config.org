@@ -72,7 +72,7 @@ This approach requires a bit more code than having this file just tangle to =ini
 * Emacs
 Things that modify Emacs itself.
 ** Opininionated Defaults
-Some of my more "opininionated" default settings.
+Some of my more "opinionated" default settings.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
   ;;; kpav-defaults.el --- -*- lexical-binding: t -*-
 #+end_src
@@ -176,7 +176,7 @@ super-save auto-saves your buffers, when certain events happen - e.g. you switch
   ;;; kpav-evil.el --- -*- lexical-binding: t -*-
 #+end_src
 
-Evil mode is vim in emacs! Using =undo-fu= here instead of =undo-tree= as I have found that =undo-fu= seems to be quicker and less buggy than =undo-tree=.
+Evil mode is vim in Emacs! Using =undo-fu= here instead of =undo-tree= as I have found that =undo-fu= seems to be quicker and less buggy than =undo-tree=.
 #+begin_src emacs-lisp :tangle lisp/kpav-evil.el
   (use-package evil
     :straight t
@@ -1118,7 +1118,7 @@ Install the official snippet collection, this contains snippets for several prog
     :after yasnippet)
 #+end_src
 *** LSP
-Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses this calls =lsp= in the language mode's =:hook= / =:ghook=
+Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses this calls =lsp= in the language mode's =:hook= / =:ghook=(
 
 #+BEGIN_QUOTE
 The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc.
@@ -1132,7 +1132,11 @@ The Language Server Protocol (LSP) defines the protocol used between an editor o
     :commands lsp
     :init
     (setq lsp-completion-provider :capf
-          lsp-keymap-prefix "C-l"))
+          lsp-keymap-prefix "C-l")
+    :custom
+    ;; I don't find the headerline very helpful,
+    ;; the modeline shows most of it anyway
+    (lsp-headerline-breadcrumb-enable nil))
 
   (use-package lsp-ui
     :straight t
