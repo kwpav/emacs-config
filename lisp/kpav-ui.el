@@ -4,11 +4,14 @@
   :straight (:type built-in)
   :init
   ;; Main typeface
-  (set-face-attribute 'default nil :family "Iosevka" :height 130)
+  ;; (set-face-attribute 'default nil :family "Iosevka" :height 130)
+  (set-face-attribute 'default nil :family "Recursive Mn Lnr St" :height 130)
   ;; Proportionately spaced typeface
-  (set-face-attribute 'variable-pitch nil :family "EtBembo" :height 1.0)
+  ;; (set-face-attribute 'variable-pitch nil :family "EtBembo" :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family "Recursive Sn Csl St" :height 1.0)
   ;; Monospaced typeface
-  (set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0))
+  ;; (set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0))
+  (set-face-attribute 'fixed-pitch nil :family "Recursive Mn Lnr St" :height 1.0))
 
 (use-package modus-themes
   :straight t
