@@ -13,6 +13,11 @@
   ;; (set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0))
   (set-face-attribute 'fixed-pitch nil :family "Recursive Mn Lnr St" :height 1.0))
 
+(use-package emacs
+  :straight (:type built-in)
+  :init
+  (setq-default line-spacing 3))
+
 (use-package modus-themes
   :straight t
   :init
@@ -20,11 +25,8 @@
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
         modus-themes-intense-markup t
-        ;; TODO this changed in recent release
-        ;; look at docs for new  options
-        ;; modus-themes-completions 'opinionated
-        modus-themes-completions '((matches . (extrabold background intense))
-                                   (selection . (semibold accented))
+        modus-themes-completions '((matches . (extrabold background intense underline))
+                                   (selection . (semibold background intense accented))
                                    (popup . (accented)))
         modus-themes-subtle-line-numbers t
         modus-themes-syntax '(faint alt-syntax)

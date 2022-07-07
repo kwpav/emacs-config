@@ -261,6 +261,15 @@ Set up fonts, This sets up the =default= typeface, and the ones to be used in [[
     ;; (set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0))
     (set-face-attribute 'fixed-pitch nil :family "Recursive Mn Lnr St" :height 1.0))
 #+end_src
+
+Increase the line spacing to let the text breathe a bit.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package emacs
+    :straight (:type built-in)
+    :init
+    (setq-default line-spacing 3))
+#+end_src
+
 *** Modus Themes
 #+begin_quote
 Accessible themes for GNU Emacs, conforming with the highest standard for colour contrast between background and foreground values (WCAG AAA)
@@ -275,11 +284,8 @@ Modus themes are readable, clean looking, and super customizable. It also works 
           modus-themes-bold-constructs t
           modus-themes-italic-constructs t
           modus-themes-intense-markup t
-          ;; TODO this changed in recent release
-          ;; look at docs for new  options
-          ;; modus-themes-completions 'opinionated
-          modus-themes-completions '((matches . (extrabold background intense))
-                                     (selection . (semibold accented))
+          modus-themes-completions '((matches . (extrabold background intense underline))
+                                     (selection . (semibold background intense accented))
                                      (popup . (accented)))
           modus-themes-subtle-line-numbers t
           modus-themes-syntax '(faint alt-syntax)
