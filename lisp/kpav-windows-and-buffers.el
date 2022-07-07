@@ -39,13 +39,26 @@
 
 (use-package perspective
   :straight t
+  :custom
+  (persp-suppress-no-prefix-key-warning t)
   :general
   (base-leader-def
     :states 'normal
-    "bb" 'persp-switch-to-buffer*
-    "bk" 'persp-kill-buffer*
+    "b`" 'persp-switch-by-number
+    "bb" 'persp-switch-to-buffer
+    "bk" 'persp-remove-buffer
+    "bc" 'persp-kill
+    "br" 'persp-rename
+    "ba" 'persp-add-buffer
+    "bA" 'persp-set-buffer
+    "bi" 'persp-import
     "bn" 'persp-next
     "bp" 'persp-prev
+    "bm" 'persp-merge
+    "bu" 'persp-unmerge
+    "bg" 'persp-add-buffer-to-frame-global
+    "b C-s" 'persp-state-save
+    "b C-l" 'persp-state-load
     "bs" 'persp-switch)
   :config
   (persp-mode +1))
