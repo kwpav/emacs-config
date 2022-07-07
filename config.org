@@ -278,15 +278,20 @@ Modus themes are readable, clean looking, and super customizable. It also works 
           ;; TODO this changed in recent release
           ;; look at docs for new  options
           ;; modus-themes-completions 'opinionated
+          modus-themes-completions '((matches . (extrabold background intense))
+                                     (selection . (semibold accented))
+                                     (popup . (accented)))
           modus-themes-subtle-line-numbers t
-          modus-themes-syntax '(faint ;; alt-syntax
-                                      )
+          modus-themes-syntax '(faint alt-syntax)
           modus-themes-paren-match '(bold intense underline)
           modus-themes-region '(accented no-extend)
           modus-themes-mode-line '(borderless)
           ;; org specific settings
           modus-themes-org-blocks 'gray-background
-          ;; modus-themes-headings '((t . rainbow))
+          modus-themes-headings '((1 . (1.4))
+                                  (2 . (1.2))
+                                  (3 . (1.1))
+                                  (t . (semibold)))
           modus-themes-scale-headings t)
     (modus-themes-load-themes)
     :config
