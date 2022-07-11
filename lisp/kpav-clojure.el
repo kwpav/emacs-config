@@ -83,7 +83,8 @@
     "ff" 'cider-format-defun
     ;; goto
     "g" '(:ignore t :wk "goto")
-    "gg" 'cider-find-var
+    "gg" 'cider-find-dwim
+    "gv" 'cider-find-var
     "gn" 'cider-find-ns
     "gN" 'cider-browse-ns-all
     "d" '(:ignore t :wk "debug")
