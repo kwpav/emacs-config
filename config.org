@@ -2,9 +2,9 @@
 #+DESCRIPTION: My personal Emacs configuration.
 
 * About
-This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
+This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://github.com/joaotavora/eglot][Eglot]] (formerly [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]]) for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
 
-It is a "Literate" config, where prose and code live together in harmony. What this basically means that configuration code contained in this Org file.
+It is a "Literate" config, where prose and code live together in harmony... what this basically means is that configuration code contained in this Org file, along with some text that describes what it's doing.
 ** How it Works
 As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
 * Startup
@@ -34,30 +34,30 @@ Set up the leader keys for =general.el=.
 Here is where the magic happens. Let's load some modules!
 #+begin_src emacs-lisp :lexical t :tangle init.el
   ;; emacs
-  (use-package kpav-defaults)
-  (use-package kpav-system)
-  (use-package kpav-evil)
-  (use-package kpav-keys)
-  (use-package kpav-narrowing)
-  (use-package kpav-org)
-  (use-package kpav-ui)
-  (use-package kpav-windows-and-buffers)
+  (require 'kpav-defaults)
+  (require 'kpav-system)
+  (require 'kpav-evil)
+  (require 'kpav-keys)
+  (require 'kpav-narrowing)
+  (require 'kpav-org)
+  (require 'kpav-ui)
+  (require 'kpav-windows-and-buffers)
   ;; tools
-  (use-package kpav-project)
-  (use-package kpav-git)
-  (use-package kpav-vterm)
-  (use-package kpav-docker)
+  (require 'kpav-project)
+  (require 'kpav-git)
+  (require 'kpav-vterm)
+  (require 'kpav-docker)
   ;; code
-  (use-package kpav-code)
-  (use-package kpav-php)
-  (use-package kpav-elisp)
-  (use-package kpav-clojure)
-  (use-package kpav-common-lisp)
-  (use-package kpav-js)
-  (use-package kpav-c)
-  (use-package kpav-yaml)
-  (use-package kpav-grpc)
-  (use-package kpav-graphql)
+  (require 'kpav-code)
+  (require 'kpav-php)
+  (require 'kpav-elisp)
+  (require 'kpav-clojure)
+  (require 'kpav-common-lisp)
+  (require 'kpav-js)
+  (require 'kpav-c)
+  (require 'kpav-yaml)
+  (require 'kpav-grpc)
+  (require 'kpav-graphql)
 #+end_src
 
 All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
@@ -943,7 +943,8 @@ Using a combination of the built-in =project.el= along with projectile. =project
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   (use-package project
-    :straight (:type built-in)
+    ;;:straight (:type built-in)
+    :straight t
     :general
     (base-leader-def
      :states 'normal
@@ -1113,7 +1114,17 @@ Company is a text completion framework for Emacs.
     :config
     (global-company-mode +1))
 #+end_src
-*** Error Checking
+
+*** Error Checking - Flymake
+FlyMake is the built-in syntax checker for Emacs. It works for all (most?) of the languages that I use. Trying this out instead of *Flycheck* in my move to stick to built-in packages.
+
+#+begin_src emacs-lisp :tangle lisp/kpav-code.el
+  (use-package flymake
+    :straight t
+    :ghook
+    ('prog-mode-hook #'flymake-mode-on))
+#+end_src
+*** COMMENT Error Checking - Flycheck
 #+begin_quote
 Flycheck is a modern on-the-fly syntax checking extension for GNU Emacs
 #+end_quote
@@ -1150,7 +1161,38 @@ Install the official snippet collection, this contains snippets for several prog
     :straight t
     :after yasnippet)
 #+end_src
-*** LSP
+*** Eglot
+#+BEGIN_QUOTE
+Emacs Polyglot: an Emacs LSP client that stays out of your way:
+#+END_QUOTE
+
+A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses built-in commands (e.g. =xref-find-definitions=) and packages (e.g. =flymake=).
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
+  (use-package eglot
+    :straight t
+    :general
+    (base-leader-def
+      :states '(normal visual)
+      "l" '(:ignore :wk "lsp")
+      "lg" 'xref-find-definitions
+      "lr" 'xref-find-references
+      "lf" 'eglot-format
+      "lF" 'eglot-format-buffer
+      "la" 'eglot-code-actions
+      "lo" 'eglot-code-actions-organize-imports
+      "lh" 'eldoc))
+#+end_src
+
+Although Eglot depends on built-in packages, it needs the newest versions of them.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
+  (use-package eldoc
+    :straight t)
+
+  (use-package xref
+    :straight t)
+#+end_src
+*** COMMENT LSP
 #+BEGIN_QUOTE
 The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, find all references etc.
 #+END_QUOTE
@@ -1279,11 +1321,14 @@ Use LSP with all clojure-related modes.
     :straight t
     :defer t
     :ghook
-    ('clojure-mode-hook #'lsp)
-    ('clojurec-mode-hook #'lsp)
-    ('clojurescript-mode #'lsp)
-    :custom
-    (lsp-enable-indentation nil)
+    ;; ('clojure-mode-hook #'lsp)
+    ;; ('clojurec-mode-hook #'lsp)
+    ;; ('clojurescript-mode #'lsp)
+    ('clojure-mode-hook #'eglot-ensure)
+    ('clojurec-mode-hook #'eglot-ensure)
+    ('clojurescript-mode #'eglot-ensure)
+    ;; :custom
+    ;; (lsp-enable-indentation nil)
     :config
     (require 'flycheck-clj-kondo))
   ;; is this needed?
@@ -1534,7 +1579,8 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
     :mode "\\.js\\'"
     :interpreter "node"
     :gfhook
-    #'lsp)
+    ;;#'lsp
+    #'eglot-ensure)
 #+end_src
 **** TypeScript
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
@@ -1543,7 +1589,8 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
     :mode "\\.ts\\'"
     :commands (typescript-mode)
     :gfhook
-    #'lsp)
+    ;;#'lsp
+    #'eglot-ensure)
 #+end_src
 **** JSON
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el

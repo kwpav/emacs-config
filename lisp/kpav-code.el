@@ -5,10 +5,10 @@
   :config
   (global-company-mode +1))
 
-(use-package flycheck
+(use-package flymake
   :straight t
-  :config
-  (global-flycheck-mode +1))
+  :ghook
+  ('prog-mode-hook #'flymake-mode-on))
 
 (use-package yasnippet
   :straight t
@@ -24,32 +24,25 @@
   :straight t
   :after yasnippet)
 
-(use-package lsp-mode
+(use-package eglot
   :straight t
-  :gfhook
-  #'lsp-enable-which-key-integration
-  :commands lsp
-  :init
-  (setq lsp-completion-provider :capf
-        lsp-keymap-prefix "C-l")
-  :custom
-  ;; I don't find the headerline very helpful,
-  ;; the modeline shows most of it anyway
-  (lsp-headerline-breadcrumb-enable nil))
+  :general
+  (base-leader-def
+    :states '(normal visual)
+    "l" '(:ignore :wk "lsp")
+    "lg" 'xref-find-definitions
+    "lr" 'xref-find-references
+    "lf" 'eglot-format
+    "lF" 'eglot-format-buffer
+    "la" 'eglot-code-actions
+    "lo" 'eglot-code-actions-organize-imports
+    "lh" 'eldoc))
 
-(use-package lsp-ui
-  :straight t
-  :commands lsp-ui-mode
-  :custom
-  (lsp-ui-sideline-show-code-actions nil))
+(use-package eldoc
+  :straight t)
 
-(use-package lsp-treemacs
-  :straight t
-  :commands lsp-treemacs-errors-list)
-
-(use-package dap-mode
-  :straight t
-  :defer t)
+(use-package xref
+  :straight t)
 
 (provide 'kpav-code)
 ;;; kpav-code.el ends here

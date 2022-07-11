@@ -8,11 +8,14 @@
   :straight t
   :defer t
   :ghook
-  ('clojure-mode-hook #'lsp)
-  ('clojurec-mode-hook #'lsp)
-  ('clojurescript-mode #'lsp)
-  :custom
-  (lsp-enable-indentation nil)
+  ;; ('clojure-mode-hook #'lsp)
+  ;; ('clojurec-mode-hook #'lsp)
+  ;; ('clojurescript-mode #'lsp)
+  ('clojure-mode-hook #'eglot-ensure)
+  ('clojurec-mode-hook #'eglot-ensure)
+  ('clojurescript-mode #'eglot-ensure)
+  ;; :custom
+  ;; (lsp-enable-indentation nil)
   :config
   (require 'flycheck-clj-kondo))
 ;; is this needed?

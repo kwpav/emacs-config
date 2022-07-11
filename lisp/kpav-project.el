@@ -1,7 +1,8 @@
 ;;; kpav-project.el --- -*- lexical-binding: t -*-
 
 (use-package project
-  :straight (:type built-in)
+  ;;:straight (:type built-in)
+  :straight t
   :general
   (base-leader-def
    :states 'normal

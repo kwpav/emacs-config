@@ -5,14 +5,16 @@
   :mode "\\.js\\'"
   :interpreter "node"
   :gfhook
-  #'lsp)
+  ;;#'lsp
+  #'eglot-ensure)
 
 (use-package typescript-mode
   :straight t
   :mode "\\.ts\\'"
   :commands (typescript-mode)
   :gfhook
-  #'lsp)
+  ;;#'lsp
+  #'eglot-ensure)
 
 (use-package json-mode
   :straight t
