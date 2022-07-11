@@ -109,6 +109,7 @@
  ("undo-tree" . "16f4121032d09ef44b3d7d02c4d02c3c2f18041f")
  ("use-package" . "0ad5d9d5d8a61517a207ab04bf69e71c081149eb")
  ("vertico" . "05563a692bf785b0fd3e2c034692f67507d99b26")
+ ("vertico-posframe" . "8cd6c2cb335246a6c194d052ac93b364e5847d66")
  ("with-editor" . "cfcbc2731e402b9169c0dc03e89b5b57aa988502")
  ("xref" . "cc312ec800ffe10e8a6f9682050e052a8877e3a9")
  ("yaml-mode" . "535273d5a1eb76999d20afbcf4d9f056d8ffd2da")

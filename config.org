@@ -585,6 +585,7 @@ Vertico comes with several extensions in an =extensions/= folder. These don't ge
 #+end_src
 
 The multiform extension allows configuration per command. Using reverse by default, which I like because what you type does not move positions. Using buffer for ripgrep results as the list could be long.
+NOTE - unusable with =vertico-posframe=!
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package vertico-multiform
     :custom
@@ -596,7 +597,8 @@ The multiform extension allows configuration per command. Using reverse by defau
      '(;; (consult-ripgrep buffer)
        (t reverse)))
     :init
-    (vertico-multiform-mode +1))
+    ;; (vertico-multiform-mode +1)
+    )
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
@@ -621,6 +623,20 @@ The multiform extension allows configuration per command. Using reverse by defau
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t))
 #+end_src
+
+Posframe
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
+  (use-package vertico-posframe
+    :straight t
+    :custom
+    ;; (vertico-posframe-parameters
+    ;;  '((left-fringe . 0)
+    ;;    (right-fringe . 0)))
+    (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
+    :config
+    (vertico-posframe-mode +1))
+#+end_src
+
 *** Orderless
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package orderless
@@ -647,7 +663,7 @@ A replacement for the built in I-Search. This replaces the evil search and the b
     (ctrlf-mode +1))
 #+end_src
 *** Marginalia
-Marginalia adds information to the completions provided by Selectrum (keybinds, info about command, etc.)
+Marginalia adds information to the completions provided by Vertico (keybinds, info about command, etc.)
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package marginalia
     :straight t
@@ -1408,7 +1424,8 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
       "ff" 'cider-format-defun
       ;; goto
       "g" '(:ignore t :wk "goto")
-      "gg" 'cider-find-var
+      "gg" 'cider-find-dwim
+      "gv" 'cider-find-var
       "gn" 'cider-find-ns
       "gN" 'cider-browse-ns-all
       "d" '(:ignore t :wk "debug")
