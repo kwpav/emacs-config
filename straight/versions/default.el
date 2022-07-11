@@ -85,7 +85,6 @@
  ("popup-el" . "c65905aa1a3ac32d1dbc8c1060605621e6143f80")
  ("posframe" . "0d23bc5f7cfac00277d83ae7ba52c48685bcbc68")
  ("project" . "2e8da1b811d5213bd143d9d036bf7ea14741a1ae")
- ("projectile" . "00fce5a62cab56873c37629bef653bb2a1e4a4c1")
  ("protobuf" . "855ef0ca9d4038f8ba72502c49cddd21bda366bb")
  ("psysh.el" . "796b26a5cd75df9d2ecb206718b310ff21787063")
  ("queue" . "130c2d656cd5d7376552272fab9e50a7c37d0c4a")

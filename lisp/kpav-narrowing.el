@@ -71,7 +71,7 @@
   (marginalia-mode +1))
 
 (use-package consult
-  :after projectile ;; needed to set `consult-project-root-function'
+  ;; :after projectile ;; needed to set `consult-project-root-function'
   :straight t
   :general
   ;; C-c bindings (mode-specific-map)
@@ -120,7 +120,14 @@
    "M-s e" 'consult-isearch               ;; orig. isearch-edit-string
    "M-s l" 'consult-line                  ;; needed by consult-line to detect isearch
    "M-s L" 'consult-line-multi)           ;; needed by consult-line to detect isearch
+  (base-leader-def
+    :states 'normal
+    "pg" 'consult-ripgrep
+    "pG" 'consult-git-grep)
   :init
+  ;; Install ripgrep for consult-ripgrep
+  (use-package ripgrep :straight t)
+
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
@@ -139,9 +146,9 @@
         xref-show-definitions-function #'consult-xref)
   :config
   ;; projectile
-  ;; for this ti work, either need to autoload it, or use :after projectile
+  ;; for this t0 work, either need to autoload it, or use :after projectile
   ;; (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root)
+  ;; (setq consult-project-root-function #'projectile-project-root)
   ;; project.el
   ;; (setq consult-project-root-function
   ;;       (lambda ()

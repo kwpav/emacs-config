@@ -7,24 +7,24 @@
   (base-leader-def
    :states 'normal
    "p" '(:ignore t :wk "projects")
+   "pp" 'project-switch-project
    "pf" 'project-find-file
+   "pd" 'project-find-dir
    "pb" 'project-switch-to-buffer))
 
-(use-package projectile
-  :straight t
-  :init
-  (use-package ripgrep :straight t)
-  :general
-  (base-leader-def
-   :states 'normal
-   "p" '(:ignore t :wk "projects")
-   "pd" 'projectile-find-dir
-   "pp" 'projectile-switch-project
-   "pP" 'projectile-switch-open-project
-   "pg" 'consult-ripgrep
-   "pG" 'consult-git-grep)
-  :config
-  (projectile-mode +1))
+;; (use-package projectile
+;;   :straight t
+;;   :init
+;;   (use-package ripgrep :straight t)
+;;   :general
+;;   (base-leader-def
+;;    :states 'normal
+;;    "p" '(:ignore t :wk "projects")
+;;    "pd" 'projectile-find-dir
+;;    "pp" 'projectile-switch-project
+;;    "pP" 'projectile-switch-open-project)
+;;   :config
+;;   (projectile-mode +1))
 
 (use-package treemacs
   :straight t
