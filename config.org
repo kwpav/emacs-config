@@ -49,12 +49,12 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-docker)
   ;; code
   (require 'kpav-code)
-  (require 'kpav-php)
+  ;; (require 'kpav-php)
   (require 'kpav-elisp)
   (require 'kpav-clojure)
   (require 'kpav-common-lisp)
   (require 'kpav-js)
-  (require 'kpav-c)
+  ;; (require 'kpav-c)
   (require 'kpav-yaml)
   (require 'kpav-grpc)
   (require 'kpav-graphql)
@@ -105,7 +105,7 @@ Highlight paren when the cursor is over its matching pair. Also reduce the delay
 #+end_src
 
 *** Files
-Emacs likes to create lots of extra files for things, these settings prevent that. Also, create a newline at the end of the file on save.
+Emacs likes to create lots of extra files for things, these settings prevent that. +Also, create a newline at the end of the file on save.+
 #+begin_src emacs-lisp :tangle lisp/kpav-defaults.el
   (use-package files
     :straight (:type built-in)
@@ -113,7 +113,8 @@ Emacs likes to create lots of extra files for things, these settings prevent tha
     (make-backup-files nil)    ;; stop creating backup~ files
     (auto-save-default nil)    ;; stop creating #autosave# files
     (create-lockfiles nil)     ;; stop creating .# files
-    (require-final-newline t)) ;; auto add newline at the end of file
+    ;; (require-final-newline t)
+    ) ;; auto add newline at the end of file
 #+end_src
 
 When you visit a file, point goes to the last place where it was when you previously visited the same file.
@@ -124,6 +125,13 @@ When you visit a file, point goes to the last place where it was when you previo
     (save-place-mode +1))
 #+end_src
 
+See recently opened files.
+#+begin_src emacs-lisp :tangle lisp/kpav-defaults.el
+  (use-package recentf
+    :straight (:type built-in)
+    :ghook
+    ('after-init-hook #'recentf-mode))
+#+end_src
 *** Whitespace
 Show whitespace and newlines.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
@@ -584,8 +592,20 @@ Vertico comes with several extensions in an =extensions/= folder. These don't ge
     (vertico-mode +1))
 #+end_src
 
+A =posframe= extension to display it outside of the minibuffer.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
+  (use-package vertico-posframe
+    :straight t
+    :custom
+    (vertico-posframe-parameters
+     '((left-fringe . 10)
+       (right-fringe . 10)))
+    (vertico-posframe-poshandler #'posframe-poshandler-frame-center))
+#+end_src
+
+
 The multiform extension allows configuration per command. Using reverse by default, which I like because what you type does not move positions. Using buffer for ripgrep results as the list could be long.
-NOTE - unusable with =vertico-posframe=!
+NOTE - seems that =reverse= is unusable with =vertico-posframe=!
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package vertico-multiform
     :custom
@@ -594,11 +614,10 @@ NOTE - unusable with =vertico-posframe=!
     ;;         (display-buffer-at-bottom
     ;;          (window-height . ,(+ 3 vertico-count)))))
     (vertico-multiform-commands
-     '(;; (consult-ripgrep buffer)
-       (t reverse)))
+     '((consult-ripgrep buffer)
+       (t posframe)))
     :init
-    ;; (vertico-multiform-mode +1)
-    )
+    (vertico-multiform-mode +1))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
@@ -622,19 +641,6 @@ NOTE - unusable with =vertico-posframe=!
           #'command-completion-default-include-p)
     ;; Enable recursive minibuffers
     (setq enable-recursive-minibuffers t))
-#+end_src
-
-Posframe
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
-  (use-package vertico-posframe
-    :straight t
-    :custom
-    ;; (vertico-posframe-parameters
-    ;;  '((left-fringe . 0)
-    ;;    (right-fringe . 0)))
-    (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
-    :config
-    (vertico-posframe-mode +1))
 #+end_src
 
 *** Orderless
@@ -1138,6 +1144,16 @@ Company is a text completion framework for Emacs.
     (global-company-mode +1))
 #+end_src
 
+Use =posframe= for company completion results, this is mostly for buffers in =variable-pitch-mode= because it makes the company results look funky.
+#+begin_src emacs-lisp :tangle lisp/kpav-code.el
+  (use-package company-posframe
+    :straight t
+    :custom
+    (company-tooltip-minimum-width 40)
+    :config
+    (company-posframe-mode +1))
+#+end_src
+
 *** Error Checking - Flymake
 FlyMake is the built-in syntax checker for Emacs. It works for all (most?) of the languages that I use. Trying this out instead of *Flycheck* in my move to stick to built-in packages.
 
@@ -1194,12 +1210,15 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package eglot
     :straight t
+    :custom
+    (eglot-connect-timeout 120)
     :general
     (base-leader-def
       :states '(normal visual)
       "l" '(:ignore :wk "lsp")
       "lg" 'xref-find-definitions
       "lr" 'xref-find-references
+      "lb" 'xref-go-back
       "lf" 'eglot-format
       "lF" 'eglot-format-buffer
       "la" 'eglot-code-actions
@@ -1207,12 +1226,9 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
       "lh" 'eldoc))
 #+end_src
 
-Although Eglot depends on built-in packages, it needs the newest versions of them.
+Although Eglot depends on built-in packages, it needs the newest versions of them. Most of the packages are loaded elsewhere in the config, =eldoc= is all that is left
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package eldoc
-    :straight t)
-
-  (use-package xref
     :straight t)
 #+end_src
 *** COMMENT LSP
@@ -1334,8 +1350,8 @@ Highlight whats being eval'ed
 
 Use =clj-condo= and =flycheck=. This needs to be loaded before =clojure-mode= (note that =clj-kondo= needs to be installed on the local machine!)
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
-  (use-package flycheck-clj-kondo
-    :straight t)
+  ;; (use-package flycheck-clj-kondo
+  ;;   :straight t)
 #+end_src
 
 Use LSP with all clojure-related modes.
@@ -1353,7 +1369,8 @@ Use LSP with all clojure-related modes.
     ;; :custom
     ;; (lsp-enable-indentation nil)
     :config
-    (require 'flycheck-clj-kondo))
+    ;; (require 'flycheck-clj-kondo)
+    )
   ;; is this needed?
   ;; :config
   ;; (dolist (m '(clojure-mode
@@ -1637,11 +1654,13 @@ Set up the =ccls= language server
   (use-package ccls
     :straight t
     :hook ((c-mode c++-mode objc-mode cuda-mode) .
-           (lambda () (require 'ccls) (lsp)))
+           (lambda () (require 'ccls) ;;(lsp)
+             (eglot)))
     :config
     (setq ccls-executable "/usr/bin/ccls")
     ;; use flycheck instead of flymake
-    (setq lsp-prefer-flymake nil)
+    ;;(setq lsp-prefer-flymake nil)
+    (setq lsp-prefer-flymake t)
     (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc)))
 #+end_src
 

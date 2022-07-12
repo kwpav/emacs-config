@@ -38,6 +38,20 @@ Turn off the UI elements.
   (push '(vertical-scroll-bars) default-frame-alist) ;; remove scrollbars
 #+end_src
 
+Native compilation settings
+#+begin_src emacs-lisp :tangle early-init.el
+  (when (featurep 'native-compile)
+    ;; Silence compiler warnings as they can be pretty disruptive
+    (setq native-comp-async-report-warnings-errors nil)
+    ;; Make native compilation happens asynchronously
+    (setq native-comp-deferred-compilation t))
+#+end_src
+
+Load =modus-vivendi= to avoid white screen flash
+#+begin_src emacs-lisp :tangle early-init.el
+  (load-theme 'modus-vivendi t)
+#+end_src
+
 Now we end the file.
 #+begin_src emacs-lisp :tangle early-init.el
   (provide 'early-init)
@@ -166,7 +180,9 @@ Settings for things that are defined in the C source code, so we use =emacs= as 
     :straight (:type built-in)
     :init
     ;; answer with y/n instead of typing out yes/no
-    (defalias 'yes-or-no-p 'y-or-n-p)
+    (if (boundp 'use-short-answers)
+        (setq use-short-answers t)
+      (advice-add 'yes-or-no-p :override #'y-or-n-p))
     :custom
     ;; load new source files instead of stale elisp bytecode
     (load-prefer-newer t)

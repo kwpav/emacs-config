@@ -5,6 +5,13 @@
   :config
   (global-company-mode +1))
 
+(use-package company-posframe
+  :straight t
+  :custom
+  (company-tooltip-minimum-width 40)
+  :config
+  (company-posframe-mode +1))
+
 (use-package flymake
   :straight t
   :ghook
@@ -26,12 +33,15 @@
 
 (use-package eglot
   :straight t
+  :custom
+  (eglot-connect-timeout 120)
   :general
   (base-leader-def
     :states '(normal visual)
     "l" '(:ignore :wk "lsp")
     "lg" 'xref-find-definitions
     "lr" 'xref-find-references
+    "lb" 'xref-go-back
     "lf" 'eglot-format
     "lF" 'eglot-format-buffer
     "la" 'eglot-code-actions
@@ -39,9 +49,6 @@
     "lh" 'eldoc))
 
 (use-package eldoc
-  :straight t)
-
-(use-package xref
   :straight t)
 
 (provide 'kpav-code)

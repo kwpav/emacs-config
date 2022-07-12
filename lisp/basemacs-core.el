@@ -48,7 +48,9 @@
   :straight (:type built-in)
   :init
   ;; answer with y/n instead of typing out yes/no
-  (defalias 'yes-or-no-p 'y-or-n-p)
+  (if (boundp 'use-short-answers)
+      (setq use-short-answers t)
+    (advice-add 'yes-or-no-p :override #'y-or-n-p))
   :custom
   ;; load new source files instead of stale elisp bytecode
   (load-prefer-newer t)

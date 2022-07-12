@@ -23,12 +23,18 @@
   (make-backup-files nil)    ;; stop creating backup~ files
   (auto-save-default nil)    ;; stop creating #autosave# files
   (create-lockfiles nil)     ;; stop creating .# files
-  (require-final-newline t)) ;; auto add newline at the end of file
+  ;; (require-final-newline t)
+  ) ;; auto add newline at the end of file
 
 (use-package saveplace
   :straight (:type built-in)
   :config
   (save-place-mode +1))
+
+(use-package recentf
+  :straight (:type built-in)
+  :ghook
+  ('after-init-hook #'recentf-mode))
 
 (use-package emacs
   :straight (:type built-in)

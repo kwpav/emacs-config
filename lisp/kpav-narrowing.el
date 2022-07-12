@@ -13,6 +13,14 @@
   :init
   (vertico-mode +1))
 
+(use-package vertico-posframe
+  :straight t
+  :custom
+  (vertico-posframe-parameters
+   '((left-fringe . 10)
+     (right-fringe . 10)))
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-center))
+
 (use-package vertico-multiform
   :custom
   ;; (vertico-buffer-display-action
@@ -20,11 +28,10 @@
   ;;         (display-buffer-at-bottom
   ;;          (window-height . ,(+ 3 vertico-count)))))
   (vertico-multiform-commands
-   '(;; (consult-ripgrep buffer)
-     (t reverse)))
+   '((consult-ripgrep buffer)
+     (t posframe)))
   :init
-  ;; (vertico-multiform-mode +1)
-  )
+  (vertico-multiform-mode +1))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -46,16 +53,6 @@
         #'command-completion-default-include-p)
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
-
-(use-package vertico-posframe
-  :straight t
-  :custom
-  ;; (vertico-posframe-parameters
-  ;;  '((left-fringe . 0)
-  ;;    (right-fringe . 0)))
-  (vertico-posframe-poshandler #'posframe-poshandler-frame-top-center)
-  :config
-  (vertico-posframe-mode +1))
 
 (use-package orderless
   :straight t
