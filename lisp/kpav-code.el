@@ -51,5 +51,10 @@
 (use-package eldoc
   :straight t)
 
+(use-package eldoc-box
+  :straight t
+  :ghook
+  ('eglot-managaged-mode-hook #'eldoc-box-hover-mode t))
+
 (provide 'kpav-code)
 ;;; kpav-code.el ends here

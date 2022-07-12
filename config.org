@@ -312,7 +312,7 @@ Modus themes are readable, clean looking, and super customizable. It also works 
     (modus-themes-load-vivendi))
 #+end_src
 *** Variable Pitch
-=variable-pitch-mode= allows us to have multiple fonts in a single buffer. This is useful for =org-mode= which can have prose, code, and other things, in the same file.
+Variable Pitch allows us to have multiple fonts in a single buffer. This is useful for Org Mode which can have prose, code, and other things, in the same file.
 
 Turn =variable-pitch-mode= on for =org-mode=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
@@ -602,7 +602,6 @@ A =posframe= extension to display it outside of the minibuffer.
        (right-fringe . 10)))
     (vertico-posframe-poshandler #'posframe-poshandler-frame-center))
 #+end_src
-
 
 The multiform extension allows configuration per command. Using reverse by default, which I like because what you type does not move positions. Using buffer for ripgrep results as the list could be long.
 NOTE - seems that =reverse= is unusable with =vertico-posframe=!
@@ -1230,6 +1229,13 @@ Although Eglot depends on built-in packages, it needs the newest versions of the
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package eldoc
     :straight t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
+  (use-package eldoc-box
+    :straight t
+    :ghook
+    ('eglot-managaged-mode-hook #'eldoc-box-hover-mode t))
 #+end_src
 *** COMMENT LSP
 #+BEGIN_QUOTE

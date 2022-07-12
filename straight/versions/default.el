@@ -21,6 +21,7 @@
  ("eglot" . "e0c08e7f687119d1dd39c8e298cbc49e4b16fdff")
  ("el-get" . "bf3dba444dcd240b8cb358a0850c8c5a92606134")
  ("eldoc" . "88f5e70a8868bef0d685a57a623e51a233a33380")
+ ("eldoc-box" . "39b44c99a02299fc7270f1c1832fb37149f8b924")
  ("emacs-aio" . "da93523e235529fa97d6f251319d9e1d6fc24a41")
  ("emacs-libvterm" . "3155a477b43c1567d754768f5be79296440ebaf8")
  ("emacs-undo-fu" . "2c00eff32487e90d40588dcc69dc0e8d40a99f61")
