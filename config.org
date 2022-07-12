@@ -1235,7 +1235,7 @@ Although Eglot depends on built-in packages, it needs the newest versions of the
   (use-package eldoc-box
     :straight t
     :ghook
-    ('eglot-managaged-mode-hook #'eldoc-box-hover-mode t))
+    ('eglot-managed-mode-hook #'eldoc-box-hover-mode t))
 #+end_src
 *** COMMENT LSP
 #+BEGIN_QUOTE
