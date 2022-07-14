@@ -2,11 +2,14 @@
 #+DESCRIPTION: My personal Emacs configuration.
 
 * About
-This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://github.com/joaotavora/eglot][Eglot]] (formerly [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]]) for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now.
+This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://github.com/joaotavora/eglot][Eglot]] (formerly [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]]) for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now. It is a "Literate" config, where prose and code live together in harmony... what this basically means is that configuration code is in this Org file, along with some text that describes what it's doing.
 
-It is a "Literate" config, where prose and code live together in harmony... what this basically means is that configuration code contained in this Org file, along with some text that describes what it's doing.
+The primary goal is to (try) to keep things simple. My hope is that this will keep things easy to understand, fast, and bug-free. Some ways I attempt do this are:
+- Using =use-package= for almost everything.
+- Using built in packages where I think it makes sense (e.g.  =project.el= over =projectile=).
+- Keeping things modular.
 ** How it Works
-As with =basemacs=, this is as a literate config using Org mode, and all configuration is done (mostly) with =use-package=.  The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
+The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
 * Startup
 Let's get everything setup!
 #+begin_src emacs-lisp :lexical t :tangle init.el
@@ -49,7 +52,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-docker)
   ;; code
   (require 'kpav-code)
-  ;; (require 'kpav-php)
+  (require 'kpav-php)
   (require 'kpav-elisp)
   (require 'kpav-clojure)
   (require 'kpav-common-lisp)
@@ -160,7 +163,6 @@ Use spaces for indentation, not tabs. Set the width to 4 instead of the default 
     (setq-default indent-tabs-mode nil
                   tab-width 4))
 #+end_src
-
 *** Auto Saving
 #+begin_quote
 super-save auto-saves your buffers, when certain events happen - e.g. you switch between buffers, an Emacs frame loses focus, etc.
@@ -277,7 +279,6 @@ Increase the line spacing to let the text breathe a bit.
     :init
     (setq-default line-spacing 3))
 #+end_src
-
 *** Modus Themes
 #+begin_quote
 Accessible themes for GNU Emacs, conforming with the highest standard for colour contrast between background and foreground values (WCAG AAA)
@@ -1222,6 +1223,7 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
       "lF" 'eglot-format-buffer
       "la" 'eglot-code-actions
       "lo" 'eglot-code-actions-organize-imports
+      "lR" 'eglot-rename
       "lh" 'eldoc))
 #+end_src
 
@@ -1719,7 +1721,6 @@ Set up the =ccls= language server
   (provide 'kpav-graphql)
   ;;; kpav-graphql.el ends here
 #+end_src
-
 * EOF
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (provide 'init)

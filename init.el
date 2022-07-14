@@ -25,7 +25,7 @@
 (require 'kpav-docker)
 ;; code
 (require 'kpav-code)
-;; (require 'kpav-php)
+(require 'kpav-php)
 (require 'kpav-elisp)
 (require 'kpav-clojure)
 (require 'kpav-common-lisp)
