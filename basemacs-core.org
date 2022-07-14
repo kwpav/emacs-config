@@ -47,11 +47,6 @@ Native compilation settings
     (setq native-comp-deferred-compilation t))
 #+end_src
 
-Load =modus-vivendi= to avoid white screen flash
-#+begin_src emacs-lisp :tangle early-init.el
-  (load-theme 'modus-vivendi t)
-#+end_src
-
 Now we end the file.
 #+begin_src emacs-lisp :tangle early-init.el
   (provide 'early-init)

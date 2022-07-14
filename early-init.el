@@ -15,7 +15,5 @@
   ;; Make native compilation happens asynchronously
   (setq native-comp-deferred-compilation t))
 
-(load-theme 'modus-vivendi t)
-
 (provide 'early-init)
 ;;; early-init.el ends here
