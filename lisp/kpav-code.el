@@ -52,6 +52,9 @@
 (use-package eldoc
   :straight t)
 
+(use-package xref
+  :straight t)
+
 (use-package eldoc-box
   :straight t
   :ghook

@@ -59,13 +59,18 @@
   :preface
   :init
   (column-number-mode +1)
-  (doom-modeline-mode +1)
+  :ghook
+  'after-init-hook
   :custom
   (doom-modeline-vcs-max-length 50)
   (doom-modeline-buffer-file-name-style 'truncate-upto-project)
   (doom-modeline-modal-icon t)
   (doom-modeline-buffer-encoding nil)
-  (doom-modeline-indent-info nil))
+  (doom-modeline-indent-info nil)
+  (doom-modeline-major-mode-icon nil)
+  (doom-modeline-modal-icon nil)
+  (doom-modeline-persp-name t)
+  (doom-modeline-workspace-name nil))
 
 (use-package rainbow-delimiters
   :straight t

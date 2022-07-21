@@ -9,7 +9,7 @@ The primary goal is to (try) to keep things simple. My hope is that this will ke
 - Using built in packages where I think it makes sense (e.g.  =project.el= over =projectile=).
 - Keeping things modular.
 ** How it Works
-The code here is tangled using =org-babel-tangle=, it creates =init.el= and various "modules" in the =lisp/= directory.
+The code here is tangled using =M-x org-babel-tangle=, which creates =init.el= and various "modules" in the =lisp/= directory.
 * Startup
 Let's get everything setup!
 #+begin_src emacs-lisp :lexical t :tangle init.el
@@ -63,15 +63,13 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-graphql)
 #+end_src
 
-All system specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
+System specific configuration is done in =lisp/kpav-local.el=. This loads that file if it exists.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))
 
   (when (file-exists-p kpav-local-file)
     (load kpav-local-file))
 #+end_src
-
-This approach requires a bit more code than having this file just tangle to =init.el=, but I like the ability to easily turn on/off and change the order of things for tinkering and debugging purposes.
 * Emacs
 Things that modify Emacs itself.
 ** Opininionated Defaults
@@ -341,13 +339,18 @@ You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the 
     :preface
     :init
     (column-number-mode +1)
-    (doom-modeline-mode +1)
+    :ghook
+    'after-init-hook
     :custom
     (doom-modeline-vcs-max-length 50)
     (doom-modeline-buffer-file-name-style 'truncate-upto-project)
     (doom-modeline-modal-icon t)
     (doom-modeline-buffer-encoding nil)
-    (doom-modeline-indent-info nil))
+    (doom-modeline-indent-info nil)
+    (doom-modeline-major-mode-icon nil)
+    (doom-modeline-modal-icon nil)
+    (doom-modeline-persp-name t)
+    (doom-modeline-workspace-name nil))
 #+end_src
 *** Rainbow Delimiters
 Add rainbow delimiters in all programming language modes
@@ -1227,12 +1230,16 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
       "lh" 'eldoc))
 #+end_src
 
-Although Eglot depends on built-in packages, it needs the newest versions of them. Most of the packages are loaded elsewhere in the config, =eldoc= is all that is left
+Although Eglot depends on built-in packages, it needs the newest versions of them. Most of the packages are loaded elsewhere in the config, =eldoc= and =xref= are all that is left
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package eldoc
     :straight t)
+
+  (use-package xref
+    :straight t)
 #+end_src
 
+Move =eldoc= out of the minibuffer when =eglot= is enabled.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package eldoc-box
     :straight t
