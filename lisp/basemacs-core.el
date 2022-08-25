@@ -31,7 +31,6 @@
   (defvar basemacs-local-leader "C-c C-m"
     "Basemacs local leader key")
   :config
-  (general-evil-setup)
   (general-create-definer base-leader-def
     :prefix basemacs-leader)
   (general-create-definer base-local-leader-def

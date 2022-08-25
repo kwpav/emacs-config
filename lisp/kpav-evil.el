@@ -12,6 +12,7 @@
         evil-undo-system 'undo-fu
         evil-disable-insert-state-bindings t) ;; emacs keys in insert mode
   :config
+  (general-evil-setup)
   (evil-mode +1))
 
 (use-package evil-collection
