@@ -198,6 +198,7 @@ Evil mode is vim in Emacs! Using =undo-fu= here instead of =undo-tree= as I have
           evil-undo-system 'undo-fu
           evil-disable-insert-state-bindings t) ;; emacs keys in insert mode
     :config
+    (general-evil-setup)
     (evil-mode +1))
 #+end_src
 The bit about using Emacs keybinds in evil mode is from https://stackoverflow.com/questions/25542097/emacs-evil-mode-how-to-change-insert-state-to-emacs-state-automatically
@@ -344,7 +345,6 @@ You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the 
     :custom
     (doom-modeline-vcs-max-length 50)
     (doom-modeline-buffer-file-name-style 'truncate-upto-project)
-    (doom-modeline-modal-icon t)
     (doom-modeline-buffer-encoding nil)
     (doom-modeline-indent-info nil)
     (doom-modeline-major-mode-icon nil)
@@ -1639,6 +1639,7 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
     #'eglot-ensure)
 #+end_src
 **** TypeScript
+Set up for standard TypeScript (=.ts=) files.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
   (use-package typescript-mode
     :straight t
@@ -1647,6 +1648,23 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
     :gfhook
     ;;#'lsp
     #'eglot-ensure)
+#+end_src
+
+=typescript-mode= can't handle =.tsx= files, but =web-mode= can.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  (use-package web-mode
+    :straight t
+    :mode "\\.tsx\\'"
+    :commands (web-mode)
+    :gfhook
+    #'eglot-ensure)
+#+end_src
+
+Have =web-mode= use the TS language server because otherwise =eglot= does not know which server to use.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
+  (use-package eglot
+    :config
+    (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
 #+end_src
 **** JSON
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el

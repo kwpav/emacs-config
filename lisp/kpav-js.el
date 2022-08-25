@@ -16,6 +16,17 @@
   ;;#'lsp
   #'eglot-ensure)
 
+(use-package web-mode
+  :straight t
+  :mode "\\.tsx\\'"
+  :commands (web-mode)
+  :gfhook
+  #'eglot-ensure)
+
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio"))))
+
 (use-package json-mode
   :straight t
   :mode "\\.json\\'")

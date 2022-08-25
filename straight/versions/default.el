@@ -105,6 +105,7 @@
  ("use-package" . "e2d173b1200865a9efd5c2066831a230497582c0")
  ("vertico" . "3628001cc0581d27d44197c53935d70c2d469507")
  ("vertico-posframe" . "8cd6c2cb335246a6c194d052ac93b364e5847d66")
+ ("web-mode" . "de9dfa3ac3cd54e6acb4f9d9d1343f8d4eabd363")
  ("with-editor" . "1d5860cfd05d6805018bd071b8f9b56493ba11c6")
  ("xref" . "feb30d284d45e4904501d65b515069a1e365e07a")
  ("yaml-mode" . "535273d5a1eb76999d20afbcf4d9f056d8ffd2da")
