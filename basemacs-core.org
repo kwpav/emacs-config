@@ -142,7 +142,6 @@ Set the leader key as =C-c=.
     (defvar basemacs-local-leader "C-c C-m"
       "Basemacs local leader key")
     :config
-    (general-evil-setup)
     (general-create-definer base-leader-def
       :prefix basemacs-leader)
     (general-create-definer base-local-leader-def
@@ -154,7 +153,7 @@ Set the leader key as =C-c=.
 =which-key= is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command (a prefix) in a popup.
 #+end_quote
 
-=which-key= is a very helpful package because there are a lot of keybindings in Emacs, and this makes them easy to see. It feels like it should be built-in. 
+=which-key= is a very helpful package because there are a lot of keybindings in Emacs, and this makes them easy to see. It feels like it should be built-in.
 
 Reduce the delay to =0= to make it appear instantaneously.
 #+begin_src emacs-lisp :tangle lisp/basemacs-core.el
