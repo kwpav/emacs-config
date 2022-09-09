@@ -1363,12 +1363,6 @@ Highlight whats being eval'ed
   (require 'kpav-lisp-core)
 #+end_src
 
-Use =clj-condo= and =flycheck=. This needs to be loaded before =clojure-mode= (note that =clj-kondo= needs to be installed on the local machine!)
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
-  ;; (use-package flycheck-clj-kondo
-  ;;   :straight t)
-#+end_src
-
 Use LSP with all clojure-related modes.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-clojure.el
   (use-package clojure-mode
@@ -1383,8 +1377,6 @@ Use LSP with all clojure-related modes.
     ('clojurescript-mode #'eglot-ensure)
     ;; :custom
     ;; (lsp-enable-indentation nil)
-    :config
-    ;; (require 'flycheck-clj-kondo)
     )
   ;; is this needed?
   ;; :config

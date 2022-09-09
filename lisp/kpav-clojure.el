@@ -1,9 +1,6 @@
 ;;; kpav-clojure.el --- -*- lexical-binding: t -*-
 (require 'kpav-lisp-core)
 
-;; (use-package flycheck-clj-kondo
-;;   :straight t)
-
 (use-package clojure-mode
   :straight t
   :defer t
@@ -16,8 +13,6 @@
   ('clojurescript-mode #'eglot-ensure)
   ;; :custom
   ;; (lsp-enable-indentation nil)
-  :config
-  ;; (require 'flycheck-clj-kondo)
   )
 ;; is this needed?
 ;; :config
