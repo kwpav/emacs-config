@@ -45,7 +45,7 @@
     "lf" 'eglot-format
     "lF" 'eglot-format-buffer
     "la" 'eglot-code-actions
-    "lo" 'eglot-code-actions-organize-imports
+    "lo" 'eglot-code-action-organize-imports
     "lR" 'eglot-rename
     "lh" 'eldoc))
 
