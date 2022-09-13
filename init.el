@@ -32,7 +32,7 @@
 (require 'kpav-js)
 ;; (require 'kpav-c)
 (require 'kpav-yaml)
-(require 'kpav-grpc)
+;; (require 'kpav-grpc)
 (require 'kpav-graphql)
 
 (defconst kpav-local-file (expand-file-name "lisp/kpav-local.el" user-emacs-directory))

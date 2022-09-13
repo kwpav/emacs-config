@@ -59,7 +59,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-js)
   ;; (require 'kpav-c)
   (require 'kpav-yaml)
-  (require 'kpav-grpc)
+  ;; (require 'kpav-grpc)
   (require 'kpav-graphql)
 #+end_src
 
