@@ -9,6 +9,7 @@
   :straight (:type built-in)
   :defer t
   :ghook
+  ('python-mode-hook #'tree-sitter-mode)
   ('python-mode-hook #'eglot-ensure)
   ('inferior-python-mode-hook #'eglot-ensure))
 

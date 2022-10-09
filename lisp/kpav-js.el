@@ -6,6 +6,7 @@
   :interpreter "node"
   :gfhook
   ;;#'lsp
+  #'tree-sitter-mode
   #'eglot-ensure)
 
 (use-package typescript-mode
@@ -14,14 +15,16 @@
   :commands (typescript-mode)
   :gfhook
   ;;#'lsp
-  #'eglot-ensure)
+  #'eglot-ensure
+  #'tree-sitter-mode)
 
 (use-package web-mode
   :straight t
   :mode "\\.tsx\\'"
   :commands (web-mode)
   :gfhook
-  #'eglot-ensure)
+  #'eglot-ensure
+  #'tree-sitter-mode)
 
 (use-package eglot
   :config
@@ -29,7 +32,9 @@
 
 (use-package json-mode
   :straight t
-  :mode "\\.json\\'")
+  :mode "\\.json\\'"
+  :gfhook
+  #'tree-sitter-mode)
 
 (provide 'kpav-js)
 ;;; kpav-js.el ends here

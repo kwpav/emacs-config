@@ -1285,6 +1285,15 @@ Setup for Microsoft's (GASP!) Language Server Protocol. Any language that uses t
 
 Some handy links
 - https://emacs-lsp.github.io/lsp-mode/page/performance/
+*** Tree Sitter
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
+  (use-package tree-sitter
+    :straight t)
+
+  (use-package tree-sitter-langs
+    :straight t)
+#+end_src
+
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (provide 'kpav-code)
@@ -1638,8 +1647,13 @@ Set up LSP with =eglot=
   (use-package python
     :straight (:type built-in)
     :defer t
+    :gfhook
+    #'tree-sitter-mode
+    #'tree-sitter-hl-mode
+    #'eglot-ensure
     :ghook
-    ('python-mode-hook #'eglot-ensure)
+    ;; ('python-mode-hook #'tree-sitter-mode)
+    ;; ('python-mode-hook #'eglot-ensure)
     ('inferior-python-mode-hook #'eglot-ensure))
 #+end_src
 
@@ -1661,6 +1675,8 @@ Using the built in =js-mode=. This handles both vanilla js and =.jsx=.
     :interpreter "node"
     :gfhook
     ;;#'lsp
+    #'tree-sitter-mode
+    #'tree-sitter-hl-mode
     #'eglot-ensure)
 #+end_src
 **** TypeScript
@@ -1672,7 +1688,9 @@ Set up for standard TypeScript (=.ts=) files.
     :commands (typescript-mode)
     :gfhook
     ;;#'lsp
-    #'eglot-ensure)
+    #'eglot-ensure
+    #'tree-sitter-mode
+    #'tree-sitter-hl-mode)
 #+end_src
 
 =typescript-mode= can't handle =.tsx= files, but =web-mode= can.
@@ -1682,7 +1700,9 @@ Set up for standard TypeScript (=.ts=) files.
     :mode "\\.tsx\\'"
     :commands (web-mode)
     :gfhook
-    #'eglot-ensure)
+    #'eglot-ensure
+    #'tree-sitter-mode
+    #'tree-sitter-hl-mode)
 #+end_src
 
 Have =web-mode= use the TS language server because otherwise =eglot= does not know which server to use.
@@ -1695,7 +1715,10 @@ Have =web-mode= use the TS language server because otherwise =eglot= does not kn
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
   (use-package json-mode
     :straight t
-    :mode "\\.json\\'")
+    :mode "\\.json\\'"
+    :gfhook
+    #'tree-sitter-mode
+    #'tree-sitter-hl-mode)
 #+end_src
 **** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
