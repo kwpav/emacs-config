@@ -30,6 +30,7 @@
 (require 'kpav-clojure)
 (require 'kpav-common-lisp)
 (require 'kpav-js)
+(require 'kpav-python)
 ;; (require 'kpav-c)
 (require 'kpav-yaml)
 ;; (require 'kpav-grpc)

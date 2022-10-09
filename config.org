@@ -57,6 +57,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-clojure)
   (require 'kpav-common-lisp)
   (require 'kpav-js)
+  (require 'kpav-python)
   ;; (require 'kpav-c)
   (require 'kpav-yaml)
   ;; (require 'kpav-grpc)
@@ -1615,6 +1616,38 @@ Use =PHP_CodeSniffer= to format files
     (provide 'kpav-php)
     ;;; kpav-php.el ends here
 #+end_src
+*** Python
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-python.el
+  ;;; kpav-python.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Use =pyenv= for managing virtual environments
+Set python version with:
+=M-x pyvenv-mode-set=
+Then
+=M-x run-python=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-python.el
+  (use-package pyenv-mode
+    :straight t
+    :ghook
+    ('python-mode-hook #'pyenv-mode))
+#+end_src
+
+Set up LSP with =eglot=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-python.el
+  (use-package python
+    :straight (:type built-in)
+    :defer t
+    :ghook
+    ('python-mode-hook #'eglot-ensure)
+    ('inferior-python-mode-hook #'eglot-ensure))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-python.el
+    (provide 'kpav-python)
+    ;;; kpav-python.el ends here
+#+end_src
+
 *** JavaScript / TypeScript
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-js.el
   ;;; kpav-js.el --- -*- lexical-binding: t -*-
