@@ -45,6 +45,9 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-org)
   (require 'kpav-ui)
   (require 'kpav-windows-and-buffers)
+  ;; prose
+  (require 'kpav-markdown)
+  (require 'kpav-org-roam)
   ;; tools
   (require 'kpav-project)
   (require 'kpav-git)
@@ -891,6 +894,48 @@ Get list of minor modes in current buffer
      "Minor modes: "
      local-minor-modes
      nil t))
+#+end_src
+* Prose
+Modes and other things that deal with prose.
+** Markdown
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-markdown.el
+  ;;; kpav-markdown.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-markdown.el
+  (use-package markdown-mode
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-markdown.el
+  (provide 'kpav-markdown)
+  ;;; kpav-markdown.el ends here
+#+end_src
+** Org Roam
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  ;;; kpav-org-roam.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  (use-package org-roam
+    :straight t
+    :custom
+    (org-roam-directory (file-truename "~/org/roam"))
+    :ghook
+    ('after-init-hook #'org-roam-db-autosync-mode)
+    :general
+    (base-leader-def
+      :states '(normal visual)
+      "r" '(:ignore :wk "roam")
+      "ri" 'org-roam-node-insert
+      "rf" 'org-roam-node-find
+      "rc" 'org-roam-node-capture))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  (provide 'kpav-org-roam)
+  ;;; kpav-org-roam.el ends here
 #+end_src
 * Tools
 Add and configure some additional tools.

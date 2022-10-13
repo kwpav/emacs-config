@@ -18,6 +18,9 @@
 (require 'kpav-org)
 (require 'kpav-ui)
 (require 'kpav-windows-and-buffers)
+;; prose
+(require 'kpav-markdown)
+(require 'kpav-org-roam)
 ;; tools
 (require 'kpav-project)
 (require 'kpav-git)
