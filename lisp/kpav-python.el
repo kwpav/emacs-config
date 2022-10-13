@@ -6,11 +6,12 @@
   ('python-mode-hook #'pyenv-mode))
 
 (use-package python
-  :straight (:type built-in)
-  :defer t
+  :straight t
+  :gfhook
+  #'tree-sitter-mode
+  #'tree-sitter-hl-mode
+  #'eglot-ensure
   :ghook
-  ('python-mode-hook #'tree-sitter-mode)
-  ('python-mode-hook #'eglot-ensure)
   ('inferior-python-mode-hook #'eglot-ensure))
 
 (provide 'kpav-python)

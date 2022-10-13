@@ -43,7 +43,7 @@
   :straight t
   :general
   (base-leader-def
-    :states 'normal
+    :states '(normal visual)
     "gl" '(:ignore t :wk "git link")
     "gll" 'git-link
     "glc" 'git-link-commit

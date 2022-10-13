@@ -7,6 +7,7 @@
   :gfhook
   ;;#'lsp
   #'tree-sitter-mode
+  #'tree-sitter-hl-mode
   #'eglot-ensure)
 
 (use-package typescript-mode
@@ -16,7 +17,8 @@
   :gfhook
   ;;#'lsp
   #'eglot-ensure
-  #'tree-sitter-mode)
+  #'tree-sitter-mode
+  #'tree-sitter-hl-mode)
 
 (use-package web-mode
   :straight t
@@ -24,7 +26,8 @@
   :commands (web-mode)
   :gfhook
   #'eglot-ensure
-  #'tree-sitter-mode)
+  #'tree-sitter-mode
+  #'tree-sitter-hl-mode)
 
 (use-package eglot
   :config
@@ -34,7 +37,8 @@
   :straight t
   :mode "\\.json\\'"
   :gfhook
-  #'tree-sitter-mode)
+  #'tree-sitter-mode
+  #'tree-sitter-hl-mode)
 
 (provide 'kpav-js)
 ;;; kpav-js.el ends here

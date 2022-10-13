@@ -955,7 +955,7 @@ Go through commit history on a file.
     :straight t
     :general
     (base-leader-def
-      :states 'normal
+      :states '(normal visual)
       "gl" '(:ignore t :wk "git link")
       "gll" 'git-link
       "glc" 'git-link-commit
@@ -1288,9 +1288,11 @@ Some handy links
 *** Tree Sitter
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (use-package tree-sitter
+    :defer t
     :straight t)
 
   (use-package tree-sitter-langs
+    :after tree-sitter
     :straight t)
 #+end_src
 
@@ -1645,15 +1647,12 @@ Then
 Set up LSP with =eglot=
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-python.el
   (use-package python
-    :straight (:type built-in)
-    :defer t
+    :straight t
     :gfhook
     #'tree-sitter-mode
     #'tree-sitter-hl-mode
     #'eglot-ensure
     :ghook
-    ;; ('python-mode-hook #'tree-sitter-mode)
-    ;; ('python-mode-hook #'eglot-ensure)
     ('inferior-python-mode-hook #'eglot-ensure))
 #+end_src
 

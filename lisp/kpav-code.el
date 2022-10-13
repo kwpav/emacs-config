@@ -61,9 +61,11 @@
   ('eglot-managed-mode-hook #'eldoc-box-hover-mode t))
 
 (use-package tree-sitter
+  :defer t
   :straight t)
 
 (use-package tree-sitter-langs
+  :after tree-sitter
   :straight t)
 
 (provide 'kpav-code)
