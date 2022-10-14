@@ -902,15 +902,15 @@ Capture Templates
   ;;; kpav-org-roam.el --- -*- lexical-binding: t -*-
 #+end_src
 
-Trying out [[https://www.orgroam.com/][Org-roam]] to handle my note taking instead of my previous attempts at using a single =notes.org= and capture templates. I had a hard time keeping things organized, even though I don't take a large amount of notes. I think this is because the approach of having a single file with headers is too rigid for me, as I feel like I need to be meaningful with my headers or things will get too cluttered, but then things get cluttered anyway as I end up sticking unrelated things in a single header.
+Trying out [[https://www.orgroam.com/][Org-roam]] to handle my note taking instead of my previous attempt at using a single =notes.org= and capture templates. I had a hard time keeping things organized, even though I don't take a large amount of notes. I think this is because the approach of having a single file with headers is too rigid for me, as I feel like I need to be meaningful with my headers or things would get too cluttered, but then things get cluttered anyway as I end up sticking unrelated things in a single header.
 
-=Org-roam= promotes the [[https://zettelkasten.de/introduction/][Zettelkasten Method]]. Basically, you make small notes and link them together. This approach should allow me to take and delete as many (or as few...) notes as I need without abandon, while =Org-roam= allows me to easily add, link, and search through them. I can then change things as I need by adding  new subfolders or filetags to things. I can even keep using large org files for things if I wanted (like my blog).
+=Org-roam= promotes the [[https://zettelkasten.de/introduction/][Zettelkasten Method]]. Basically, you make small notes and link them together. This approach should allow me to take and delete as many (or as few...) notes as I need without abandon, while =Org-roam= allows me to easily add, link, and search through them. I can then change things as I need by adding  new subfolders or filetags to things. I can even keep using large org files for things if I want (like my blog).
 
 Note structure is:
 - =daily/= - used for =org-roam-dailies=
 - =main/= - the default place for notes
-- =work/= - notes for work, ignored by git so shouldn't be referenced by anything else
-  - =jira/=
+- =work/= - notes for work
+  - =jira/= - for jira tickets, will most likely link to other notes in =work/=
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
   (use-package org-roam
     :straight t
@@ -919,10 +919,6 @@ Note structure is:
     (org-roam-capture-templates
      '(("m" "main" plain "%?"
         :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org"
-                           "#+title: ${title}\n")
-        :unnarrowed t)
-       ("p" "personal" plain "%?"
-        :if-new (file+head "personal/%<%Y%m%d%H%M%S>-${slug}.org"
                            "#+title: ${title}\n")
         :unnarrowed t)
        ("w" "work" plain "%?"
@@ -953,7 +949,20 @@ Note structure is:
       "ndt" 'org-roam-dailies-capture-today
       "ndT" 'org-roam-dailies-goto-today
       "ndy" 'org-roam-dailies-capture-yesterday
-      "ndY" 'org-roam-dailies-goto-yesterday))
+      "ndY" 'org-roam-dailies-goto-yesterday)
+    :config
+    ;; Display the `node' (e.g. main/work/jira) and filetags when searching
+    ;; from https://jethrokuan.github.io/org-roam-guide/
+    (cl-defmethod org-roam-node-type ((node org-roam-node))
+      "Return the TYPE of NODE."
+      (condition-case nil
+          (file-name-nondirectory
+           (directory-file-name
+            (file-name-directory
+             (file-relative-name (org-roam-node-file node) org-roam-directory))))
+        (error "")))
+    (setq org-roam-node-display-template
+          (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el

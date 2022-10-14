@@ -9,10 +9,6 @@
       :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org"
                          "#+title: ${title}\n")
       :unnarrowed t)
-     ("p" "personal" plain "%?"
-      :if-new (file+head "personal/%<%Y%m%d%H%M%S>-${slug}.org"
-                         "#+title: ${title}\n")
-      :unnarrowed t)
      ("w" "work" plain "%?"
       :if-new (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org"
                          "#+title: ${title}\n")
@@ -41,7 +37,20 @@
     "ndt" 'org-roam-dailies-capture-today
     "ndT" 'org-roam-dailies-goto-today
     "ndy" 'org-roam-dailies-capture-yesterday
-    "ndY" 'org-roam-dailies-goto-yesterday))
+    "ndY" 'org-roam-dailies-goto-yesterday)
+  :config
+  ;; Display the `node' (e.g. main/work/jira) and filetags when searching
+  ;; from https://jethrokuan.github.io/org-roam-guide/
+  (cl-defmethod org-roam-node-type ((node org-roam-node))
+    "Return the TYPE of NODE."
+    (condition-case nil
+        (file-name-nondirectory
+         (directory-file-name
+          (file-name-directory
+           (file-relative-name (org-roam-node-file node) org-roam-directory))))
+      (error "")))
+  (setq org-roam-node-display-template
+        (concat "${type:15} ${title:*} " (propertize "${tags:10}" 'face 'org-tag))))
 
 (use-package org-roam-ui
   :straight
