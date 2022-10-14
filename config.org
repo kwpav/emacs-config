@@ -496,88 +496,6 @@ Switch buffer command only looks at current perspective
   (provide 'kpav-windows-and-buffers)
   ;;; kpav-windows-and-buffers.el ends here
 #+end_src
-** Org Mode
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
-  ;;; kpav-org.el --- -*- lexical-binding: t -*-
-#+end_src
-
-- Use evil way of closing and quitting (=:q= =:x=) when editing code in org mode
-- Define some keys
-- Disable the checkdock check because most of my elisp code is in snippets in this config
-- =org-use-fast-todo-selection=
-  - Change the status of the todo state by pressing ~C-c C-c t <KEY>~
-  - the =<KEY>= is the the letter in the parens after the state (e.g. =TODO(t)=)
-
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
-  (use-package org
-    :straight t
-    :general
-    (org-src-mode-map
-     [remap evil-save-and-close] 'org-edit-src-exit
-     [remap evil-save-modified-and-close] 'org-edit-src-exit
-     [remap evil-quit] 'org-edit-src-abort)
-    (base-leader-def
-      :states 'normal
-      "a" 'org-agenda)
-    (base-local-leader-def
-      :keymaps 'org-mode-map
-      :states 'normal
-      "b" 'org-babel-tangle)
-    :preface
-    (defun my-disable-flycheck-for-elisp ()
-      (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-    :gfhook
-    ('org-src-mode-hook #'my-disable-flycheck-for-elisp)
-    #'visual-line-mode
-    :init
-    (setq org-startup-indented t)
-    :custom
-    (org-agenda-files (list "~/org/agenda/"))
-    (org-use-fast-todo-selection t)
-    (org-todo-keywords
-     '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
-       (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)")))
-    ;; Styling
-    (org-auto-align-tags nil)
-    (org-tags-column 0)
-    (org-hide-emphasis-markers t)
-    (org-pretty-entities t)
-    (org-ellipsis "…"))
-#+end_src
-
-Install =org-contrib=
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
-  (use-package org-contrib
-    :straight t)
-#+end_src
-
-Prettify headings and lists with =org-superstar-mode=
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
-  (use-package org-superstar
-    :straight t
-    :ghook
-    ('org-mode-hook (lambda () (org-superstar-mode +1))))
-#+end_src
-
-Capture Templates
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
-  (use-package org-capture
-    :straight nil
-    :general
-    (base-leader-def
-      :states 'normal
-      "C" 'org-capture)
-    :custom
-    (org-capture-templates
-     '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
-        "* TODO %?\n %i\n %^{LINK}p")
-       ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
-        "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
-#+end_src
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
-  (provide 'kpav-org)
-  ;;; kpav-org.el ends here
-#+end_src
 ** Narrowing
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   ;;; kpav-narrowing.el --- -*- lexical-binding: t -*-
@@ -897,6 +815,167 @@ Get list of minor modes in current buffer
 #+end_src
 * Prose
 Modes and other things that deal with prose.
+** Org Mode
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  ;;; kpav-org.el --- -*- lexical-binding: t -*-
+#+end_src
+
+- Use evil way of closing and quitting (=:q= =:x=) when editing code in org mode
+- Define some keys
+- Disable the checkdock check because most of my elisp code is in snippets in this config
+- =org-use-fast-todo-selection=
+  - Change the status of the todo state by pressing ~C-c C-c t <KEY>~
+  - the =<KEY>= is the the letter in the parens after the state (e.g. =TODO(t)=)
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org
+    :straight t
+    :general
+    (org-src-mode-map
+     [remap evil-save-and-close] 'org-edit-src-exit
+     [remap evil-save-modified-and-close] 'org-edit-src-exit
+     [remap evil-quit] 'org-edit-src-abort)
+    (base-leader-def
+      :states 'normal
+      "a" 'org-agenda)
+    (base-local-leader-def
+      :keymaps 'org-mode-map
+      :states 'normal
+      "b" 'org-babel-tangle)
+    :preface
+    (defun my-disable-flycheck-for-elisp ()
+      (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+    :gfhook
+    ('org-src-mode-hook #'my-disable-flycheck-for-elisp)
+    #'visual-line-mode
+    :init
+    (setq org-startup-indented t)
+    :custom
+    (org-agenda-files (list "~/org/agenda/" "~/org/roam"))
+    (org-use-fast-todo-selection t)
+    (org-todo-keywords
+     '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
+       (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(a@/!)")))
+    ;; Styling
+    (org-auto-align-tags nil)
+    (org-tags-column 0)
+    (org-hide-emphasis-markers t)
+    (org-pretty-entities t)
+    (org-ellipsis "…"))
+#+end_src
+
+Install =org-contrib=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org-contrib
+    :straight t)
+#+end_src
+
+Prettify headings and lists with =org-superstar-mode=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org-superstar
+    :straight t
+    :ghook
+    ('org-mode-hook (lambda () (org-superstar-mode +1))))
+#+end_src
+
+Capture Templates
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (use-package org-capture
+    :straight nil
+    :general
+    (base-leader-def
+      :states 'normal
+      "C" 'org-capture)
+    :custom
+    (org-capture-templates
+     '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
+        "* TODO %?\n %i\n %^{LINK}p")
+       ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
+        "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
+#+end_src
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (provide 'kpav-org)
+  ;;; kpav-org.el ends here
+#+end_src
+** Org Roam
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  ;;; kpav-org-roam.el --- -*- lexical-binding: t -*-
+#+end_src
+
+Trying out [[https://www.orgroam.com/][Org-roam]] to handle my note taking instead of my previous attempts at using a single =notes.org= and capture templates. I had a hard time keeping things organized, even though I don't take a large amount of notes. I think this is because the approach of having a single file with headers is too rigid for me, as I feel like I need to be meaningful with my headers or things will get too cluttered, but then things get cluttered anyway as I end up sticking unrelated things in a single header.
+
+=Org-roam= promotes the [[https://zettelkasten.de/introduction/][Zettelkasten Method]]. Basically, you make small notes and link them together. This approach should allow me to take and delete as many (or as few...) notes as I need without abandon, while =Org-roam= allows me to easily add, link, and search through them. I can then change things as I need by adding  new subfolders or filetags to things. I can even keep using large org files for things if I wanted (like my blog).
+
+Note structure is:
+- =daily/= - used for =org-roam-dailies=
+- =main/= - the default place for notes
+- =work/= - notes for work, ignored by git so shouldn't be referenced by anything else
+  - =jira/=
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  (use-package org-roam
+    :straight t
+    :custom
+    (org-roam-directory (file-truename "~/org/roam"))
+    (org-roam-capture-templates
+     '(("m" "main" plain "%?"
+        :if-new (file+head "main/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n")
+        :unnarrowed t)
+       ("p" "personal" plain "%?"
+        :if-new (file+head "personal/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n")
+        :unnarrowed t)
+       ("w" "work" plain "%?"
+        :if-new (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n")
+        :unnarrowed t)
+       ("j" "jira" plain "* TODO ${title}\nhttps://reifyhealth.atlassian.net/browse/${title}\n%?"
+        :if-new (file+head "work/jira/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n#+filetags: :jira:\n")
+        :unnarrowed t)))
+    (org-roam-dailies-directory "daily/")
+    (org-roam-dailies-capture-templates
+     '(("d" "default" entry
+        "* %?"
+        :target (file+head "%<%Y-%m-%d>.org"
+                           "#+title: %<%Y-%m-%d>\n"))))
+    :ghook
+    ('after-init-hook #'org-roam-db-autosync-mode)
+    :general
+    (base-leader-def
+      :states '(normal visual)
+      "n" '(:ignore :wk "notes")
+      "ni" 'org-roam-node-insert
+      "nf" 'org-roam-node-find
+      "nc" 'org-roam-node-capture
+      "nb" 'org-roam-buffer-toggle
+      "nd" '(:ignore :wk "dailies")
+      "ndt" 'org-roam-dailies-capture-today
+      "ndT" 'org-roam-dailies-goto-today
+      "ndy" 'org-roam-dailies-capture-yesterday
+      "ndY" 'org-roam-dailies-goto-yesterday))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  (use-package org-roam-ui
+    :straight
+    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+    :after org-roam
+    :custom
+    (org-roam-ui-sync-theme t)
+    (org-roam-ui-follow t)
+    (org-roam-ui-update-on-save t)
+    (org-roam-ui-open-on-start t)
+    :general
+    (base-leader-def
+      :states '(normal visual)
+      "nu" 'org-roam-ui-mode))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
+  (provide 'kpav-org-roam)
+  ;;; kpav-org-roam.el ends here
+#+end_src
 ** Markdown
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-markdown.el
   ;;; kpav-markdown.el --- -*- lexical-binding: t -*-
@@ -911,31 +990,6 @@ Modes and other things that deal with prose.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-markdown.el
   (provide 'kpav-markdown)
   ;;; kpav-markdown.el ends here
-#+end_src
-** Org Roam
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
-  ;;; kpav-org-roam.el --- -*- lexical-binding: t -*-
-#+end_src
-
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
-  (use-package org-roam
-    :straight t
-    :custom
-    (org-roam-directory (file-truename "~/org/roam"))
-    :ghook
-    ('after-init-hook #'org-roam-db-autosync-mode)
-    :general
-    (base-leader-def
-      :states '(normal visual)
-      "r" '(:ignore :wk "roam")
-      "ri" 'org-roam-node-insert
-      "rf" 'org-roam-node-find
-      "rc" 'org-roam-node-capture))
-#+end_src
-
-#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
-  (provide 'kpav-org-roam)
-  ;;; kpav-org-roam.el ends here
 #+end_src
 * Tools
 Add and configure some additional tools.
@@ -1863,3 +1917,6 @@ conflicts with other org customization
 ** DONE Remove magit from =basemacs-core=?
 ** TODO Look into Corfu to replace company
 ** TODO Use org-modern and make it look good
+** TODO Look into dizzee
+Start projects easier
+https://github.com/davidmiller/dizzee
