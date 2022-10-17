@@ -33,7 +33,10 @@
   (org-tags-column 0)
   (org-hide-emphasis-markers t)
   (org-pretty-entities t)
-  (org-ellipsis "…"))
+  (org-ellipsis "…")
+  :config
+  ;; structure template completion
+  (require 'org-tempo))
 
 (use-package org-contrib
   :straight t)

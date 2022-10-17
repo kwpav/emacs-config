@@ -826,6 +826,8 @@ Modes and other things that deal with prose.
 - =org-use-fast-todo-selection=
   - Change the status of the todo state by pressing ~C-c C-c t <KEY>~
   - the =<KEY>= is the the letter in the parens after the state (e.g. =TODO(t)=)
+- =org-tempo= adds Structure Template completion
+  - e.g. =<s= ~TAB~ turns into =#+begin_src=  / =#end_src=
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (use-package org
@@ -861,7 +863,10 @@ Modes and other things that deal with prose.
     (org-tags-column 0)
     (org-hide-emphasis-markers t)
     (org-pretty-entities t)
-    (org-ellipsis "…"))
+    (org-ellipsis "…")
+    :config
+    ;; structure template completion
+    (require 'org-tempo))
 #+end_src
 
 Install =org-contrib=
