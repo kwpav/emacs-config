@@ -573,7 +573,7 @@ NOTE - seems that =reverse= is unusable with =vertico-posframe=!
   (use-package orderless
     :straight t
     :init
-    (setq completion-styles '(orderless)
+    (setq completion-styles '(orderless basic)
           completion-category-defaults nil
           completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
@@ -1793,6 +1793,7 @@ Set up LSP with =eglot=
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-python.el
   (use-package python
     :straight t
+    :mode "\\.py\\'"
     :gfhook
     #'tree-sitter-mode
     #'tree-sitter-hl-mode

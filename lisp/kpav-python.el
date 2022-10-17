@@ -7,6 +7,7 @@
 
 (use-package python
   :straight t
+  :mode "\\.py\\'"
   :gfhook
   #'tree-sitter-mode
   #'tree-sitter-hl-mode
