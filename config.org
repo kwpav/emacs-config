@@ -914,6 +914,7 @@ Trying out [[https://www.orgroam.com/][Org-roam]] to handle my note taking inste
 Note structure is:
 - =daily/= - used for =org-roam-dailies=
 - =main/= - the default place for notes
+- =reference/= - notes about books, articles, videos, etc.
 - =work/= - notes for work
   - =jira/= - for jira tickets, will most likely link to other notes in =work/=
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
@@ -928,6 +929,10 @@ Note structure is:
         :unnarrowed t)
        ("w" "work" plain "%?"
         :if-new (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org"
+                           "#+title: ${title}\n")
+        :unnarrowed t)
+       ("r" "reference" plain "%?"
+        :if-new (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org"
                            "#+title: ${title}\n")
         :unnarrowed t)
        ("j" "jira" plain "* TODO ${title}\nhttps://reifyhealth.atlassian.net/browse/${title}\n%?"
@@ -1248,7 +1253,7 @@ Things that can be used across all languages.
 #+end_src
 
 *** Code Completion
-
+Works with Orderless and LSPs (=lsp-mode= and =eglot=)
 **** Corfu
 #+begin_src emacs-lisp :tangle lisp/kpav-code.el
   (use-package corfu
@@ -1258,8 +1263,6 @@ Things that can be used across all languages.
     (corfu-quit-no-match 'separator)
     :init
     (global-corfu-mode))
-
-
 
   ;; A few more useful configurations...
   (use-package emacs
@@ -1438,7 +1441,6 @@ Some handy links
     :after tree-sitter
     :straight t)
 #+end_src
-
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
   (provide 'kpav-code)
@@ -1959,8 +1961,9 @@ AI completion engine?
 ** DONE Remove org from =basemacs-core= OR set :straight t
 conflicts with other org customization
 ** DONE Remove magit from =basemacs-core=?
-** TODO Look into Corfu to replace company
+** CURRENT Look into Corfu to replace company
 ** TODO Use org-modern and make it look good
 ** TODO Look into dizzee
 Start projects easier
 https://github.com/davidmiller/dizzee
+** TODO Look into  meow instead of evil

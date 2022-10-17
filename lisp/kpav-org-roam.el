@@ -13,6 +13,10 @@
       :if-new (file+head "work/%<%Y%m%d%H%M%S>-${slug}.org"
                          "#+title: ${title}\n")
       :unnarrowed t)
+     ("r" "reference" plain "%?"
+      :if-new (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org"
+                         "#+title: ${title}\n")
+      :unnarrowed t)
      ("j" "jira" plain "* TODO ${title}\nhttps://reifyhealth.atlassian.net/browse/${title}\n%?"
       :if-new (file+head "work/jira/%<%Y%m%d%H%M%S>-${slug}.org"
                          "#+title: ${title}\n#+filetags: :jira:\n")

@@ -8,8 +8,6 @@
   :init
   (global-corfu-mode))
 
-
-
 ;; A few more useful configurations...
 (use-package emacs
   :straight (:type built-in)
