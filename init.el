@@ -26,6 +26,7 @@
 (require 'kpav-git)
 (require 'kpav-vterm)
 (require 'kpav-docker)
+(require 'kpav-irc)
 ;; code
 (require 'kpav-code)
 (require 'kpav-php)

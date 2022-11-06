@@ -53,6 +53,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-git)
   (require 'kpav-vterm)
   (require 'kpav-docker)
+  (require 'kpav-irc)
   ;; code
   (require 'kpav-code)
   (require 'kpav-php)
@@ -1243,6 +1244,25 @@ Use =docker= commands in Emacs
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-docker.el
   (provide 'kpav-docker)
   ;;; kpav-docker.el ends here
+#+end_src
+** IRC
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-irc.el
+  ;;; kpav-irc.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-irc.el
+  (use-package erc
+    :straight (:type built-in)
+    :defer t
+    :custom
+    (erc-server "irc.libera.chat")
+    (erc-nick "kpav")
+    (erc-autojoin-channels-alist  '(("irc.libera.chat" "#emacs" "#clojure" "#sr.ht"))))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-irc.el
+  (provide 'kpav-irc)
+  ;;; kpav-irc.el ends here
 #+end_src
 * Code
 Things that modify coding stuff (mostly programming langs and LSP).
