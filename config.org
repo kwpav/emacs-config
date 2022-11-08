@@ -899,6 +899,17 @@ Capture Templates
        ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
         "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
 #+end_src
+
+Org babel languages
+TODO: figure out a  way to put this in language specific configs
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((clojure . t)
+     (sql . t)
+     (emacs-lisp . t)))
+#+end_src
+
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (provide 'kpav-org)
   ;;; kpav-org.el ends here
@@ -1488,14 +1499,14 @@ List of all lisp mode hooks. This is used to enable modes for all of them.
 
 Lispy provides vim-like commands to navigate and edit Lisp code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
-  ;; (use-package lispy
-  ;;   :straight t
-  ;;   :ghook kpav-lisp-mode-hooks)
+  (use-package lispy
+    :straight t
+    :ghook kpav-lisp-mode-hooks)
 
-  ;; (use-package lispyville
-  ;;   :straight t
-  ;;   :ghook
-  ;;   ('lispy-mode-hook #'lispyville-mode))
+  (use-package lispyville
+    :straight t
+    :ghook
+    ('lispy-mode-hook #'lispyville-mode))
 #+end_src
 
 Symex provides even more vim-like commands (compared t0 lispy) to navigate and edit lisp code. Press ~C-'~ to start.

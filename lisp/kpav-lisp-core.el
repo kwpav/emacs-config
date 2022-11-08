@@ -8,14 +8,14 @@
     ;; cider-repl-mode-hook
     ))
 
-;; (use-package lispy
-;;   :straight t
-;;   :ghook kpav-lisp-mode-hooks)
+(use-package lispy
+  :straight t
+  :ghook kpav-lisp-mode-hooks)
 
-;; (use-package lispyville
-;;   :straight t
-;;   :ghook
-;;   ('lispy-mode-hook #'lispyville-mode))
+(use-package lispyville
+  :straight t
+  :ghook
+  ('lispy-mode-hook #'lispyville-mode))
 
 (use-package symex
   :straight t

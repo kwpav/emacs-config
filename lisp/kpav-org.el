@@ -59,5 +59,11 @@
      ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
       "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((clojure . t)
+   (sql . t)
+   (emacs-lisp . t)))
+
 (provide 'kpav-org)
 ;;; kpav-org.el ends here
