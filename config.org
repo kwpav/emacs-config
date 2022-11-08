@@ -305,6 +305,10 @@ Modus themes are readable, clean looking, and super customizable. It also works 
           modus-themes-paren-match '(bold intense underline)
           modus-themes-region '(accented no-extend)
           modus-themes-mode-line '(borderless)
+          modus-themes-prompts '(intense bold)
+          modus-themes-lang-checkers '(background)
+          modus-themes-region '(bg-only accented)
+          ;;modus-themes-hl-line '(accented)
           ;; org specific settings
           modus-themes-org-blocks 'gray-background
           modus-themes-headings '((1 . (1.4))
@@ -854,7 +858,7 @@ Modes and other things that deal with prose.
     :init
     (setq org-startup-indented t)
     :custom
-    (org-agenda-files (list "~/org/agenda/" "~/org/roam"))
+    (org-agenda-files (list "~/org/agenda/" "~/org/roam/work/jira/"))
     (org-use-fast-todo-selection t)
     (org-todo-keywords
      '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")

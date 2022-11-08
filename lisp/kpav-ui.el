@@ -33,6 +33,10 @@
         modus-themes-paren-match '(bold intense underline)
         modus-themes-region '(accented no-extend)
         modus-themes-mode-line '(borderless)
+        modus-themes-prompts '(intense bold)
+        modus-themes-lang-checkers '(background)
+        modus-themes-region '(bg-only accented)
+        ;;modus-themes-hl-line '(accented)
         ;; org specific settings
         modus-themes-org-blocks 'gray-background
         modus-themes-headings '((1 . (1.4))

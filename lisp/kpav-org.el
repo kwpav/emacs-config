@@ -23,7 +23,7 @@
   :init
   (setq org-startup-indented t)
   :custom
-  (org-agenda-files (list "~/org/agenda/" "~/org/roam"))
+  (org-agenda-files (list "~/org/agenda/" "~/org/roam/work/jira/"))
   (org-use-fast-todo-selection t)
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
