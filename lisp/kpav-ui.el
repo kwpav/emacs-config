@@ -20,33 +20,29 @@
 
 (use-package modus-themes
   :straight t
-  :init
-  (setq modus-themes-mixed-fonts t
-        modus-themes-bold-constructs t
-        modus-themes-italic-constructs t
-        modus-themes-intense-markup t
-        modus-themes-completions '((matches . (extrabold background intense underline))
-                                   (selection . (semibold background intense accented))
-                                   (popup . (accented)))
-        modus-themes-subtle-line-numbers t
-        modus-themes-syntax '(faint alt-syntax)
-        modus-themes-paren-match '(bold intense underline)
-        modus-themes-region '(accented no-extend)
-        modus-themes-mode-line '(borderless)
-        modus-themes-prompts '(intense bold)
-        modus-themes-lang-checkers '(background)
-        modus-themes-region '(bg-only accented)
-        ;;modus-themes-hl-line '(accented)
-        ;; org specific settings
-        modus-themes-org-blocks 'gray-background
-        modus-themes-headings '((1 . (1.4))
-                                (2 . (1.2))
-                                (3 . (1.1))
-                                (t . (semibold)))
-        modus-themes-scale-headings t)
-  (modus-themes-load-themes)
+  :custom
+  (modus-themes-disable-other-themes t)
+  ;; Allow sans and mono fonts in org mode
+  (modus-themes-mixed-fonts t)
+  ;; bold and italic fonts
+  (modus-themes-bold-constructs t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-prompts '(italic bold))
+  ;; auto completion styles
+  (modus-themes-completions '((matches . (extrabold background intense underline))
+                              (selection . (semibold background intense accented))
+                              (popup . (accented))))
+  ;; gray bg for org mode src blocks
+  (modus-themes-org-blocks 'gray-background)
+  ;; make org mode headings different sizes
+  (modus-themes-headings '((1 . (1.4))
+                           (2 . (1.2))
+                           (3 . (1.1))
+                           (t . (semibold))))
   :config
-  (modus-themes-load-vivendi))
+  ;; make the colors more faint
+  (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
+  (load-theme 'modus-vivendi))
 
 (use-package face-remap
   :straight (:type built-in)

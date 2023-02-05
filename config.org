@@ -52,6 +52,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-project)
   (require 'kpav-git)
   (require 'kpav-vterm)
+  (require 'kpav-eshell)
   (require 'kpav-docker)
   (require 'kpav-irc)
   ;; code
@@ -81,6 +82,14 @@ Things that modify Emacs itself.
 Some of my more "opinionated" default settings.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
   ;;; kpav-defaults.el --- -*- lexical-binding: t -*-
+#+end_src
+*** Mouse
+Add =pixel-scroll-precision= mode. Emacs treats images like a single character
+#+begin_src emacs-lisp :tangle lisp/kpav-defaults.el
+  (use-package emacs
+    :straight (:type built-in)
+    :custom
+    (pixel-scroll-mode +1))
 #+end_src
 *** Start Screen
 Display the =*scratch*= buffer at startup instead of the dashboard.
@@ -292,33 +301,29 @@ Modus themes are readable, clean looking, and super customizable. It also works 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package modus-themes
     :straight t
-    :init
-    (setq modus-themes-mixed-fonts t
-          modus-themes-bold-constructs t
-          modus-themes-italic-constructs t
-          modus-themes-intense-markup t
-          modus-themes-completions '((matches . (extrabold background intense underline))
-                                     (selection . (semibold background intense accented))
-                                     (popup . (accented)))
-          modus-themes-subtle-line-numbers t
-          modus-themes-syntax '(faint alt-syntax)
-          modus-themes-paren-match '(bold intense underline)
-          modus-themes-region '(accented no-extend)
-          modus-themes-mode-line '(borderless)
-          modus-themes-prompts '(intense bold)
-          modus-themes-lang-checkers '(background)
-          modus-themes-region '(bg-only accented)
-          ;;modus-themes-hl-line '(accented)
-          ;; org specific settings
-          modus-themes-org-blocks 'gray-background
-          modus-themes-headings '((1 . (1.4))
-                                  (2 . (1.2))
-                                  (3 . (1.1))
-                                  (t . (semibold)))
-          modus-themes-scale-headings t)
-    (modus-themes-load-themes)
+    :custom
+    (modus-themes-disable-other-themes t)
+    ;; Allow sans and mono fonts in org mode
+    (modus-themes-mixed-fonts t)
+    ;; bold and italic fonts
+    (modus-themes-bold-constructs t)
+    (modus-themes-italic-constructs t)
+    (modus-themes-prompts '(italic bold))
+    ;; auto completion styles
+    (modus-themes-completions '((matches . (extrabold background intense underline))
+                                (selection . (semibold background intense accented))
+                                (popup . (accented))))
+    ;; gray bg for org mode src blocks
+    (modus-themes-org-blocks 'gray-background)
+    ;; make org mode headings different sizes
+    (modus-themes-headings '((1 . (1.4))
+                             (2 . (1.2))
+                             (3 . (1.1))
+                             (t . (semibold))))
     :config
-    (modus-themes-load-vivendi))
+    ;; make the colors more faint
+    (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
+    (load-theme 'modus-vivendi))
 #+end_src
 *** Variable Pitch
 Variable Pitch allows us to have multiple fonts in a single buffer. This is useful for Org Mode which can have prose, code, and other things, in the same file.
@@ -911,7 +916,9 @@ TODO: figure out a  way to put this in language specific configs
    'org-babel-load-languages
    '((clojure . t)
      (sql . t)
-     (emacs-lisp . t)))
+     (emacs-lisp . t)
+     (js . t)
+     (python . t)))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
@@ -1104,7 +1111,7 @@ Go through commit history on a file.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   ;;; kpav-project.el --- -*- lexical-binding: t -*-
 #+end_src
-A large part of my workflow is working in projects, which may or may not interact together, so I like to only open and interact with files and buffers on a per project basis. I use =perspective= to create perspectives for each project, then use the following packages to further interact with them, e.g. opening files or searching for some specific text.
+A large part of my workflow is working in projects, which may or may not interact together, so I like to only open and interact with files and buffers on a per project basis. I use =persp-mode= to create perspectives for each project, then use the following packages to further interact with them, e.g. opening files or searching for some specific text.
 *** project.el
 Using the built-in =project.el=. It works with marginalia to give extra info about files and buffers
 
@@ -1237,6 +1244,29 @@ Open multiple vterms. Evil configuration from it's README.
   (provide 'kpav-vterm)
   ;;; kpav-vterm.el ends here
 #+end_src
+*** eshell
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-eshell.el
+  ;;; kpav-eshell.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-eshell.el
+  (use-package eshell
+    :straight t)
+
+  (use-package multi-eshell
+    :straight t
+    :general
+    (base-leader-def
+      :states 'normal
+      "ee" 'multi-eshell
+      "en" 'multi-eshell-switch-to-next-live-shell
+      "ep" 'multi-eshell-go-back))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-eshell.el
+  (provide 'kpav-eshell)
+  ;;; kpav-eshell.el ends here
+#+end_src
 ** Docker
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-docker.el
   ;;; kpav-docker.el --- -*- lexical-binding: t -*-
@@ -1265,6 +1295,11 @@ Use =docker= commands in Emacs
   ;;; kpav-irc.el --- -*- lexical-binding: t -*-
 #+end_src
 
+Passwords are stored in the =~/.authinfo= file, with the format:
+#+begin_src
+machine irc.libera.chat login kpav password <PASSWORD> port 6697
+#+end_src
+
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-irc.el
   (use-package erc
     :straight (:type built-in)
@@ -1272,7 +1307,7 @@ Use =docker= commands in Emacs
     :custom
     (erc-server "irc.libera.chat")
     (erc-nick "kpav")
-    (erc-autojoin-channels-alist  '(("irc.libera.chat" "#emacs" "#clojure" "#sr.ht"))))
+    (erc-autojoin-channels-alist  '(("irc.libera.chat" "#emacs" "#clojure" "#sr.ht" "#archlinux" "#stumpwm"))))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-irc.el

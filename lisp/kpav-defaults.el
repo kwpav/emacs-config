@@ -3,6 +3,11 @@
 (use-package emacs
   :straight (:type built-in)
   :custom
+  (pixel-scroll-mode +1))
+
+(use-package emacs
+  :straight (:type built-in)
+  :custom
   (inhibit-startup-screen t))
 
 (use-package elec-pair
