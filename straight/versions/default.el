@@ -70,6 +70,7 @@
  ("multi-eshell" . "ac10d93d64e6ea9706ae4396df186faeecaaea12")
  ("multi-vterm" . "36746d85870dac5aaee6b9af4aa1c3c0ef21a905")
  ("multiple-cursors.el" . "16223efc2d6dece2d43bbccc189d7a4bab6de571")
+ ("nix-mode" . "c18a24e9ac569a221e88ba9d74d52c7b02b6eb77")
  ("nongnu-elpa" . "9e236b82a2da24bb9983e2f63061323354d6ecfe")
  ("orderless" . "e6784026717a8a6a7dcd0bf31fd3414f148c542e")
  ("org" . "351279ffaead08398002fd29801eaad688ccf239")
