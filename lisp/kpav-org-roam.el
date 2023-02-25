@@ -1,8 +1,19 @@
 ;;; kpav-org-roam.el --- -*- lexical-binding: t -*-
 
+;; (use-package emacsql-sqlite-module
+;;   :straight t)
+(use-package emacsql-sqlite3
+  :straight t)
+
+;; (use-package emacsql-sqlite-builtin
+;;   :straight t)
+
 (use-package org-roam
   :straight t
+  :after emacsql-sqlite3
   :custom
+  (org-roam-database-connector 'sqlite3)
+  ;; (org-roam-database-connector 'sqlite-builtin)
   (org-roam-directory (file-truename "~/org/roam"))
   (org-roam-capture-templates
    '(("m" "main" plain "%?"

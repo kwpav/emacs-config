@@ -5,7 +5,7 @@
   :straight (:type built-in)
   :general
   (base-local-leader-def
-   :states 'normal
+   :states '(normal visual)
    :keymaps 'emacs-lisp-mode-map
    "e" '(:ignore t :wk "eval")
    "eb" 'eval-buffer
