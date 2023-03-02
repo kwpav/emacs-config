@@ -7,7 +7,7 @@
  ("cider-eval-sexp-fu" . "7fd229f1441356866aedba611fd0cf4e89b50921")
  ("clj-refactor.el" . "b5abe655e572a6ecfed02bb8164b64716ef76b8e")
  ("clojure-mode" . "3453cd229b412227aaffd1dc2870fa8fa213c5b1")
- ("compat" . "d70ed5178b5f88be093fdedb9ec09b684451db54")
+ ;; ("compat" . "d70ed5178b5f88be093fdedb9ec09b684451db54")
  ("consult" . "5b2b9f572a9046d3235b4fae0e70ef129f735a26")
  ("corfu" . "9b3d6d8046471a105503ee361f4322df97f02735")
  ("ctrlf" . "9b4cf6c79a961f2bfbb949805aa300fcf1eb40a6")

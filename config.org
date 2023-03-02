@@ -189,6 +189,14 @@ super-save auto-saves your buffers, when certain events happen - e.g. you switch
     (add-to-list 'super-save-triggers 'ace-window)
     (super-save-mode +1))
 #+end_src
+*** Other
+Workaround for compat issue and elpa, see:
+https://github.com/magit/magit/issues/4841
+https://github.com/radian-software/straight.el/issues/1049
+https://github.com/radian-software/gnu-elpa-mirror/issues/14
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
+  (straight-use-package '(compat :host github :repo "emacs-compat/compat"))
+#+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
   (provide 'kpav-defaults)
@@ -1079,6 +1087,7 @@ I have a function here which copies the current branch name. This is handy if yo
                    (message "%s" branch))
           (user-error "There is not current branch")))))
 #+end_src
+
 *** git-gutter-fringe
 Add git change icons in the fringe, e.g. when somethings been added, changed, or removed. Modus themes makes this look decent.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el

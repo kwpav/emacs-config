@@ -67,5 +67,7 @@
   (add-to-list 'super-save-triggers 'ace-window)
   (super-save-mode +1))
 
+(straight-use-package '(compat :host github :repo "emacs-compat/compat"))
+
 (provide 'kpav-defaults)
 ;;; kpav-defaults.el ends here
