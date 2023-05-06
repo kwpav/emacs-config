@@ -195,7 +195,7 @@ https://github.com/magit/magit/issues/4841
 https://github.com/radian-software/straight.el/issues/1049
 https://github.com/radian-software/gnu-elpa-mirror/issues/14
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
-  (straight-use-package '(compat :host github :repo "emacs-compat/compat"))
+  ;; (straight-use-package '(compat :host github :repo "emacs-compat/compat"))
 #+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
