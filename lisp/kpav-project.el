@@ -35,9 +35,9 @@
     :states '(normal)
     "po" 'treemacs))
 
-(use-package treemacs-evil
-  :straight t
-  :after (evil treemacs))
+;; (use-package treemacs-evil
+;;   :straight t
+;;   :after (evil treemacs))
 
 (use-package treemacs-magit
   :straight t

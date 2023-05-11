@@ -39,7 +39,8 @@ Here is where the magic happens. Let's load some modules!
   ;; emacs
   (require 'kpav-defaults)
   (require 'kpav-system)
-  (require 'kpav-evil)
+  (require 'kpav-meow)
+  ;; (require 'kpav-evil)
   (require 'kpav-keys)
   (require 'kpav-narrowing)
   (require 'kpav-org)
@@ -201,6 +202,105 @@ https://github.com/radian-software/gnu-elpa-mirror/issues/14
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-defaults.el
   (provide 'kpav-defaults)
   ;;; kpav-defaults.el ends here
+#+end_src
+** Meow Mode
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-meow.el
+  ;;; kpav-meow.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-meow.el
+  (use-package meow
+    :straight t
+    :custom
+    (meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    :config
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("/" . ctrlf-forward-fuzzy)
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-goto-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore))
+
+    (meow-global-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-meow.el
+  (provide 'kpav-meow)
+  ;;; kpav-meow.el ends here
 #+end_src
 ** Evil Mode
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-evil.el
@@ -411,15 +511,20 @@ Highlight the line the cursor is on.
     :straight (:type built-in)
     :general
     (base-leader-def
-     :states 'normal
-     "b" '(:ignore t :wk "buffers")
-     "w" '(:ignore t :wk "windows")
-     ;; "bb" 'switch-to-buffer
-     ;; "bb" 'consult-buffer
-     ;; "bk" 'kill-buffer
-     "wo" 'split-window-horizontally
-     "wu" 'split-window-vertically
-     "wd" 'delete-window))
+      :states 'normal
+      "b" '(:ignore t :wk "buffers")
+      "w" '(:ignore t :wk "windows")
+      ;; "bb" 'switch-to-buffer
+      ;; "bb" 'consult-buffer
+      ;; "bk" 'kill-buffer
+      "wo" 'split-window-horizontally
+      "wu" 'split-window-vertically
+      "wd" 'delete-window)
+    :config
+    (meow-leader-define-key
+     '("wo" . split-window-horizontally)
+     '("wu" . split-window-vertically)
+     '("wd" . delete-window)))
 #+end_src
 *** Navigation
 Windmove provides a way to move around emacs windows.
@@ -430,11 +535,17 @@ Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
     :straight (:type built-in)
     :general
     (base-leader-def
-     :states 'normal
-     "wh" 'windmove-left
-     "wj" 'windmove-down
-     "wk" 'windmove-up
-     "wl" 'windmove-right)
+      :states 'normal
+      "wh" 'windmove-left
+      "wj" 'windmove-down
+      "wk" 'windmove-up
+      "wl" 'windmove-right)
+    :init
+    (meow-leader-define-key
+     '("wh" . windmove-left)
+     '("wj" . windmove-down)
+     '("wk" . windmove-up)
+     '("wl" . windmove-right))
     :config
     (windmove-default-keybindings))
 #+end_src
@@ -450,7 +561,10 @@ ace-window lets you jump around windows with a single key
       "ww" 'ace-window)
     :custom
     ;; use home row instead of numbers
-    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    :init
+    (meow-leader-define-key
+     '("ww" . ace-window)))
 #+end_src
 *** COMMENT eyebrowse
 Eyebrowse provides a way to manage workspaces like tiling window managers.
@@ -504,6 +618,23 @@ Switch buffer command only looks at current perspective
       "b C-s" 'persp-state-save
       "b C-l" 'persp-state-load
       "bs" 'persp-switch)
+    :init
+    (meow-leader-define-key
+  '("bb" . persp-switch-to-buffer)
+     '("bk" . persp-remove-buffer)
+     '("bc" . persp-kill)
+     '("br" . persp-rename)
+     '("ba" . persp-add-buffer)
+     '("bA" . persp-set-buffer)
+     '("bi" . persp-import)
+     '("bn" . persp-next)
+     '("bp" . persp-prev)
+     '("bm" . persp-merge)
+     '("bu" . persp-unmerge)
+     '("bg" . persp-add-buffer-to-frame-global)
+     '("b C-s" . persp-state-save)
+     '("b C-l" . persp-state-load)
+     '("bs" . persp-switch))
     :config
     (persp-mode +1))
 #+end_src
@@ -635,7 +766,7 @@ Keys copied from projects README.
     ;; C-c bindings (mode-specific-map)
     ("C-c h" 'consult-history)
     ("C-c m" 'consult-mode-command)
-    ("C-c b" 'consult-bookmark)
+    ;; ("C-c b" 'consult-bookmark)
     ("C-c k" 'consult-kmacro)
     ;; C-x bindings (ctl-x-map)
     ("C-x M-:" 'consult-complex-command)     ;; orig. repeat-complex-command
@@ -1173,9 +1304,9 @@ Treemacs provides a nice file explorer for projects.
       :states '(normal)
       "po" 'treemacs))
 
-  (use-package treemacs-evil
-    :straight t
-    :after (evil treemacs))
+  ;; (use-package treemacs-evil
+  ;;   :straight t
+  ;;   :after (evil treemacs))
 
   (use-package treemacs-magit
     :straight t

@@ -85,7 +85,7 @@
   ;; C-c bindings (mode-specific-map)
   ("C-c h" 'consult-history)
   ("C-c m" 'consult-mode-command)
-  ("C-c b" 'consult-bookmark)
+  ;; ("C-c b" 'consult-bookmark)
   ("C-c k" 'consult-kmacro)
   ;; C-x bindings (ctl-x-map)
   ("C-x M-:" 'consult-complex-command)     ;; orig. repeat-complex-command
