@@ -63,8 +63,8 @@
 
 (use-package ctrlf
   :straight t
-  :general
-  (evil-normal-state-map "/" 'ctrlf-forward-fuzzy-regexp)
+  ;:general
+  ;(evil-normal-state-map "/" 'ctrlf-forward-fuzzy-regexp)
   :init
   (ctrlf-mode +1))
 
@@ -133,6 +133,9 @@
     "pg" 'consult-ripgrep
     "pG" 'consult-git-grep)
   :init
+  (meow-leader-define-key
+   '("pg" . consult-ripgrep)
+   '("pG" . consult-git-grep))
   ;; Install ripgrep for consult-ripgrep
   (use-package ripgrep :straight t)
 

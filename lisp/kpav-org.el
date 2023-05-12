@@ -21,6 +21,8 @@
   ('org-src-mode-hook #'my-disable-flycheck-for-elisp)
   #'visual-line-mode
   :init
+  (meow-leader-define-key
+   '("a" . org-agenda))
   (setq org-startup-indented t)
   :custom
   (org-agenda-files (list "~/org/agenda/" "~/org/roam/work/jira/"))
@@ -57,7 +59,10 @@
    '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
       "* TODO %?\n %i\n %^{LINK}p")
      ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
-      "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
+      "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))
+   :init
+   (meow-leader-define-key
+    '("C" . org-capture))))
 
 (org-babel-do-load-languages
  'org-babel-load-languages

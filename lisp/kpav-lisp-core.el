@@ -8,25 +8,29 @@
     ;; cider-repl-mode-hook
     ))
 
-(use-package lispy
+(use-package paredit
   :straight t
   :ghook kpav-lisp-mode-hooks)
 
-(use-package lispyville
-  :straight t
-  :ghook
-  ('lispy-mode-hook #'lispyville-mode))
+;; (use-package lispy
+;;   :straight t
+;;   :ghook kpav-lisp-mode-hooks)
 
-(use-package symex
-  :straight t
-  :custom
-  (symex-modal-backend 'evil)
-  :general
-  ("C-'" 'symex-mode-interface)
-  (:keymaps 'normal
-            (general-chord "jk") 'symex-mode-interface)
-  :config
-  (symex-initialize))
+;; (use-package lispyville
+;;   :straight t
+;;   :ghook
+;;   ('lispy-mode-hook #'lispyville-mode))
+
+;; (use-package symex
+;;   :straight t
+;;   :custom
+;;   (symex-modal-backend 'evil)
+;;   :general
+;;   ("C-'" 'symex-mode-interface)
+;;   (:keymaps 'normal
+;;             (general-chord "jk") 'symex-mode-interface)
+;;   :config
+;;   (symex-initialize))
 
 ;; (use-package aggressive-indent
 ;;   :straight t

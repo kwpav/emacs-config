@@ -74,7 +74,7 @@
     "b C-s" 'persp-state-save
     "b C-l" 'persp-state-load
     "bs" 'persp-switch)
-  :init
+   :init
   (meow-leader-define-key
 '("bb" . persp-switch-to-buffer)
    '("bk" . persp-remove-buffer)
@@ -88,8 +88,8 @@
    '("bm" . persp-merge)
    '("bu" . persp-unmerge)
    '("bg" . persp-add-buffer-to-frame-global)
-   '("b C-s" . persp-state-save)
-   '("b C-l" . persp-state-load)
+   '("bS" . persp-state-save)
+   '("bL" . persp-state-load)
    '("bs" . persp-switch))
   :config
   (persp-mode +1))

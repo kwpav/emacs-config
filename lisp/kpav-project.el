@@ -10,7 +10,13 @@
    "pp" 'project-switch-project
    "pf" 'project-find-file
    "pd" 'project-find-dir
-   "pb" 'project-switch-to-buffer))
+   "pb" 'project-switch-to-buffer
+   :init
+   (meow-leader-define-key
+    '("pp" . project-switch-project)
+    '("pf" . project-find-file)
+    '("pd" . project-find-dir)
+    '("pb" . project-switch-to-buffer))))
 
 ;; (use-package projectile
 ;;   :straight t
@@ -33,7 +39,10 @@
   ([f8] 'treemacs)
   (base-leader-def
     :states '(normal)
-    "po" 'treemacs))
+    "po" 'treemacs)
+  :init
+  (meow-leader-define-key
+   '("po" . treemacs)))
 
 ;; (use-package treemacs-evil
 ;;   :straight t

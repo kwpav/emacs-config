@@ -53,6 +53,16 @@
     "ndT" 'org-roam-dailies-goto-today
     "ndy" 'org-roam-dailies-capture-yesterday
     "ndY" 'org-roam-dailies-goto-yesterday)
+  :init
+  (meow-leader-define-key
+   '("ni" . org-roam-node-insert)
+   '("nf" . org-roam-node-find)
+   '("nc" . org-roam-node-capture)
+   '("nb" . org-roam-buffer-toggle)
+   '("ndt" . org-roam-dailies-capture-today)
+   '("ndT" . org-roam-dailies-goto-today)
+   '("ndy" . org-roam-dailies-capture-yesterday)
+   '("ndY" . org-roam-dailies-goto-yesterday))
   :config
   ;; Display the `node' (e.g. main/work/jira) and filetags when searching
   ;; from https://jethrokuan.github.io/org-roam-guide/
@@ -79,7 +89,10 @@
   :general
   (base-leader-def
     :states '(normal visual)
-    "nu" 'org-roam-ui-mode))
+    "nu" 'org-roam-ui-mode)
+  :init
+  (meow-leader-define-key
+   '("nu" . org-roam-ui-mode)))
 
 (provide 'kpav-org-roam)
 ;;; kpav-org-roam.el ends here

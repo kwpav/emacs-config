@@ -618,7 +618,7 @@ Switch buffer command only looks at current perspective
       "b C-s" 'persp-state-save
       "b C-l" 'persp-state-load
       "bs" 'persp-switch)
-    :init
+     :init
     (meow-leader-define-key
   '("bb" . persp-switch-to-buffer)
      '("bk" . persp-remove-buffer)
@@ -632,8 +632,8 @@ Switch buffer command only looks at current perspective
      '("bm" . persp-merge)
      '("bu" . persp-unmerge)
      '("bg" . persp-add-buffer-to-frame-global)
-     '("b C-s" . persp-state-save)
-     '("b C-l" . persp-state-load)
+     '("bS" . persp-state-save)
+     '("bL" . persp-state-load)
      '("bs" . persp-switch))
     :config
     (persp-mode +1))
@@ -735,8 +735,8 @@ A replacement for the built in I-Search. This replaces the evil search and the b
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-narrowing.el
   (use-package ctrlf
     :straight t
-    :general
-    (evil-normal-state-map "/" 'ctrlf-forward-fuzzy-regexp)
+    ;:general
+    ;(evil-normal-state-map "/" 'ctrlf-forward-fuzzy-regexp)
     :init
     (ctrlf-mode +1))
 #+end_src
@@ -814,6 +814,9 @@ Keys copied from projects README.
       "pg" 'consult-ripgrep
       "pG" 'consult-git-grep)
     :init
+    (meow-leader-define-key
+     '("pg" . consult-ripgrep)
+     '("pG" . consult-git-grep))
     ;; Install ripgrep for consult-ripgrep
     (use-package ripgrep :straight t)
 
@@ -998,6 +1001,8 @@ Modes and other things that deal with prose.
     ('org-src-mode-hook #'my-disable-flycheck-for-elisp)
     #'visual-line-mode
     :init
+    (meow-leader-define-key
+     '("a" . org-agenda))
     (setq org-startup-indented t)
     :custom
     (org-agenda-files (list "~/org/agenda/" "~/org/roam/work/jira/"))
@@ -1043,7 +1048,10 @@ Capture Templates
      '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
         "* TODO %?\n %i\n %^{LINK}p")
        ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
-        "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))))
+        "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))
+     :init
+     (meow-leader-define-key
+      '("C" . org-capture))))
 #+end_src
 
 Org babel languages
@@ -1131,6 +1139,16 @@ Note structure is:
       "ndT" 'org-roam-dailies-goto-today
       "ndy" 'org-roam-dailies-capture-yesterday
       "ndY" 'org-roam-dailies-goto-yesterday)
+    :init
+    (meow-leader-define-key
+     '("ni" . org-roam-node-insert)
+     '("nf" . org-roam-node-find)
+     '("nc" . org-roam-node-capture)
+     '("nb" . org-roam-buffer-toggle)
+     '("ndt" . org-roam-dailies-capture-today)
+     '("ndT" . org-roam-dailies-goto-today)
+     '("ndy" . org-roam-dailies-capture-yesterday)
+     '("ndY" . org-roam-dailies-goto-yesterday))
     :config
     ;; Display the `node' (e.g. main/work/jira) and filetags when searching
     ;; from https://jethrokuan.github.io/org-roam-guide/
@@ -1159,7 +1177,10 @@ Note structure is:
     :general
     (base-leader-def
       :states '(normal visual)
-      "nu" 'org-roam-ui-mode))
+      "nu" 'org-roam-ui-mode)
+    :init
+    (meow-leader-define-key
+     '("nu" . org-roam-ui-mode)))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org-roam.el
@@ -1208,6 +1229,15 @@ I have a function here which copies the current branch name. This is handy if yo
       "gS" 'magit-stage-file
       "gU" 'magit-unstage-file
       "gy" 'kpav/magit-yank-branch-name)
+    :init
+    (meow-leader-define-key
+     '("ss" . magit-status)
+     '("sc" . magit-checkout)
+     '("sC" . magit-commit)
+     '("sb" . magit-blame)
+     '("sS" . magit-stage-file)
+     '("sU" . magit-unstage-file)
+     '("sy" . kpav/magit-yank-branch-name))
     :config
     (defun kpav/magit-yank-branch-name ()
       "Show the current branch in the echo-area and add it to the `kill-ring'."
@@ -1237,7 +1267,10 @@ Go through commit history on a file.
     :general
     (base-leader-def
       :states 'normal
-      "gt" 'git-timemachine))
+      "gt" 'git-timemachine)
+    :init
+    (meow-leader-define-key
+     '("gt" . git-timemachine)))
 #+end_src
 *** git-link
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
@@ -1249,7 +1282,12 @@ Go through commit history on a file.
       "gl" '(:ignore t :wk "git link")
       "gll" 'git-link
       "glc" 'git-link-commit
-      "glh" 'git-link-homepage))
+      "glh" 'git-link-homepage)
+    :init
+    (meow-leader-define-key
+     '("sll" . git-link)
+     '("slc" . git-link-commit)
+     '("slh" . git-link-homepage)))
 #+end_src
 *** EOF
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
@@ -1275,7 +1313,13 @@ Using the built-in =project.el=. It works with marginalia to give extra info abo
      "pp" 'project-switch-project
      "pf" 'project-find-file
      "pd" 'project-find-dir
-     "pb" 'project-switch-to-buffer))
+     "pb" 'project-switch-to-buffer
+     :init
+     (meow-leader-define-key
+      '("pp" . project-switch-project)
+      '("pf" . project-find-file)
+      '("pd" . project-find-dir)
+      '("pb" . project-switch-to-buffer))))
 
   ;; (use-package projectile
   ;;   :straight t
@@ -1302,7 +1346,10 @@ Treemacs provides a nice file explorer for projects.
     ([f8] 'treemacs)
     (base-leader-def
       :states '(normal)
-      "po" 'treemacs))
+      "po" 'treemacs)
+    :init
+    (meow-leader-define-key
+     '("po" . treemacs)))
 
   ;; (use-package treemacs-evil
   ;;   :straight t
@@ -1352,41 +1399,47 @@ Open multiple vterms. Evil configuration from it's README.
   (use-package multi-vterm
     :straight t
     :general
-    (base-leader-def
-     :states 'normal
-     "t" '(:ignore t :wk "term")
-     "tt" 'multi-vterm
-     "tn" 'multi-vterm-next
-     "tp" 'multi-vterm-prev)
-    :gfhook #'evil-insert-state
+    ;; (base-leader-def
+    ;;  :states 'normal
+    ;;  "t" '(:ignore t :wk "term")
+    ;;  "tt" 'multi-vterm
+    ;;  "tn" 'multi-vterm-next
+    ;;  "tp" 'multi-vterm-prev)
+    :init
+    (meow-leader-define-key
+     '("tt" . multi-vterm)
+     '("tn" . multi-vterm-next)
+     '("tp" . multi-vterm-prev))
+    ;;:gfhook #'evil-insert-state
     :config
-    (define-key vterm-mode-map [return]                      #'vterm-send-return)
-    (setq vterm-keymap-exceptions nil)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
-    (evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
-    (evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
-    (evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
-    (evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
-    (evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
-    (evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
-    (evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
-    (evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+    ;(define-key vterm-mode-map [return]                      #'vterm-send-return)
+    ;(setq vterm-keymap-exceptions nil)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+    ;(evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+    ;(evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+    ;(evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+    ;(evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+    ;(evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+    ;(evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+    ;(evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+    ;(evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume)
+    )
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-vterm.el
@@ -1593,7 +1646,18 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
       "la" 'eglot-code-actions
       "lo" 'eglot-code-action-organize-imports
       "lR" 'eglot-rename
-      "lh" 'eldoc))
+      "lh" 'eldoc)
+    :init
+    (meow-leader-define-key
+     '("lg" . xref-find-definitions)
+     '("lr" . xref-find-references)
+     '("lb" . xref-go-back)
+     '("lf" . eglot-format)
+     '("lF" . eglot-format-buffer)
+     '("la" . eglot-code-actions)
+     '("lo" . eglot-code-action-organize-imports)
+     '("lR" . eglot-rename)
+     '("lh" . eldoc)))
 #+end_src
 
 Although Eglot depends on built-in packages, it needs the newest versions of them. Most of the packages are loaded elsewhere in the config, =eldoc= and =xref= are all that is left
@@ -1685,30 +1749,36 @@ List of all lisp mode hooks. This is used to enable modes for all of them.
       ))
 #+end_src
 
-Lispy provides vim-like commands to navigate and edit Lisp code.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
-  (use-package lispy
+  (use-package paredit
     :straight t
     :ghook kpav-lisp-mode-hooks)
+#+end_src
 
-  (use-package lispyville
-    :straight t
-    :ghook
-    ('lispy-mode-hook #'lispyville-mode))
+Lispy provides vim-like commands to navigate and edit Lisp code.
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
+  ;; (use-package lispy
+  ;;   :straight t
+  ;;   :ghook kpav-lisp-mode-hooks)
+
+  ;; (use-package lispyville
+  ;;   :straight t
+  ;;   :ghook
+  ;;   ('lispy-mode-hook #'lispyville-mode))
 #+end_src
 
 Symex provides even more vim-like commands (compared t0 lispy) to navigate and edit lisp code. Press ~C-'~ to start.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-lisp-core.el
-  (use-package symex
-    :straight t
-    :custom
-    (symex-modal-backend 'evil)
-    :general
-    ("C-'" 'symex-mode-interface)
-    (:keymaps 'normal
-              (general-chord "jk") 'symex-mode-interface)
-    :config
-    (symex-initialize))
+  ;; (use-package symex
+  ;;   :straight t
+  ;;   :custom
+  ;;   (symex-modal-backend 'evil)
+  ;;   :general
+  ;;   ("C-'" 'symex-mode-interface)
+  ;;   (:keymaps 'normal
+  ;;             (general-chord "jk") 'symex-mode-interface)
+  ;;   :config
+  ;;   (symex-initialize))
 #+end_src
 This is a nice guide:
 https://countvajhula.com/2021/09/25/the-animated-guide-to-symex/

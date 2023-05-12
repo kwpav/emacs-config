@@ -15,6 +15,15 @@
     "gS" 'magit-stage-file
     "gU" 'magit-unstage-file
     "gy" 'kpav/magit-yank-branch-name)
+  :init
+  (meow-leader-define-key
+   '("ss" . magit-status)
+   '("sc" . magit-checkout)
+   '("sC" . magit-commit)
+   '("sb" . magit-blame)
+   '("sS" . magit-stage-file)
+   '("sU" . magit-unstage-file)
+   '("sy" . kpav/magit-yank-branch-name))
   :config
   (defun kpav/magit-yank-branch-name ()
     "Show the current branch in the echo-area and add it to the `kill-ring'."
@@ -37,7 +46,10 @@
   :general
   (base-leader-def
     :states 'normal
-    "gt" 'git-timemachine))
+    "gt" 'git-timemachine)
+  :init
+  (meow-leader-define-key
+   '("gt" . git-timemachine)))
 
 (use-package git-link
   :straight t
@@ -47,7 +59,12 @@
     "gl" '(:ignore t :wk "git link")
     "gll" 'git-link
     "glc" 'git-link-commit
-    "glh" 'git-link-homepage))
+    "glh" 'git-link-homepage)
+  :init
+  (meow-leader-define-key
+   '("sll" . git-link)
+   '("slc" . git-link-commit)
+   '("slh" . git-link-homepage)))
 
 (provide 'kpav-git)
 ;;; kpav-git.el ends here
