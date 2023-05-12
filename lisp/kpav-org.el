@@ -7,9 +7,9 @@
    [remap evil-save-and-close] 'org-edit-src-exit
    [remap evil-save-modified-and-close] 'org-edit-src-exit
    [remap evil-quit] 'org-edit-src-abort)
-  (base-leader-def
-    :states 'normal
-    "a" 'org-agenda)
+  ;; (base-leader-def
+  ;;   :states 'normal
+  ;;   "a" 'org-agenda)
   (base-local-leader-def
     :keymaps 'org-mode-map
     :states 'normal
@@ -51,9 +51,9 @@
 (use-package org-capture
   :straight nil
   :general
-  (base-leader-def
-    :states 'normal
-    "C" 'org-capture)
+  ;; (base-leader-def
+  ;;   :states 'normal
+  ;;   "C" 'org-capture)
   :custom
   (org-capture-templates
    '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")

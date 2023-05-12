@@ -30,8 +30,8 @@ Set up the leader keys for =general.el=.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package basemacs-core
     :custom
-    (basemacs-leader "SPC")
-    (basemacs-local-leader "SPC m"))
+    ;(basemacs-leader "SPC")
+    (basemacs-local-leader "C-c m"))
 #+end_src
 * Modules
 Here is where the magic happens. Let's load some modules!
@@ -53,7 +53,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-project)
   (require 'kpav-git)
   (require 'kpav-vterm)
-  (require 'kpav-eshell)
+  ;(require 'kpav-eshell)
   (require 'kpav-docker)
   (require 'kpav-irc)
   ;; code
@@ -232,6 +232,7 @@ https://github.com/radian-software/gnu-elpa-mirror/issues/14
      '("/" . meow-keypad-describe-key)
      '("?" . meow-cheatsheet))
     (meow-normal-define-key
+     '(";" . comment-dwim)
      '("/" . ctrlf-forward-fuzzy)
      '("0" . meow-expand-0)
      '("9" . meow-expand-9)
@@ -463,6 +464,7 @@ You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the 
     :ghook
     'after-init-hook
     :custom
+    (doom-modeline-icon nil)
     (doom-modeline-vcs-max-length 50)
     (doom-modeline-buffer-file-name-style 'truncate-upto-project)
     (doom-modeline-buffer-encoding nil)
@@ -510,16 +512,16 @@ Highlight the line the cursor is on.
   (use-package window
     :straight (:type built-in)
     :general
-    (base-leader-def
-      :states 'normal
-      "b" '(:ignore t :wk "buffers")
-      "w" '(:ignore t :wk "windows")
-      ;; "bb" 'switch-to-buffer
-      ;; "bb" 'consult-buffer
-      ;; "bk" 'kill-buffer
-      "wo" 'split-window-horizontally
-      "wu" 'split-window-vertically
-      "wd" 'delete-window)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "b" '(:ignore t :wk "buffers")
+    ;;   "w" '(:ignore t :wk "windows")
+    ;;   ;; "bb" 'switch-to-buffer
+    ;;   ;; "bb" 'consult-buffer
+    ;;   ;; "bk" 'kill-buffer
+    ;;   "wo" 'split-window-horizontally
+    ;;   "wu" 'split-window-vertically
+    ;;   "wd" 'delete-window)
     :config
     (meow-leader-define-key
      '("wo" . split-window-horizontally)
@@ -534,12 +536,12 @@ Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
   (use-package windmove
     :straight (:type built-in)
     :general
-    (base-leader-def
-      :states 'normal
-      "wh" 'windmove-left
-      "wj" 'windmove-down
-      "wk" 'windmove-up
-      "wl" 'windmove-right)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "wh" 'windmove-left
+    ;;   "wj" 'windmove-down
+    ;;   "wk" 'windmove-up
+    ;;   "wl" 'windmove-right)
     :init
     (meow-leader-define-key
      '("wh" . windmove-left)
@@ -556,9 +558,9 @@ ace-window lets you jump around windows with a single key
     :straight t
     :general
     ("M-o" 'ace-window)
-    (base-leader-def
-      :states 'normal
-      "ww" 'ace-window)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "ww" 'ace-window)
     :custom
     ;; use home row instead of numbers
     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -600,27 +602,27 @@ Switch buffer command only looks at current perspective
     :custom
     (persp-suppress-no-prefix-key-warning t)
     :general
-    (base-leader-def
-      :states 'normal
-      "b`" 'persp-switch-by-number
-      "bb" 'persp-switch-to-buffer
-      "bk" 'persp-remove-buffer
-      "bc" 'persp-kill
-      "br" 'persp-rename
-      "ba" 'persp-add-buffer
-      "bA" 'persp-set-buffer
-      "bi" 'persp-import
-      "bn" 'persp-next
-      "bp" 'persp-prev
-      "bm" 'persp-merge
-      "bu" 'persp-unmerge
-      "bg" 'persp-add-buffer-to-frame-global
-      "b C-s" 'persp-state-save
-      "b C-l" 'persp-state-load
-      "bs" 'persp-switch)
-     :init
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "b`" 'persp-switch-by-number
+    ;;   "bb" 'persp-switch-to-buffer
+    ;;   "bk" 'persp-remove-buffer
+    ;;   "bc" 'persp-kill
+    ;;   "br" 'persp-rename
+    ;;   "ba" 'persp-add-buffer
+    ;;   "bA" 'persp-set-buffer
+    ;;   "bi" 'persp-import
+    ;;   "bn" 'persp-next
+    ;;   "bp" 'persp-prev
+    ;;   "bm" 'persp-merge
+    ;;   "bu" 'persp-unmerge
+    ;;   "bg" 'persp-add-buffer-to-frame-global
+    ;;   "b C-s" 'persp-state-save
+    ;;   "b C-l" 'persp-state-load
+    ;;   "bs" 'persp-switch)
+    :init
     (meow-leader-define-key
-  '("bb" . persp-switch-to-buffer)
+     '("bb" . persp-switch-to-buffer)
      '("bk" . persp-remove-buffer)
      '("bc" . persp-kill)
      '("br" . persp-rename)
@@ -809,10 +811,10 @@ Keys copied from projects README.
      "M-s e" 'consult-isearch               ;; orig. isearch-edit-string
      "M-s l" 'consult-line                  ;; needed by consult-line to detect isearch
      "M-s L" 'consult-line-multi)           ;; needed by consult-line to detect isearch
-    (base-leader-def
-      :states 'normal
-      "pg" 'consult-ripgrep
-      "pG" 'consult-git-grep)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "pg" 'consult-ripgrep
+    ;;   "pG" 'consult-git-grep)
     :init
     (meow-leader-define-key
      '("pg" . consult-ripgrep)
@@ -987,9 +989,9 @@ Modes and other things that deal with prose.
      [remap evil-save-and-close] 'org-edit-src-exit
      [remap evil-save-modified-and-close] 'org-edit-src-exit
      [remap evil-quit] 'org-edit-src-abort)
-    (base-leader-def
-      :states 'normal
-      "a" 'org-agenda)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "a" 'org-agenda)
     (base-local-leader-def
       :keymaps 'org-mode-map
       :states 'normal
@@ -1040,9 +1042,9 @@ Capture Templates
   (use-package org-capture
     :straight nil
     :general
-    (base-leader-def
-      :states 'normal
-      "C" 'org-capture)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "C" 'org-capture)
     :custom
     (org-capture-templates
      '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
@@ -1126,19 +1128,19 @@ Note structure is:
                            "#+title: %<%Y-%m-%d>\n"))))
     :ghook
     ('after-init-hook #'org-roam-db-autosync-mode)
-    :general
-    (base-leader-def
-      :states '(normal visual)
-      "n" '(:ignore :wk "notes")
-      "ni" 'org-roam-node-insert
-      "nf" 'org-roam-node-find
-      "nc" 'org-roam-node-capture
-      "nb" 'org-roam-buffer-toggle
-      "nd" '(:ignore :wk "dailies")
-      "ndt" 'org-roam-dailies-capture-today
-      "ndT" 'org-roam-dailies-goto-today
-      "ndy" 'org-roam-dailies-capture-yesterday
-      "ndY" 'org-roam-dailies-goto-yesterday)
+    ;:general
+    ;; (base-leader-def
+    ;;   :states '(normal visual)
+    ;;   "n" '(:ignore :wk "notes")
+    ;;   "ni" 'org-roam-node-insert
+    ;;   "nf" 'org-roam-node-find
+    ;;   "nc" 'org-roam-node-capture
+    ;;   "nb" 'org-roam-buffer-toggle
+    ;;   "nd" '(:ignore :wk "dailies")
+    ;;   "ndt" 'org-roam-dailies-capture-today
+    ;;   "ndT" 'org-roam-dailies-goto-today
+    ;;   "ndy" 'org-roam-dailies-capture-yesterday
+    ;;   "ndY" 'org-roam-dailies-goto-yesterday)
     :init
     (meow-leader-define-key
      '("ni" . org-roam-node-insert)
@@ -1174,10 +1176,10 @@ Note structure is:
     (org-roam-ui-follow t)
     (org-roam-ui-update-on-save t)
     (org-roam-ui-open-on-start t)
-    :general
-    (base-leader-def
-      :states '(normal visual)
-      "nu" 'org-roam-ui-mode)
+    ;:general
+    ;; (base-leader-def
+    ;;   :states '(normal visual)
+    ;;   "nu" 'org-roam-ui-mode)
     :init
     (meow-leader-define-key
      '("nu" . org-roam-ui-mode)))
@@ -1219,16 +1221,16 @@ I have a function here which copies the current branch name. This is handy if yo
     :defer t
     :general
     ("C-x g" 'magit-status)
-    (base-leader-def
-      :states 'normal
-      "g" '(:ignore t :wk "git")
-      "gs" 'magit-status
-      "gc" 'magit-checkout
-      "gC" 'magit-commit
-      "gb" 'magit-blame
-      "gS" 'magit-stage-file
-      "gU" 'magit-unstage-file
-      "gy" 'kpav/magit-yank-branch-name)
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "g" '(:ignore t :wk "git")
+    ;;   "gs" 'magit-status
+    ;;   "gc" 'magit-checkout
+    ;;   "gC" 'magit-commit
+    ;;   "gb" 'magit-blame
+    ;;   "gS" 'magit-stage-file
+    ;;   "gU" 'magit-unstage-file
+    ;;   "gy" 'kpav/magit-yank-branch-name)
     :init
     (meow-leader-define-key
      '("ss" . magit-status)
@@ -1264,10 +1266,10 @@ Go through commit history on a file.
   (use-package git-timemachine
     :straight t
     :defer t
-    :general
-    (base-leader-def
-      :states 'normal
-      "gt" 'git-timemachine)
+    ;:general
+    ;; (base-leader-def
+    ;;   :states 'normal
+    ;;   "gt" 'git-timemachine)
     :init
     (meow-leader-define-key
      '("gt" . git-timemachine)))
@@ -1276,13 +1278,13 @@ Go through commit history on a file.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-git.el
   (use-package git-link
     :straight t
-    :general
-    (base-leader-def
-      :states '(normal visual)
-      "gl" '(:ignore t :wk "git link")
-      "gll" 'git-link
-      "glc" 'git-link-commit
-      "glh" 'git-link-homepage)
+    ;:general
+    ;; (base-leader-def
+    ;;   :states '(normal visual)
+    ;;   "gl" '(:ignore t :wk "git link")
+    ;;   "gll" 'git-link
+    ;;   "glc" 'git-link-commit
+    ;;   "glh" 'git-link-homepage)
     :init
     (meow-leader-define-key
      '("sll" . git-link)
@@ -1306,20 +1308,20 @@ Using the built-in =project.el=. It works with marginalia to give extra info abo
   (use-package project
     ;;:straight (:type built-in)
     :straight t
-    :general
-    (base-leader-def
-     :states 'normal
-     "p" '(:ignore t :wk "projects")
-     "pp" 'project-switch-project
-     "pf" 'project-find-file
-     "pd" 'project-find-dir
-     "pb" 'project-switch-to-buffer
-     :init
-     (meow-leader-define-key
-      '("pp" . project-switch-project)
-      '("pf" . project-find-file)
-      '("pd" . project-find-dir)
-      '("pb" . project-switch-to-buffer))))
+    ;:general
+    ;; (base-leader-def
+    ;;  :states 'normal
+    ;;  "p" '(:ignore t :wk "projects")
+    ;;  "pp" 'project-switch-project
+    ;;  "pf" 'project-find-file
+    ;;  "pd" 'project-find-dir
+    ;;  "pb" 'project-switch-to-buffer)
+    :init
+    (meow-leader-define-key
+     '("pp" . project-switch-project)
+     '("pf" . project-find-file)
+     '("pd" . project-find-dir)
+     '("pb" . project-switch-to-buffer)))
 
   ;; (use-package projectile
   ;;   :straight t
@@ -1344,9 +1346,9 @@ Treemacs provides a nice file explorer for projects.
     :defer t
     :general
     ([f8] 'treemacs)
-    (base-leader-def
-      :states '(normal)
-      "po" 'treemacs)
+    ;; (base-leader-def
+    ;;   :states '(normal)
+    ;;   "po" 'treemacs)
     :init
     (meow-leader-define-key
      '("po" . treemacs)))
@@ -1635,18 +1637,18 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
     :custom
     (eglot-connect-timeout 120)
     :general
-    (base-leader-def
-      :states '(normal visual)
-      "l" '(:ignore :wk "lsp")
-      "lg" 'xref-find-definitions
-      "lr" 'xref-find-references
-      "lb" 'xref-go-back
-      "lf" 'eglot-format
-      "lF" 'eglot-format-buffer
-      "la" 'eglot-code-actions
-      "lo" 'eglot-code-action-organize-imports
-      "lR" 'eglot-rename
-      "lh" 'eldoc)
+    ;; (base-leader-def
+    ;;   :states '(normal visual)
+    ;;   "l" '(:ignore :wk "lsp")
+    ;;   "lg" 'xref-find-definitions
+    ;;   "lr" 'xref-find-references
+    ;;   "lb" 'xref-go-back
+    ;;   "lf" 'eglot-format
+    ;;   "lF" 'eglot-format-buffer
+    ;;   "la" 'eglot-code-actions
+    ;;   "lo" 'eglot-code-action-organize-imports
+    ;;   "lR" 'eglot-rename
+    ;;   "lh" 'eldoc)
     :init
     (meow-leader-define-key
      '("lg" . xref-find-definitions)
@@ -1847,7 +1849,7 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
     (cider-inject-dependencies-at-jack-in t)
     :general
     (base-local-leader-def
-      :states '(normal visual)
+      ;:states '(normal visual)
       :keymaps 'clojure-mode-map
       "r" '(:ignore t :wk "repl")
       "rr" 'cider
@@ -1901,7 +1903,57 @@ CIDER is the Clojure(Script) Interactive Development Environment that Rocks!
       "d" '(:ignore t :wk "debug")
       "dr" 'cider-ns-reload
       "dR" 'cider-ns-reload-all
-      "di" 'cider-inspect-defun-at-point))
+      "di" 'cider-inspect-defun-at-point)
+    :init
+    ;; (meow-leader-define-key
+    ;;  '("mrr" . cider)
+    ;;  '("mrR" . cider-restart)
+    ;;  '("mrn" . cider-repl-set-ns)
+    ;;  '("mrb" . cider-switch-to-repl-buffer)
+    ;;  '("mrc" . cider-find-and-clear-repl-output)
+    ;;  '("mrl" . cider-load-buffer)
+    ;;  '("mrq" . cider-quit)
+    ;;   ;; eval
+    ;;  '("meD" . cider-insert-defun-in-repl)
+    ;;  '("meE" . cider-insert-last-sexp-in-repl)
+    ;;  '("meR" . cider-insert-region-in-repl)
+    ;;  '("meb" . cider-eval-buffer)
+    ;;  '("med" . cider-eval-defun-at-point)
+    ;;  '("mee" . cider-eval-last-sexp)
+    ;;  '("mer" . cider-eval-region)
+    ;;  '("meu" . cider-undef)
+    ;;  '("mem" . cider-macroexpand-1)
+    ;;  '("meM" . cider-macroexpand-all)
+    ;;   ;; help
+    ;;  '("mha" . cider-apropos)
+    ;;  '("mhh" . cider-doc)
+    ;;  '("mhj" . cider-javadoc)
+    ;;  '("mhn" . cider-browse-ns)
+    ;;  '("mhN" . cider-browse-ns-all)
+    ;;  '("mhs" . cider-browse-spec)
+    ;;  '("mhS" . cider-browse-spec-all)
+    ;;   ;; inspect
+    ;;  '("mii" . cider-inspect)
+    ;;  '("mie" . cider-enlighten-mode)
+    ;;  '("mir" . cider-inspect-last-result)
+    ;;   ;; pprint
+    ;;  '("mpd" . cider-pprint-eval-defun-at-point)
+    ;;  '("mpD" . cider-pprint-eval-defun-to-comment)
+    ;;  '("mpD" . cider-pprint-eval-last-sexp-to-repl)
+    ;;   ;; format
+    ;;  '("mfr" . cider-format-region)
+    ;;  '("mfb" . cider-format-buffer)
+    ;;  '("mff" . cider-format-defun)
+    ;;   ;; goto
+    ;;  '("mgg" . cider-find-dwim)
+    ;;  '("mgv" . cider-find-var)
+    ;;  '("mgn" . cider-find-ns)
+    ;;  '("mgN" . cider-browse-ns-all)
+    ;;  ;; debug
+    ;;  '("mdr" . cider-ns-reload)
+    ;;  '("mdR" . cider-ns-reload-all)
+    ;;  '("mdi" . cider-inspect-defun-at-point))
+    )
 #+end_src
 
 Refactoring functionality for Clojure.

@@ -6,8 +6,8 @@
 
 (use-package basemacs-core
   :custom
-  (basemacs-leader "SPC")
-  (basemacs-local-leader "SPC m"))
+  ;(basemacs-leader "SPC")
+  (basemacs-local-leader "C-c m"))
 
 ;; emacs
 (require 'kpav-defaults)
@@ -26,7 +26,7 @@
 (require 'kpav-project)
 (require 'kpav-git)
 (require 'kpav-vterm)
-(require 'kpav-eshell)
+;(require 'kpav-eshell)
 (require 'kpav-docker)
 (require 'kpav-irc)
 ;; code

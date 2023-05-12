@@ -48,18 +48,29 @@
   :custom
   (eglot-connect-timeout 120)
   :general
-  (base-leader-def
-    :states '(normal visual)
-    "l" '(:ignore :wk "lsp")
-    "lg" 'xref-find-definitions
-    "lr" 'xref-find-references
-    "lb" 'xref-go-back
-    "lf" 'eglot-format
-    "lF" 'eglot-format-buffer
-    "la" 'eglot-code-actions
-    "lo" 'eglot-code-action-organize-imports
-    "lR" 'eglot-rename
-    "lh" 'eldoc))
+  ;; (base-leader-def
+  ;;   :states '(normal visual)
+  ;;   "l" '(:ignore :wk "lsp")
+  ;;   "lg" 'xref-find-definitions
+  ;;   "lr" 'xref-find-references
+  ;;   "lb" 'xref-go-back
+  ;;   "lf" 'eglot-format
+  ;;   "lF" 'eglot-format-buffer
+  ;;   "la" 'eglot-code-actions
+  ;;   "lo" 'eglot-code-action-organize-imports
+  ;;   "lR" 'eglot-rename
+  ;;   "lh" 'eldoc)
+  :init
+  (meow-leader-define-key
+   '("lg" . xref-find-definitions)
+   '("lr" . xref-find-references)
+   '("lb" . xref-go-back)
+   '("lf" . eglot-format)
+   '("lF" . eglot-format-buffer)
+   '("la" . eglot-code-actions)
+   '("lo" . eglot-code-action-organize-imports)
+   '("lR" . eglot-rename)
+   '("lh" . eldoc)))
 
 (use-package eldoc
   :straight t)

@@ -5,16 +5,16 @@
   :defer t
   :general
   ("C-x g" 'magit-status)
-  (base-leader-def
-    :states 'normal
-    "g" '(:ignore t :wk "git")
-    "gs" 'magit-status
-    "gc" 'magit-checkout
-    "gC" 'magit-commit
-    "gb" 'magit-blame
-    "gS" 'magit-stage-file
-    "gU" 'magit-unstage-file
-    "gy" 'kpav/magit-yank-branch-name)
+  ;; (base-leader-def
+  ;;   :states 'normal
+  ;;   "g" '(:ignore t :wk "git")
+  ;;   "gs" 'magit-status
+  ;;   "gc" 'magit-checkout
+  ;;   "gC" 'magit-commit
+  ;;   "gb" 'magit-blame
+  ;;   "gS" 'magit-stage-file
+  ;;   "gU" 'magit-unstage-file
+  ;;   "gy" 'kpav/magit-yank-branch-name)
   :init
   (meow-leader-define-key
    '("ss" . magit-status)
@@ -43,23 +43,23 @@
 (use-package git-timemachine
   :straight t
   :defer t
-  :general
-  (base-leader-def
-    :states 'normal
-    "gt" 'git-timemachine)
+  ;:general
+  ;; (base-leader-def
+  ;;   :states 'normal
+  ;;   "gt" 'git-timemachine)
   :init
   (meow-leader-define-key
    '("gt" . git-timemachine)))
 
 (use-package git-link
   :straight t
-  :general
-  (base-leader-def
-    :states '(normal visual)
-    "gl" '(:ignore t :wk "git link")
-    "gll" 'git-link
-    "glc" 'git-link-commit
-    "glh" 'git-link-homepage)
+  ;:general
+  ;; (base-leader-def
+  ;;   :states '(normal visual)
+  ;;   "gl" '(:ignore t :wk "git link")
+  ;;   "gll" 'git-link
+  ;;   "glc" 'git-link-commit
+  ;;   "glh" 'git-link-homepage)
   :init
   (meow-leader-define-key
    '("sll" . git-link)

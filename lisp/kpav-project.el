@@ -3,20 +3,20 @@
 (use-package project
   ;;:straight (:type built-in)
   :straight t
-  :general
-  (base-leader-def
-   :states 'normal
-   "p" '(:ignore t :wk "projects")
-   "pp" 'project-switch-project
-   "pf" 'project-find-file
-   "pd" 'project-find-dir
-   "pb" 'project-switch-to-buffer
-   :init
-   (meow-leader-define-key
-    '("pp" . project-switch-project)
-    '("pf" . project-find-file)
-    '("pd" . project-find-dir)
-    '("pb" . project-switch-to-buffer))))
+  ;:general
+  ;; (base-leader-def
+  ;;  :states 'normal
+  ;;  "p" '(:ignore t :wk "projects")
+  ;;  "pp" 'project-switch-project
+  ;;  "pf" 'project-find-file
+  ;;  "pd" 'project-find-dir
+  ;;  "pb" 'project-switch-to-buffer)
+  :init
+  (meow-leader-define-key
+   '("pp" . project-switch-project)
+   '("pf" . project-find-file)
+   '("pd" . project-find-dir)
+   '("pb" . project-switch-to-buffer)))
 
 ;; (use-package projectile
 ;;   :straight t
@@ -37,9 +37,9 @@
   :defer t
   :general
   ([f8] 'treemacs)
-  (base-leader-def
-    :states '(normal)
-    "po" 'treemacs)
+  ;; (base-leader-def
+  ;;   :states '(normal)
+  ;;   "po" 'treemacs)
   :init
   (meow-leader-define-key
    '("po" . treemacs)))

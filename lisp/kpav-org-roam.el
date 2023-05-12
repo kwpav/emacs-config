@@ -40,19 +40,19 @@
                          "#+title: %<%Y-%m-%d>\n"))))
   :ghook
   ('after-init-hook #'org-roam-db-autosync-mode)
-  :general
-  (base-leader-def
-    :states '(normal visual)
-    "n" '(:ignore :wk "notes")
-    "ni" 'org-roam-node-insert
-    "nf" 'org-roam-node-find
-    "nc" 'org-roam-node-capture
-    "nb" 'org-roam-buffer-toggle
-    "nd" '(:ignore :wk "dailies")
-    "ndt" 'org-roam-dailies-capture-today
-    "ndT" 'org-roam-dailies-goto-today
-    "ndy" 'org-roam-dailies-capture-yesterday
-    "ndY" 'org-roam-dailies-goto-yesterday)
+  ;:general
+  ;; (base-leader-def
+  ;;   :states '(normal visual)
+  ;;   "n" '(:ignore :wk "notes")
+  ;;   "ni" 'org-roam-node-insert
+  ;;   "nf" 'org-roam-node-find
+  ;;   "nc" 'org-roam-node-capture
+  ;;   "nb" 'org-roam-buffer-toggle
+  ;;   "nd" '(:ignore :wk "dailies")
+  ;;   "ndt" 'org-roam-dailies-capture-today
+  ;;   "ndT" 'org-roam-dailies-goto-today
+  ;;   "ndy" 'org-roam-dailies-capture-yesterday
+  ;;   "ndY" 'org-roam-dailies-goto-yesterday)
   :init
   (meow-leader-define-key
    '("ni" . org-roam-node-insert)
@@ -86,10 +86,10 @@
   (org-roam-ui-follow t)
   (org-roam-ui-update-on-save t)
   (org-roam-ui-open-on-start t)
-  :general
-  (base-leader-def
-    :states '(normal visual)
-    "nu" 'org-roam-ui-mode)
+  ;:general
+  ;; (base-leader-def
+  ;;   :states '(normal visual)
+  ;;   "nu" 'org-roam-ui-mode)
   :init
   (meow-leader-define-key
    '("nu" . org-roam-ui-mode)))

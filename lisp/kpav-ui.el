@@ -59,6 +59,7 @@
   :ghook
   'after-init-hook
   :custom
+  (doom-modeline-icon nil)
   (doom-modeline-vcs-max-length 50)
   (doom-modeline-buffer-file-name-style 'truncate-upto-project)
   (doom-modeline-buffer-encoding nil)

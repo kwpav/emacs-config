@@ -128,10 +128,10 @@
    "M-s e" 'consult-isearch               ;; orig. isearch-edit-string
    "M-s l" 'consult-line                  ;; needed by consult-line to detect isearch
    "M-s L" 'consult-line-multi)           ;; needed by consult-line to detect isearch
-  (base-leader-def
-    :states 'normal
-    "pg" 'consult-ripgrep
-    "pG" 'consult-git-grep)
+  ;; (base-leader-def
+  ;;   :states 'normal
+  ;;   "pg" 'consult-ripgrep
+  ;;   "pG" 'consult-git-grep)
   :init
   (meow-leader-define-key
    '("pg" . consult-ripgrep)
