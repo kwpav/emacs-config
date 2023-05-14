@@ -213,13 +213,8 @@ https://github.com/radian-software/gnu-elpa-mirror/issues/14
     :straight t
     :custom
     (meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-    ;; (meow-replace-state-name-list
-    ;;  '((normal . "N")
-    ;;    (motion . "MOTION")
-    ;;    (keypad . "KEYPAD")
-    ;;    (insert . "INSERT")
-    ;;    (beacon . "BEACON"))
-     ;;)
+    ;; make "a" act like vim/evil
+    (meow-use-cursor-position-hack t)
     :config
     (setq meow-replace-state-name-list
      '((normal . "<N>")
@@ -245,7 +240,7 @@ https://github.com/radian-software/gnu-elpa-mirror/issues/14
      '("/" . meow-keypad-describe-key)
      '("?" . meow-cheatsheet))
     (meow-normal-define-key
-     '(";" . comment-dwim)
+     '(";" . meow-comment)
      '("/" . ctrlf-forward-fuzzy)
      '("0" . meow-expand-0)
      '("9" . meow-expand-9)
@@ -998,10 +993,10 @@ Modes and other things that deal with prose.
   (use-package org
     :straight t
     :general
-    (org-src-mode-map
-     [remap evil-save-and-close] 'org-edit-src-exit
-     [remap evil-save-modified-and-close] 'org-edit-src-exit
-     [remap evil-quit] 'org-edit-src-abort)
+    ;; (org-src-mode-map
+    ;;  [remap evil-save-and-close] 'org-edit-src-exit
+    ;;  [remap evil-save-modified-and-close] 'org-edit-src-exit
+    ;;  [remap evil-quit] 'org-edit-src-abort)
     ;; (base-leader-def
     ;;   :states 'normal
     ;;   "a" 'org-agenda)
@@ -2337,4 +2332,4 @@ conflicts with other org customization
 ** TODO Look into dizzee
 Start projects easier
 https://github.com/davidmiller/dizzee
-** TODO Look into  meow instead of evil
+** CURRENT Look into  meow instead of evil

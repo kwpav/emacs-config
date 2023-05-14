@@ -3,10 +3,10 @@
 (use-package org
   :straight t
   :general
-  (org-src-mode-map
-   [remap evil-save-and-close] 'org-edit-src-exit
-   [remap evil-save-modified-and-close] 'org-edit-src-exit
-   [remap evil-quit] 'org-edit-src-abort)
+  ;; (org-src-mode-map
+  ;;  [remap evil-save-and-close] 'org-edit-src-exit
+  ;;  [remap evil-save-modified-and-close] 'org-edit-src-exit
+  ;;  [remap evil-quit] 'org-edit-src-abort)
   ;; (base-leader-def
   ;;   :states 'normal
   ;;   "a" 'org-agenda)

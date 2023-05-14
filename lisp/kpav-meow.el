@@ -5,12 +5,13 @@
   :custom
   (meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   ;; (meow-replace-state-name-list
-  ;;  '((normal . "N")
+  ;;  '((normal . "<N>")
   ;;    (motion . "MOTION")
   ;;    (keypad . "KEYPAD")
-  ;;    (insert . "INSERT")
+  ;;    (insert . "<I>")
   ;;    (beacon . "BEACON"))
-   ;;)
+  ;;  )
+  (meow-use-cursor-position-hack t)
   :config
   (setq meow-replace-state-name-list
    '((normal . "<N>")
@@ -36,7 +37,7 @@
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
   (meow-normal-define-key
-   '(";" . comment-dwim)
+   '(";" . meow-comment)
    '("/" . ctrlf-forward-fuzzy)
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
