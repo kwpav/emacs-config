@@ -4,13 +4,7 @@
   :straight t
   :custom
   (meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-  ;; (meow-replace-state-name-list
-  ;;  '((normal . "<N>")
-  ;;    (motion . "MOTION")
-  ;;    (keypad . "KEYPAD")
-  ;;    (insert . "<I>")
-  ;;    (beacon . "BEACON"))
-  ;;  )
+  ;; make "a" act like vim/evil
   (meow-use-cursor-position-hack t)
   :config
   (setq meow-replace-state-name-list
@@ -50,7 +44,7 @@
    '("2" . meow-expand-2)
    '("1" . meow-expand-1)
    '("-" . negative-argument)
-   '(";" . meow-reverse)
+   '(")" . meow-reverse)
    '("," . meow-inner-of-thing)
    '("." . meow-bounds-of-thing)
    '("[" . meow-beginning-of-thing)
