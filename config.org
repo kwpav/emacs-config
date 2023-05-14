@@ -213,7 +213,20 @@ https://github.com/radian-software/gnu-elpa-mirror/issues/14
     :straight t
     :custom
     (meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    ;; (meow-replace-state-name-list
+    ;;  '((normal . "N")
+    ;;    (motion . "MOTION")
+    ;;    (keypad . "KEYPAD")
+    ;;    (insert . "INSERT")
+    ;;    (beacon . "BEACON"))
+     ;;)
     :config
+    (setq meow-replace-state-name-list
+     '((normal . "<N>")
+       (motion . "MOTION")
+       (keypad . "KEYPAD")
+       (insert . "<I>")
+       (beacon . "BEACON")))
     (meow-leader-define-key
      ;; SPC j/k will run the original command in MOTION state.
      '("j" . "H-j")
