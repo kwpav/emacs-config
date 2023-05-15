@@ -28,7 +28,7 @@
   :init
   (defvar basemacs-leader "C-c"
     "Basemacs leader key")
-  (defvar basemacs-local-leader "C-c C-m"
+  (defvar basemacs-local-leader "C-c m"
     "Basemacs local leader key")
   :config
   (general-create-definer base-leader-def

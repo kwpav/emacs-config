@@ -5,7 +5,7 @@
 
 (use-package multi-vterm
   :straight t
-  :general
+  ;:general
   ;; (base-leader-def
   ;;  :states 'normal
   ;;  "t" '(:ignore t :wk "term")
@@ -18,7 +18,7 @@
    '("tn" . multi-vterm-next)
    '("tp" . multi-vterm-prev))
   ;;:gfhook #'evil-insert-state
-  :config
+  ;:config
   ;(define-key vterm-mode-map [return]                      #'vterm-send-return)
   ;(setq vterm-keymap-exceptions nil)
   ;(evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)

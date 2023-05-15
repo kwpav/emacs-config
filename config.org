@@ -2,7 +2,7 @@
 #+DESCRIPTION: My personal Emacs configuration.
 
 * About
-This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/emacs-evil/evil][Evil]] for editing, and [[https://github.com/joaotavora/eglot][Eglot]] (formerly [[https://emacs-lsp.github.io/lsp-mode/][LSP Mode]]) for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now. It is a "Literate" config, where prose and code live together in harmony... what this basically means is that configuration code is in this Org file, along with some text that describes what it's doing.
+This is my personal Emacs configuration using [[https://github.com/kwpav/basemacs][basemacs]]  at its core, [[https://github.com/meow-edit/meow][Meow]] for editing, and [[https://github.com/joaotavora/eglot][Eglot]] for coding. It is essentially cobbled together from bits and pieces of other configs I have found online. I have been tweaking it (and will probably continue to tweak it) for several years now. It is a "Literate" config, where prose and code live together in harmony... what this basically means is that configuration code is in this Org file, along with some text that describes what it's doing.
 
 The primary goal is to (try) to keep things simple. My hope is that this will keep things easy to understand, fast, and bug-free. Some ways I attempt do this are:
 - Using =use-package= for almost everything.
@@ -30,7 +30,7 @@ Set up the leader keys for =general.el=.
 #+begin_src emacs-lisp :lexical t :tangle init.el
   (use-package basemacs-core
     :custom
-    ;(basemacs-leader "SPC")
+    (basemacs-leader "C-c")
     (basemacs-local-leader "C-c m"))
 #+end_src
 * Modules
@@ -323,7 +323,7 @@ Paren mode
     '("<escape>" . meow-normal-mode)
     '("l" . paredit-forward)
     '("h" . paredit-backward)
-    '("j" . paredit-foward-down)
+    '("j" . paredit-forward-down)
     '("k" . paredit-forward-up)
     '("J" . paredit-forward-slurp-sexp)
     '("K" . paredit-forward-barf-sexp)
@@ -544,7 +544,7 @@ Highlight the line the cursor is on.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (use-package window
     :straight (:type built-in)
-    :general
+    ;:general
     ;; (base-leader-def
     ;;   :states 'normal
     ;;   "b" '(:ignore t :wk "buffers")
@@ -568,7 +568,7 @@ Default keybindings are: ~S-arrowkey~ (e.g. ~S-Left~) to move around
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-windows-and-buffers.el
   (use-package windmove
     :straight (:type built-in)
-    :general
+    ;:general
     ;; (base-leader-def
     ;;   :states 'normal
     ;;   "wh" 'windmove-left
@@ -634,7 +634,7 @@ Switch buffer command only looks at current perspective
     :straight t
     :custom
     (persp-suppress-no-prefix-key-warning t)
-    :general
+    ;:general
     ;; (base-leader-def
     ;;   :states 'normal
     ;;   "b`" 'persp-switch-by-number
@@ -1017,7 +1017,7 @@ Modes and other things that deal with prose.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (use-package org
     :straight t
-    :general
+    ;:general
     ;; (org-src-mode-map
     ;;  [remap evil-save-and-close] 'org-edit-src-exit
     ;;  [remap evil-save-modified-and-close] 'org-edit-src-exit
@@ -1025,10 +1025,10 @@ Modes and other things that deal with prose.
     ;; (base-leader-def
     ;;   :states 'normal
     ;;   "a" 'org-agenda)
-    (base-local-leader-def
-      :keymaps 'org-mode-map
-      :states 'normal
-      "b" 'org-babel-tangle)
+    ;; (base-local-leader-def
+    ;;   :keymaps 'org-mode-map
+    ;;   :states 'normal
+    ;;   "b" 'org-babel-tangle)
     :preface
     (defun my-disable-flycheck-for-elisp ()
       (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
@@ -1074,7 +1074,7 @@ Capture Templates
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el
   (use-package org-capture
     :straight nil
-    :general
+    ;:general
     ;; (base-leader-def
     ;;   :states 'normal
     ;;   "C" 'org-capture)
@@ -1433,7 +1433,7 @@ Open multiple vterms. Evil configuration from it's README.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-vterm.el
   (use-package multi-vterm
     :straight t
-    :general
+    ;:general
     ;; (base-leader-def
     ;;  :states 'normal
     ;;  "t" '(:ignore t :wk "term")
@@ -1446,7 +1446,7 @@ Open multiple vterms. Evil configuration from it's README.
      '("tn" . multi-vterm-next)
      '("tp" . multi-vterm-prev))
     ;;:gfhook #'evil-insert-state
-    :config
+    ;:config
     ;(define-key vterm-mode-map [return]                      #'vterm-send-return)
     ;(setq vterm-keymap-exceptions nil)
     ;(evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
@@ -1669,7 +1669,7 @@ A simple (compared to =lsp-mode=) way to use Language Servers in Emacs. It uses 
     :straight t
     :custom
     (eglot-connect-timeout 120)
-    :general
+    ;:general
     ;; (base-leader-def
     ;;   :states '(normal visual)
     ;;   "l" '(:ignore :wk "lsp")
@@ -1706,10 +1706,10 @@ Although Eglot depends on built-in packages, it needs the newest versions of the
 
 Move =eldoc= out of the minibuffer when =eglot= is enabled.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-code.el
-  (use-package eldoc-box
-    :straight t
-    :ghook
-    ('eglot-managed-mode-hook #'eldoc-box-hover-mode t))
+  ;; (use-package eldoc-box
+  ;;   :straight t
+  ;;   :ghook
+  ;;   ('eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t))
 #+end_src
 *** COMMENT LSP
 #+BEGIN_QUOTE

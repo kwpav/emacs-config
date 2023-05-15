@@ -6,7 +6,7 @@
 
 (use-package basemacs-core
   :custom
-  ;(basemacs-leader "SPC")
+  (basemacs-leader "C-c")
   (basemacs-local-leader "C-c m"))
 
 ;; emacs

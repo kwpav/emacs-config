@@ -2,7 +2,7 @@
 
 (use-package window
   :straight (:type built-in)
-  :general
+  ;:general
   ;; (base-leader-def
   ;;   :states 'normal
   ;;   "b" '(:ignore t :wk "buffers")
@@ -21,7 +21,7 @@
 
 (use-package windmove
   :straight (:type built-in)
-  :general
+  ;:general
   ;; (base-leader-def
   ;;   :states 'normal
   ;;   "wh" 'windmove-left
@@ -55,7 +55,7 @@
   :straight t
   :custom
   (persp-suppress-no-prefix-key-warning t)
-  :general
+  ;:general
   ;; (base-leader-def
   ;;   :states 'normal
   ;;   "b`" 'persp-switch-by-number

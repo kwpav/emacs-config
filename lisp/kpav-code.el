@@ -47,7 +47,7 @@
   :straight t
   :custom
   (eglot-connect-timeout 120)
-  :general
+  ;:general
   ;; (base-leader-def
   ;;   :states '(normal visual)
   ;;   "l" '(:ignore :wk "lsp")
@@ -78,10 +78,10 @@
 (use-package xref
   :straight t)
 
-(use-package eldoc-box
-  :straight t
-  :ghook
-  ('eglot-managed-mode-hook #'eldoc-box-hover-mode t))
+;; (use-package eldoc-box
+;;   :straight t
+;;   :ghook
+;;   ('eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t))
 
 (use-package tree-sitter
   :defer t
