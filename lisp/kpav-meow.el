@@ -7,6 +7,26 @@
   ;; make "a" act like vim/evil
   (meow-use-cursor-position-hack t)
   :config
+  (setq meow-paren-keymap (make-keymap))
+  (meow-define-state paren
+    "meow state for interacting with paredit"
+    :lighter " [P]"
+    :keymap meow-paren-keymap)
+  
+  ;; meow-define-state creates the variable
+  (setq meow-cursor-type-paren 'hollow)
+  
+  (meow-define-keys 'paren
+    '("<escape>" . meow-normal-mode)
+    '("l" . paredit-forward)
+    '("h" . paredit-backward)
+    '("j" . paredit-forward-down)
+    '("k" . paredit-forward-up)
+    '("J" . paredit-forward-slurp-sexp)
+    '("K" . paredit-forward-barf-sexp)
+    '("L" . paredit-backward-barf-sexp)
+    '("H" . paredit-backward-slurp-sexp)
+    '("u" . meow-undo))
   (setq meow-replace-state-name-list
    '((normal . "<N>")
      (motion . "MOTION")
@@ -97,27 +117,6 @@
    '("<escape>" . ignore))
 
   (meow-global-mode 1))
-
-(setq meow-paren-keymap (make-keymap))
-(meow-define-state paren
-  "meow state for interacting with paredit"
-  :lighter " [P]"
-  :keymap meow-paren-keymap)
-
-;; meow-define-state creates the variable
-(setq meow-cursor-type-paren 'hollow)
-
-(meow-define-keys 'paren
-  '("<escape>" . meow-normal-mode)
-  '("l" . paredit-forward)
-  '("h" . paredit-backward)
-  '("j" . paredit-forward-down)
-  '("k" . paredit-forward-up)
-  '("J" . paredit-forward-slurp-sexp)
-  '("K" . paredit-forward-barf-sexp)
-  '("L" . paredit-backward-barf-sexp)
-  '("H" . paredit-backward-slurp-sexp)
-  '("u" . meow-undo))
 
 (provide 'kpav-meow)
 ;;; kpav-meow.el ends here
