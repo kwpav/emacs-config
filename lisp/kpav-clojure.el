@@ -30,6 +30,9 @@
   ;; ('cider-connected-hook #'cider-upgrade-nrepl-connection)
   :custom
   (cider-inject-dependencies-at-jack-in t)
+  ;; clojure-lsp conflicts
+  (cider-eldoc-display-for-symbol-at-point nil)
+  (cider-use-xref nil)
   :general
   (base-local-leader-def
     ;:states '(normal visual)
@@ -147,6 +150,9 @@
                         (yas-minor-mode +1) ; for adding require/use/import statements
                         ;; Leaves cider-macroexpand-1 unbound
                         (cljr-add-keybindings-with-prefix "C-c C-m")))
+  :custom
+  ;; conflicts with clojure-lsp
+  (cljr-add-ns-to-blank-clj-files nil)
   :general
   (base-local-leader-def
     :states '(normal visual)
