@@ -203,6 +203,24 @@ https://github.com/radian-software/gnu-elpa-mirror/issues/14
   (provide 'kpav-defaults)
   ;;; kpav-defaults.el ends here
 #+end_src
+** Text  Editing
+*** Anzu
+Find and replace
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-text-editing.el
+  ;;; kpav-text-editing.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-text-editing.el
+  (use-package anzu
+    :straight t
+    :config
+    (global-anzu-mode +1))
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-text-editing.el
+  (provide 'kpav-defaults)
+  ;;; kpav-text-editing.el ends here
+#+end_src
 ** Meow Mode
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-meow.el
   ;;; kpav-meow.el --- -*- lexical-binding: t -*-
@@ -2346,7 +2364,7 @@ Mode for the =nix= language.
 * TODO To Do List
 ** TODO Test JS / TS stuff more
 ** TODO Add JS REPL (skewer?)
-** TODO Add keys for LSP
+** DONE Add keys for LSP
 jumping and stuff
 ** TODO Add Hydra
 Should probably be in =basemacs-core=
@@ -2356,12 +2374,14 @@ e.g. ~SPC f~
 See what other settings there are
 ** TODO Bookmark keys
 ** DONE Git keys
-** TODO Look into TabNine / company-tabnine
+** CANCELLED Look into TabNine / company-tabnine
+- State "CANCELLED"  from "TODO"       [2023-05-21 Sun 21:53] \\
+  using corfu
 AI completion engine?
 ** DONE Remove org from =basemacs-core= OR set :straight t
 conflicts with other org customization
 ** DONE Remove magit from =basemacs-core=?
-** CURRENT Look into Corfu to replace company
+** DONE Look into Corfu to replace company
 ** TODO Use org-modern and make it look good
 ** TODO Look into dizzee
 Start projects easier
