@@ -72,7 +72,8 @@
 (use-package dashboard
   :straight t
   :custom
-  (dashboard-startup-banner 'logo)
+  ;; (dashboard-startup-banner 'logo)
+  (dashboard-startup-banner (expand-file-name "img/gnu_color.png" user-emacs-directory))
   (dashboard-center-content t)
   (dashboard-projects-backend 'project-el)
   (dashboard-items '((recents . 5)
