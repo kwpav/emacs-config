@@ -544,6 +544,36 @@ You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the 
     :config
     (dashboard-setup-startup-hook))
 #+end_src
+*** Prism
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package prism
+    :straight t
+    :config
+    (setq prism-num-faces 16)
+    ;; (setq prism-parens +1)
+    (prism-set-colors :num 16
+      :desaturations  (cl-loop for i from 0 below 16
+                            collect (* i 10))
+      :lightens (cl-loop for i from 0 below 16
+                            collect (* i 2.5))
+      :colors (modus-themes-with-colors
+                (list fg-main
+                      magenta
+                      cyan-cooler
+                      magenta-cooler
+                      blue
+                      magenta-warmer
+                      cyan-warmer
+                      red-cooler
+                      green
+                      fg-main
+                      cyan
+                      yellow
+                      blue-warmer
+                      red-warmer
+                      green-cooler
+                      yellow-faint))))
+#+end_src
 
 *** Rainbow Delimiters
 Add rainbow delimiters in all programming language modes
