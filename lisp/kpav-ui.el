@@ -90,9 +90,16 @@
   ;; (setq prism-parens +1)
   (prism-set-colors :num 16
     :desaturations  (cl-loop for i from 0 below 16
-                          collect (* i 10))
+                          collect (* i 5))
     :lightens (cl-loop for i from 0 below 16
                           collect (* i 2.5))
+    :comments-fn
+    (lambda (color)
+      (prism-blend color
+                   (face-attribute 'font-lock-comment-face :foreground) 0.25))
+    :strings-fn
+    (lambda (color)
+      (prism-blend color "white" 0.85))
     :colors (modus-themes-with-colors
               (list fg-main
                     magenta
