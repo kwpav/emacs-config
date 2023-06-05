@@ -76,7 +76,7 @@
   ;;   "bs" 'persp-switch)
   :init
   (meow-leader-define-key
-   '("bb" . persp-switch-to-buffer)
+   ;; '("bb" . persp-switch-to-buffer)
    '("bk" . persp-remove-buffer)
    '("bc" . persp-kill)
    '("br" . persp-rename)

@@ -61,13 +61,26 @@
   :custom
   (doom-modeline-icon nil)
   (doom-modeline-vcs-max-length 50)
-  (doom-modeline-buffer-file-name-style 'truncate-upto-project)
+  (doom-modeline-buffer-file-name-style 'auto)
   (doom-modeline-buffer-encoding nil)
   (doom-modeline-indent-info nil)
   (doom-modeline-major-mode-icon nil)
   (doom-modeline-modal-icon nil)
   (doom-modeline-persp-name t)
   (doom-modeline-workspace-name nil))
+
+(use-package dashboard
+  :straight t
+  :custom
+  (dashboard-startup-banner 'logo)
+  (dashboard-center-content t)
+  (dashboard-projects-backend 'project-el)
+  (dashboard-items '((recents . 5)
+                     (bookmarks . 5)
+                     (projects . 5)
+                     (agenda . 5)))
+  :config
+  (dashboard-setup-startup-hook))
 
 (use-package rainbow-delimiters
   :straight t

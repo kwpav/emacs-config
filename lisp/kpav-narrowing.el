@@ -134,6 +134,8 @@
   ;;   "pG" 'consult-git-grep)
   :init
   (meow-leader-define-key
+   '("rb" . consult-bookmark)
+   '("bb" . consult-buffer)
    '("pg" . consult-ripgrep)
    '("pG" . consult-git-grep))
   ;; Install ripgrep for consult-ripgrep

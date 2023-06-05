@@ -16,7 +16,7 @@
    '("pp" . project-switch-project)
    '("pf" . project-find-file)
    '("pd" . project-find-dir)
-   '("pb" . project-switch-to-buffer)))
+   '("pb" . consult-project-buffer)))
 
 ;; (use-package projectile
 ;;   :straight t
