@@ -451,7 +451,7 @@ Increase the line spacing to let the text breathe a bit.
   (use-package emacs
     :straight (:type built-in)
     :init
-    (setq-default line-spacing 3))
+    (setq-default line-spacing 4))
 #+end_src
 *** Modus Themes
 #+begin_quote
@@ -1178,10 +1178,11 @@ TODO: figure out a  way to put this in language specific configs
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((clojure . t)
-     (sql . t)
+     (dot . t)
      (emacs-lisp . t)
      (js . t)
-     (python . t)))
+     (python . t)
+     (sql . t)))
 #+end_src
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-org.el

@@ -13,7 +13,7 @@
 (use-package emacs
   :straight (:type built-in)
   :init
-  (setq-default line-spacing 3))
+  (setq-default line-spacing 4))
 
 (use-package modus-themes
   :straight t

@@ -70,10 +70,11 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((clojure . t)
-   (sql . t)
+   (dot . t)
    (emacs-lisp . t)
    (js . t)
-   (python . t)))
+   (python . t)
+   (sql . t)))
 
 (provide 'kpav-org)
 ;;; kpav-org.el ends here
