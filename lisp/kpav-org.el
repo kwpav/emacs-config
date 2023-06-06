@@ -25,7 +25,7 @@
    '("a" . org-agenda))
   (setq org-startup-indented t)
   :custom
-  (org-agenda-files (list "~/org/agenda/" "~/org/roam/work/jira/"))
+  (org-agenda-files (list "~/org/"))
   (org-use-fast-todo-selection t)
   (org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "CURRENT(c)" "|" "DONE(d)")
@@ -56,8 +56,11 @@
   ;;   "C" 'org-capture)
   :custom
   (org-capture-templates
-   '(("t" "Todo" entry (file+headline "~/org/agenda/todo.org" "Tasks")
-      "* TODO %?\n %i\n %^{LINK}p")
+   '(;; ("t" "Todo" entry (file "~/org/agenda.org")
+     ;;  "* TODO %?\n %i\n %^{LINK}p")
+     ("t" "Agenda Todo" entry (file "~/org/agenda.org"))
+     ("s" "Slipbox" entry (file+datetree "~/org/roam/slipbox.org")
+      "* %?\n")
      ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
       "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))
    :init
