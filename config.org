@@ -1163,7 +1163,7 @@ Capture Templates
      '(;; ("t" "Todo" entry (file "~/org/agenda.org")
        ;;  "* TODO %?\n %i\n %^{LINK}p")
        ("t" "Agenda Todo" entry (file "~/org/agenda.org"))
-       ("s" "Slipbox" entry (file+datetree "~/org/roam/slipbox.org")
+       ("s" "Slipbox" entry (file+datetree "~/org/roam/inbox.org")
         "* %?\n")
        ("g" "Grow Log" entry (file+olp+datetree "~/grow/grow.org" "Log")
         "* Day Xn\n** Log\n** Notes\n %?\n %i\n"))
