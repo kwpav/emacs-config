@@ -25,7 +25,7 @@
 ;; tools
 (require 'kpav-project)
 (require 'kpav-git)
-(require 'kpav-vterm)
+;(require 'kpav-vterm)
 ;(require 'kpav-eshell)
 (require 'kpav-docker)
 (require 'kpav-irc)
@@ -35,6 +35,7 @@
 (require 'kpav-elisp)
 (require 'kpav-clojure)
 (require 'kpav-common-lisp)
+(require 'kpav-scheme)
 (require 'kpav-js)
 (require 'kpav-python)
 ;; (require 'kpav-c)

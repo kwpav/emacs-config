@@ -5,6 +5,7 @@
     ;; sly-mrepl-mode-hook
     emacs-lisp-mode-hook
     clojure-mode-hook
+    scheme-mode-hook
     ;; cider-repl-mode-hook
     ))
 

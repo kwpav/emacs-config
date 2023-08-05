@@ -52,7 +52,7 @@ Here is where the magic happens. Let's load some modules!
   ;; tools
   (require 'kpav-project)
   (require 'kpav-git)
-  (require 'kpav-vterm)
+  ;(require 'kpav-vterm)
   ;(require 'kpav-eshell)
   (require 'kpav-docker)
   (require 'kpav-irc)
@@ -62,6 +62,7 @@ Here is where the magic happens. Let's load some modules!
   (require 'kpav-elisp)
   (require 'kpav-clojure)
   (require 'kpav-common-lisp)
+  (require 'kpav-scheme)
   (require 'kpav-js)
   (require 'kpav-python)
   ;; (require 'kpav-c)
@@ -1864,6 +1865,7 @@ List of all lisp mode hooks. This is used to enable modes for all of them.
       ;; sly-mrepl-mode-hook
       emacs-lisp-mode-hook
       clojure-mode-hook
+      scheme-mode-hook
       ;; cider-repl-mode-hook
       ))
 #+end_src
@@ -2176,6 +2178,26 @@ Set up keys for evaling elisp.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-elisp.el
   (provide 'kpav-elisp)
   ;;; kpav-elisp.el ends here
+#+end_src
+**** Scheme
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-scheme.el
+  ;;; kpav-scheme.el --- -*- lexical-binding: t -*-
+  (require 'kpav-lisp-core)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-scheme.el
+  (use-package geiser
+    :straight t
+    :custom
+    (geiser-activate-implementations '(guile)))
+
+  (use-package geiser-guile
+    :straight t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-scheme.el
+  (provide 'kpav-scheme)
+  ;;; kpav-scheme.el ends here
 #+end_src
 *** PHP
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-php.el
