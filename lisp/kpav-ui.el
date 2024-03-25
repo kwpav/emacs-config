@@ -15,31 +15,14 @@
   :init
   (setq-default line-spacing 4))
 
-(use-package modus-themes
+(use-package ef-themes
   :straight t
   :custom
-  (modus-themes-disable-other-themes t)
-  ;; Allow sans and mono fonts in org mode
-  (modus-themes-mixed-fonts t)
-  ;; bold and italic fonts
-  (modus-themes-bold-constructs t)
-  (modus-themes-italic-constructs t)
-  (modus-themes-prompts '(italic bold))
-  ;; auto completion styles
-  (modus-themes-completions '((matches . (extrabold background intense underline))
-                              (selection . (semibold background intense accented))
-                              (popup . (accented))))
-  ;; gray bg for org mode src blocks
-  (modus-themes-org-blocks 'gray-background)
-  ;; make org mode headings different sizes
-  (modus-themes-headings '((1 . (1.4))
-                           (2 . (1.2))
-                           (3 . (1.1))
-                           (t . (semibold))))
+  (ef-themes-mixed-fonts t)
+  (ef-themes-to-toggle 'ef-elea-light)
   :config
-  ;; make the colors more faint
-  (setq modus-themes-common-palette-overrides modus-themes-preset-overrides-faint)
-  (load-theme 'modus-vivendi))
+  ;; (ef-themes-select 'ef-maris-dark)
+  (ef-themes-select 'ef-elea-dark))
 
 (use-package face-remap
   :straight (:type built-in)
@@ -82,41 +65,6 @@
                      (agenda . 5)))
   :config
   (dashboard-setup-startup-hook))
-
-(use-package prism
-  :straight t
-  :config
-  (setq prism-num-faces 16)
-  ;; (setq prism-parens +1)
-  (prism-set-colors :num 16
-    :desaturations  (cl-loop for i from 0 below 16
-                          collect (* i 5))
-    :lightens (cl-loop for i from 0 below 16
-                          collect (* i 2.5))
-    :comments-fn
-    (lambda (color)
-      (prism-blend color
-                   (face-attribute 'font-lock-comment-face :foreground) 0.25))
-    :strings-fn
-    (lambda (color)
-      (prism-blend color "white" 0.85))
-    :colors (modus-themes-with-colors
-              (list fg-main
-                    magenta
-                    cyan-cooler
-                    magenta-cooler
-                    blue
-                    magenta-warmer
-                    cyan-warmer
-                    red-cooler
-                    green
-                    fg-main
-                    cyan
-                    yellow
-                    blue-warmer
-                    red-warmer
-                    green-cooler
-                    yellow-faint))))
 
 (use-package rainbow-delimiters
   :straight t

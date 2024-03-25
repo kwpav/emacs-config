@@ -454,7 +454,23 @@ Increase the line spacing to let the text breathe a bit.
     :init
     (setq-default line-spacing 4))
 #+end_src
-*** Modus Themes
+*** EF Themes
+#+begin_quote
+... colorful ("pretty") yet legible options for users who want something with a bit more flair than the modus-themes
+#+end_quote
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package ef-themes
+    :straight t
+    :custom
+    (ef-themes-mixed-fonts t)
+    (ef-themes-to-toggle '(ef-elea-light ef-elea-dark))
+    :config
+    ;; (ef-themes-select 'ef-maris-dark)
+    ;; (ef-themes-select 'ef-symbiosis)
+    (ef-themes-select 'ef-elea-dark))
+#+end_src
+*** COMMENT Modus Themes
 #+begin_quote
 Accessible themes for GNU Emacs, conforming with the highest standard for colour contrast between background and foreground values (WCAG AAA)
 #+end_quote
@@ -545,7 +561,7 @@ You need to run =M-x all-the-icons-install-fonts= to get the fancy fonts in the 
     :config
     (dashboard-setup-startup-hook))
 #+end_src
-*** Prism
+*** COMMENT Prism
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package prism
     :straight t
