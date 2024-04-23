@@ -19,9 +19,10 @@
   :straight t
   :custom
   (ef-themes-mixed-fonts t)
-  (ef-themes-to-toggle 'ef-elea-light)
+  (ef-themes-to-toggle '(ef-elea-light ef-elea-dark))
   :config
   ;; (ef-themes-select 'ef-maris-dark)
+  ;; (ef-themes-select 'ef-symbiosis)
   (ef-themes-select 'ef-elea-dark))
 
 (use-package face-remap
