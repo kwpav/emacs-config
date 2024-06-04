@@ -29,6 +29,7 @@
 ;; (require 'kpav-eshell)
 (require 'kpav-docker)
 (require 'kpav-irc)
+(require 'kpav-guix)
 ;; code
 (require 'kpav-code)
 (require 'kpav-php)

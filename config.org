@@ -56,6 +56,7 @@ Here is where the magic happens. Let's load some modules!
   ;; (require 'kpav-eshell)
   (require 'kpav-docker)
   (require 'kpav-irc)
+  (require 'kpav-guix)
   ;; code
   (require 'kpav-code)
   (require 'kpav-php)
@@ -1435,12 +1436,25 @@ Go through commit history on a file.
   ;;; kpav-project.el --- -*- lexical-binding: t -*-
 #+end_src
 A large part of my workflow is working in projects, which may or may not interact together, so I like to only open and interact with files and buffers on a per project basis. I use =persp-mode= to create perspectives for each project, then use the following packages to further interact with them, e.g. opening files or searching for some specific text.
+*** COMMENT projectile
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
+  (use-package projectile
+    :straight t
+    :init
+    (meow-leader-define-key
+       '("pp" . projectile-switch-project)
+       '("pf" . projectile-find-file)
+       '("pd" . projectile-find-dir)
+       '("pb" . consult-project-buffer))
+    :config
+    (projectile-mode +1))
+#+end_src
 *** project.el
 Using the built-in =project.el=. It works with marginalia to give extra info about files and buffers
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   (use-package project
-    ;;:straight (:type built-in)
+    :after eglot
     :straight t
     ;:general
     ;; (base-leader-def
@@ -1652,6 +1666,22 @@ machine irc.libera.chat login kpav password <PASSWORD> port 6697
   (provide 'kpav-irc)
   ;;; kpav-irc.el ends here
 #+end_src
+** Guix
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-guix.el
+  ;;; kpav-guix.el --- -*- lexical-binding: t -*-
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-guix.el
+  (use-package guix
+    :straight t
+    :defer t)
+#+end_src
+
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-guix.el
+  (provide 'kpav-guix)
+  ;;; kpav-guix.el ends here
+#+end_src
+
 * Code
 Things that modify coding stuff (mostly programming langs and LSP).
 ** General
