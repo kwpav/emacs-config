@@ -455,7 +455,19 @@ Increase the line spacing to let the text breathe a bit.
     :init
     (setq-default line-spacing 4))
 #+end_src
-*** EF Themes
+*** Catpuccin
+#+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
+  (use-package catppuccin-theme
+    :straight t
+    :custom
+    (catppuccin-flavor 'mocha)
+    ;; (catppuccin-flavor 'latte)
+    ;; (catppuccin-flavor 'latte)
+    ;; (catppuccin-flavor 'latte)
+    :config
+    (load-theme 'catppuccin :no-confirm))
+#+end_src
+*** COMMENT EF Themes
 #+begin_quote
 ... colorful ("pretty") yet legible options for users who want something with a bit more flair than the modus-themes
 #+end_quote
@@ -511,8 +523,22 @@ Turn =variable-pitch-mode= on for =org-mode=.
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-ui.el
   (use-package face-remap
     :straight (:type built-in)
+    :after org
     :gfhook
-    ('org-mode-hook #'variable-pitch-mode))
+    ('org-mode-hook #'variable-pitch-mode)
+    :config
+    ;; from https://zzamboni.org/post/beautifying-org-mode-in-emacs/
+    (custom-theme-set-faces
+     'user
+     '(org-block ((t (:inherit fixed-pitch))))
+     '(org-code ((t (:inherit (shadow fixed-pitch)))))
+     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+     '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+     '(org-property-value ((t (:inherit fixed-pitch))) t)
+     '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+     '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+     '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))
 #+end_src
 *** Modeline
 Set up for =doom-modeline=. Nice looking modeline that plays well with evil and lots of other stuff.
@@ -1454,7 +1480,6 @@ Using the built-in =project.el=. It works with marginalia to give extra info abo
 
 #+begin_src emacs-lisp :lexical t :tangle lisp/kpav-project.el
   (use-package project
-    :after eglot
     :straight t
     ;:general
     ;; (base-leader-def

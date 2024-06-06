@@ -15,20 +15,34 @@
   :init
   (setq-default line-spacing 4))
 
-(use-package ef-themes
+(use-package catppuccin-theme
   :straight t
   :custom
-  (ef-themes-mixed-fonts t)
-  (ef-themes-to-toggle '(ef-elea-light ef-elea-dark))
+  (catppuccin-flavor 'mocha)
+  ;; (catppuccin-flavor 'latte)
+  ;; (catppuccin-flavor 'latte)
+  ;; (catppuccin-flavor 'latte)
   :config
-  ;; (ef-themes-select 'ef-maris-dark)
-  ;; (ef-themes-select 'ef-symbiosis)
-  (ef-themes-select 'ef-elea-dark))
+  (load-theme 'catppuccin :no-confirm))
 
 (use-package face-remap
   :straight (:type built-in)
+  :after org
   :gfhook
-  ('org-mode-hook #'variable-pitch-mode))
+  ('org-mode-hook #'variable-pitch-mode)
+  :config
+  ;; from https://zzamboni.org/post/beautifying-org-mode-in-emacs/
+  (custom-theme-set-faces
+   'user
+   '(org-block ((t (:inherit fixed-pitch))))
+   '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+   '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+   '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-property-value ((t (:inherit fixed-pitch))) t)
+   '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+   '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))))
 
 (use-package all-the-icons
   :straight t
